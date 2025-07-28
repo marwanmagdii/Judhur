@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Judhur</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS (Animate on Scroll) Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+    <style>
+        :root {
+            --primary: #1a2c2b; 
+            --secondary: #d4af37; 
+            --light: #fdfcf9;
+            --dark: #2d3748;
+            --font-sans: 'Inter', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        .bg-primary { background-color: var(--primary); }
+        .text-primary { color: var(--primary); }
+        .bg-secondary { background-color: var(--secondary); }
+        .text-secondary { color: var(--secondary); }
+        .border-secondary { border-color: var(--secondary); }
+        .hover\:bg-primary-dark:hover { background-color: #12201f; }
+        .hover\:bg-secondary-dark:hover { background-color: #b9985a; }
+
+        .hero-bg-about {
+            background: linear-gradient(rgba(18, 51, 50, 0.7), rgba(18, 51, 50, 0.8)), url('https://images.unsplash.com/photo-1596222786223-9a0a0386aa0b?q=80&w=1740&auto=format&fit=crop') center/cover no-repeat;
+        }
+
+        .elegant-shadow {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.04);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        /* Header styles */
+        #main-header {
+            background-color: transparent; /* Start transparent */
+        }
+        
+        #main-header .text-primary { color: white; }
+        #main-header .text-secondary { color: var(--secondary); }
+        #main-header .fa-sun { color: var(--secondary); }
+        #main-header #logo-text { color: white; }
+        #main-header #menu-btn { color: white; }
+
+        .header-scrolled {
+            background-color: rgba(253, 252, 249, 0.9) !important; /* Scrolled background */
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-scrolled .text-primary { color: var(--primary) !important; }
+        .header-scrolled #logo-text { color: var(--primary) !important; }
+        .header-scrolled .text-secondary { color: var(--secondary) !important; }
+        .header-scrolled #menu-btn { color: var(--primary) !important; }
+
+        .link-underline {
+            position: relative;
+            text-decoration: none;
+            transition: color 0.25s ease-out;
+        }
+        .link-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--secondary);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .link-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Animated Button Styles */
+        .base-button {
+           display: inline-block;
+           font-weight: 600;
+           padding: 0.5rem 1rem;
+           border-radius: 0.5rem;
+           font-size: 0.875rem;
+           line-height: 1.25rem;
+           text-decoration: none;
+           transition: all 0.3s ease;
+           position: relative;
+           overflow: hidden;
+           cursor: pointer;
+           border: 1px solid var(--secondary);
+        }
+
+        .base-button span {
+           display: inline-block;
+           color: transparent;
+           -webkit-background-clip: text;
+           background-clip: text;
+        }
+        
+        .base-button:hover {
+           transform: translateY(-2px);
+           box-shadow: 0 4px 10px rgba(201, 168, 106, 0.2);
+        }
+
+        @keyframes flow-lr {
+           to {
+               background-position: -200% center;
+           }
+        }
+
+        .anim-flow-10 {
+           background-color: var(--primary);
+           border: 1px solid var(--secondary);
+        }
+        
+        .anim-flow-10 span {
+           background-image: linear-gradient(90deg, #ffffff, var(--secondary), #ffffff);
+           background-size: 200% auto;
+           animation: flow-lr 4s linear infinite;
+        }
+    </style>
+</head>
+<body class="text-dark">
+
+    <!-- Header from index.html, modified for "About Us" page -->
+    <header id="main-header" class="fixed w-full top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-bold flex items-center gap-3">
+      <img src="images/logo.png" alt="Judhur Logo" class="w-12 h-12 rounded-full object-contain" />
+                <span id="logo-text" class="text-primary">Judhur</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-primary">
+                <a href="index.html" class="link-underline">Home</a>
+                <a href="explore.html" class="link-underline">Explore</a>
+                <a href="bidding.html" class="base-button anim-flow-10"><span>Bidding</span></a>
+                <a href="for-guides.html" class="link-underline">For Guides</a>
+                <a href="#" class="link-underline font-bold text-secondary">About Us</a>
+            </nav>
+            <a href="for-guides.html#registration-form" class="hidden md:inline-block bg-primary text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-primary-dark transition-all duration-300 elegant-shadow">
+                Become a Guide
+            </a>
+            <button id="menu-btn" class="md:hidden text-primary text-2xl">
+                <i id="menu-icon" class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-light/95 backdrop-blur-md">
+            <nav class="px-6 pb-4 flex flex-col space-y-4 pt-4">
+                <a href="index.html" class="text-gray-600 hover:text-primary py-2">Home</a>
+                <a href="explore.html" class="text-gray-600 hover:text-primary py-2">Explore</a>
+                <a href="for-guides.html" class="text-gray-600 hover:text-primary py-2">For Guides</a>
+                <a href="#" class="text-primary font-bold py-2">About Us</a>
+                <a href="bidding.html" class="base-button anim-flow-10 text-center py-3"><span>Start Bidding</span></a>
+                <a href="for-guides.html#registration-form" class="mt-2 inline-block bg-primary text-white font-semibold px-6 py-3 rounded-lg hover:bg-primary-dark transition-all shadow-lg w-full text-center">
+                    Become a Guide
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+       <section class="pt-32 pb-24 sm:pt-40 sm:pb-32 text-white bg-cover bg-center" 
+         style="background-image: url('images/back.png');">
+    <div class="container mx-auto px-6 text-center" data-aos="fade-up">
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight" style="text-shadow: 3px 3px 10px rgba(0,0,0,0.5);">
+            Planting Journeys in Authentic Roots
+        </h1>
+        <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto" style="color: rgba(255, 255, 255, 0.95); text-shadow: 2px 2px 6px rgba(0,0,0,0.4);">
+            We are Judhur (جذور), a team dedicated to bridging the gap between travelers and the true cultural heart of Egypt.
+        </p>
+    </div>
+</section>
+
+
+        <!-- Our Story Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="text-center lg:text-left" data-aos="fade-right">
+                        <h2 class="text-4xl font-extrabold text-primary mb-4">Our Story</h2>
+                        <p class="text-lg text-gray-700 mb-4">Judhur, meaning "Roots," was born from a simple observation: travelers crave authentic local experiences, yet the people who can provide them—the local guides, artisans, and communities—are often disconnected from the global audience.</p>
+                        <p class="text-gray-600 mb-4">We saw that guides and local providers were losing significant portions of their income to intermediaries, while travelers were missing out on deep, meaningful cultural connections. At the same time, rural communities were seeing their youth leave for cities in search of opportunities.</p>
+                        <p class="text-gray-600">Our solution is a platform built on fairness and connection. We empower local experts by giving them a direct channel to showcase their skills and stories, ensuring they receive fair compensation. For travelers, we unlock a world of genuine experiences, from customized adventures with a local guide to handcrafted goods from a village artisan, all while supporting the sustainability of local communities.</p>
+                    </div>
+                    <div data-aos="fade-left">
+                        <img src="images/nile1.jfif" alt="Felucca on the Nile" class="rounded-xl shadow-xl w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Our Mission Section -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl font-extrabold text-primary">Our Mission</h2>
+                    <p class="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">We are committed to creating a more equitable and authentic tourism model.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-light p-8 rounded-lg text-center card-shadow" data-aos="fade-up" data-aos-delay="100">
+                        <i class="fas fa-users text-4xl text-secondary mb-4"></i>
+                        <h3 class="text-xl font-bold text-primary mb-2">Empower Locals</h3>
+                        <p class="text-gray-600">Provide guides and artisans with the tools to build their own businesses and earn a fair wage.</p>
+                    </div>
+                    <div class="bg-light p-8 rounded-lg text-center card-shadow" data-aos="fade-up" data-aos-delay="200">
+                        <i class="fas fa-seedling text-4xl text-secondary mb-4"></i>
+                        <h3 class="text-xl font-bold text-primary mb-2">Foster Authenticity</h3>
+                        <p class="text-gray-600">Connect travelers with genuine cultural experiences that go beyond the typical tourist trail.</p>
+                    </div>
+                    <div class="bg-light p-8 rounded-lg text-center card-shadow" data-aos="fade-up" data-aos-delay="300">
+                        <i class="fas fa-hand-holding-heart text-4xl text-secondary mb-4"></i>
+                        <h3 class="text-xl font-bold text-primary mb-2">Support Communities</h3>
+                        <p class="text-gray-600">Promote sustainable tourism that directly benefits and helps preserve local communities and villages.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Team Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl font-extrabold text-primary">Our Team</h2>
+                    <p class="mt-3 text-lg text-gray-600 max-w-3xl mx-auto">Meet the passionate founders behind Judhur.</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-10">
+                    <!-- Team Member 2 -->
+                    <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                        <img src="images/argantina.png" alt="Peru Alpert" class="w-40 h-40 rounded-full object-cover mx-auto mb-4 border-4 border-secondary shadow-lg">
+                        <h3 class="text-xl font-bold text-primary">Peru Alpert</h3>
+                        <p class="text-gray-500">CTO & Senior Mobile Developer</p>
+                    </div>
+                    <!-- Team Member 1 -->
+                    <div class="text-center" data-aos="fade-up">
+                        <img src="images/marwan.png" alt="Marwan Magdy" class="w-40 h-40 rounded-full object-cover mx-auto mb-4 border-4 border-secondary shadow-lg">
+                        <h3 class="text-xl font-bold text-primary">Marwan Magdy</h3>
+                        <p class="text-gray-500">Founder & CEO</p>
+                    </div>
+                    <!-- Team Member 3 -->
+                    <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                        <img src="images/mokhtar.png" alt="Mokhtar Erfan" class="w-40 h-40 rounded-full object-cover mx-auto mb-4 border-4 border-secondary shadow-lg">
+                        <h3 class="text-xl font-bold text-primary">Mokhtar Erfan</h3>
+                        <p class="text-gray-500">PR/QA Tester</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="bg-primary text-white">
+            <div class="container mx-auto px-6 py-20 text-center">
+                <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Ready to Join Our Journey?</h2>
+                <p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">Whether you're a traveler seeking adventure or a guide ready to share your story, we invite you to be part of our community.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="explore.html" class="bg-secondary text-primary font-bold py-3 px-8 rounded-lg text-lg hover:bg-secondary-dark transition-colors shadow-lg">
+                        Explore Tours
+                    </a>
+                     <a href="for-guides.html" class="border border-white/50 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-white/10 transition-colors shadow-lg">
+                        Join as a Guide
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Animate on Scroll
+            AOS.init({
+                duration: 700,
+                once: true,
+                offset: 50,
+            });
+
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            // Toggle mobile menu
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuIcon.classList.toggle('fa-bars');
+                menuIcon.classList.toggle('fa-times');
+            });
+
+            const header = document.getElementById('main-header');
+            
+            // Function to handle header style on scroll
+            const handleScroll = () => {
+                // On the "About Us" page, we want the header to become opaque almost immediately
+                if (window.scrollY > 10) { 
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            };
+            
+            // Initial check in case the page is loaded already scrolled down
+            handleScroll(); 
+            
+            // Add scroll event listener
+            window.addEventListener('scroll', handleScroll);
+        });
+    </script>
+
+</body>
+</html>

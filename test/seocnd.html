@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judhur - For Tour Guides</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #123332;
+            --secondary: #d4af37;
+            --accent: #c53030;
+            --light: #f8f5f0;
+            --dark: #2d3748;
+            --sand: #e6d3a7;
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+        
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a.active {
+            color: var(--primary);
+        }
+        
+        .nav-links a.active::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background-color: #0a2221;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(18, 51, 50, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #c29a1e;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(18, 51, 50, 0.85), rgba(18, 51, 50, 0.9)), url('https://images.unsplash.com/photo-1570051008600-b34baa49e751?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80') center/cover no-repeat;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 60px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+        
+        .stat-item .label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        /* How It Works Section */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .section-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--dark);
+            opacity: 0.8;
+        }
+        
+        .how-it-works {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .role-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .role-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .role-header {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .role-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .role-icon i {
+            font-size: 20px;
+            color: white;
+        }
+        
+        .role-content {
+            padding: 25px;
+        }
+        
+        .role-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .role-content ul {
+            list-style: none;
+            margin-left: 20px;
+        }
+        
+        .role-content li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .role-content li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        /* Benefits Section */
+        .benefits {
+            background-color: var(--sand);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .benefits::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/arabesque.png') repeat;
+            opacity: 0.1;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .benefit-card {
+            background: white;
+            border-radius: 10px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 25px;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            background-color: var(--primary);
+            color: white;
+            padding: 100px 0;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .testimonial-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .testimonial-info .rating {
+            color: var(--secondary);
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            opacity: 0.9;
+        }
+        
+        /* Registration Section */
+        .registration {
+            background: linear-gradient(to right, var(--primary), #1a4c4a);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .registration-steps {
+            display: flex;
+            justify-content: space-between;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            position: relative;
+        }
+        
+        .registration-steps::before {
+            content: "";
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: 1;
+        }
+        
+        .reg-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 25%;
+        }
+        
+        .reg-number {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 2px solid var(--secondary);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 0 auto 10px;
+        }
+        
+        .reg-step.active .reg-number {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .reg-title {
+            font-weight: 600;
+        }
+        
+        /* Guide Form */
+        .guide-form {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .upload-area:hover {
+            border-color: var(--secondary);
+        }
+        
+        .upload-area i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 70px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-item i {
+            margin-right: 10px;
+            color: var(--secondary);
+            width: 20px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .registration-steps {
+                flex-wrap: wrap;
+            }
+            
+            .reg-step {
+                width: 50%;
+                margin-bottom: 30px;
+            }
+            
+            .registration-steps::before {
+                display: none;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-sun"></i>
+                    Judhur
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">For Tourists</a></li>
+                    <li><a href="#" class="active">For Guides</a></li>
+                    <li><a href="#">For Companies</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+                <a href="#registration" class="btn">Join as Guide</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="serif">Share Your Egypt</h1>
+            <p>Connect with travelers and showcase your expertise as a certified Egyptian tour guide.</p>
+            <a href="#registration" class="btn btn-secondary">Become a Judhur Guide</a>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="number">850+</div>
+                    <div class="label">Certified Guides</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">$1.2M+</div>
+                    <div class="label">Earned by Guides</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">4.8</div>
+                    <div class="label">Average Guide Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="serif">How Judhur Works for Guides</h2>
+                <p>Our platform makes it simple to connect with travelers and grow your guiding business</p>
+            </div>
+            
+            <div class="how-it-works">
+                <!-- Step 1 -->
+                <div class="role-card">
+                    <div class="role-header">
+                        <div class="role-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div>
+                            <h3>Create Your Profile</h3>
+                        </div>
+                    </div>
+                    <div class="role-content">
+                        <ul>
+                            <li>Showcase your expertise and specialties</li>
+                            <li>Highlight your certifications and languages</li>
+                            <li>Add photos and videos of your tours</li>
+                            <li>Set your preferred tour locations and types</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="role-card">
+                    <div class="role-header">
+                        <div class="role-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div>
+                            <h3>Browse Trip Requests</h3>
+                        </div>
+                    </div>
+                    <div class="role-content">
+                        <ul>
+                            <li>Find trips matching your expertise</li>
+                            <li>See detailed requirements and budgets</li>
+                            <li>Filter by location, duration, and group size</li>
+                            <li>View other guides' bids for transparency</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="role-card">
+                    <div class="role-header">
+                        <div class="role-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div>
+                            <h3>Connect & Guide</h3>
+                        </div>
+                    </div>
+                    <div class="role-content">
+                        <ul>
+                            <li>Submit competitive bids with your rates</li>
+                            <li>Chat with potential clients before booking</li>
+                            <li>Get paid securely through our platform</li>
+                            <li>Build your reputation with reviews</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="section benefits">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="serif">Why Join as a Judhur Guide</h2>
+                <p>Discover the advantages of being part of Egypt's premier tour guide platform</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>Earn More</h3>
+                    <p>Set your own rates and get paid directly for your expertise. Keep more of what you earn with our low commission fees.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Reach More Travelers</h3>
+                    <p>Access thousands of travelers looking for authentic Egyptian experiences. Expand your client base beyond traditional tourism channels.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Build Your Reputation</h3>
+                    <p>Collect reviews and ratings that showcase your expertise. Become a top-rated guide visible to premium travelers.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Flexible Schedule</h3>
+                    <p>Work when you want. Accept trips that fit your schedule. Take control of your time and balance guiding with other commitments.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Insurance Coverage</h3>
+                    <p>All Judhur guides receive complimentary liability insurance coverage for peace of mind during every tour.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Professional Development</h3>
+                    <p>Access exclusive training resources, workshops, and certifications to enhance your guiding skills and knowledge.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="serif">Guide Success Stories</h2>
+                <p>Hear from guides who have transformed their careers with Judhur</p>
+            </div>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Omar Hassan">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Omar Hassan</h4>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <small>Cairo, Egypt</small>
+                        </div>
+                    </div>
+                    <div class="testimonial-content">
+                        "Since joining Judhur, my bookings have tripled. The platform connects me with travelers who appreciate in-depth historical tours. I've been able to focus on my specialty - Pharaonic history - and earn 40% more than with my previous agency."
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Layla Mahmoud">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Layla Mahmoud</h4>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <small>Luxor, Egypt</small>
+                        </div>
+                    </div>
+                    <div class="testimonial-content">
+                        "As a female guide, Judhur has given me opportunities I couldn't find elsewhere. I specialize in women-focused tours that explore Egyptian culture from a female perspective. The platform's bidding system lets me showcase my unique approach and connect with like-minded travelers."
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Ahmed Farid">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Ahmed Farid</h4>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <small>Aswan, Egypt</small>
+                        </div>
+                    </div>
+                    <div class="testimonial-content">
+                        "Judhur's training program transformed my business. After completing their 'Nile Culture Specialist' certification, I doubled my rates and now lead premium small-group cruises. The secure payment system means I get paid on time, every time - something I struggled with before."
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section id="registration" class="registration">
+        <div class="container">
+            <h2 class="serif">Become a Judhur Guide</h2>
+            <p>Join our community of professional guides in just a few simple steps</p>
+            
+            <div class="registration-steps">
+                <div class="reg-step active">
+                    <div class="reg-number">1</div>
+                    <div class="reg-title">Create Profile</div>
+                </div>
+                <div class="reg-step">
+                    <div class="reg-number">2</div>
+                    <div class="reg-title">Verification</div>
+                </div>
+                <div class="reg-step">
+                    <div class="reg-number">3</div>
+                    <div class="reg-title">Training</div>
+                </div>
+                <div class="reg-step">
+                    <div class="reg-number">4</div>
+                    <div class="reg-title">Start Guiding</div>
+                </div>
+            </div>
+            
+            <div class="guide-form">
+                <h3 style="color: var(--primary); text-align: center; margin-bottom: 30px;">Guide Application Form</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" class="form-control" placeholder="Enter your first name">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" class="form-control" placeholder="Enter your last name">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Primary Guiding Location</label>
+                    <select id="location" class="form-control">
+                        <option value="">Select your primary location</option>
+                        <option value="cairo">Cairo & Giza</option>
+                        <option value="luxor">Luxor</option>
+                        <option value="aswan">Aswan</option>
+                        <option value="alexandria">Alexandria</option>
+                        <option value="redsea">Red Sea Coast</option>
+                        <option value="siwa">Siwa Oasis</option>
+                        <option value="multiple">Multiple Locations</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="specialties">Specialties & Expertise</label>
+                    <textarea id="specialties" class="form-control" placeholder="Describe your guiding specialties, historical periods you focus on, unique tour experiences you offer, etc."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Certification & License Upload</label>
+                    <div class="upload-area">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload your guide license and certifications</p>
+                        <small>PDF, JPG, or PNG files (Max 5MB each)</small>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="text-align: center; margin-top: 30px;">
+                    <button class="btn" style="background: var(--secondary); color: #333; padding: 15px 50px; font-size: 18px;">Submit Application</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3 class="serif">Judhur</h3>
+                    <p>Connecting visitors with authentic Egyptian experiences through our platform to generate meaningful cultural connections.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>For Guides</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Guide Benefits</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Training Resources</a></li>
+                        <li><a href="#">Guide Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Cairo, Egypt</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>guides@judhur.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+201210425000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Judhur. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        const header = document.querySelector('header');
+        window.onscroll = function() {
+            if (window.scrollY > 50) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+        };
+        
+        // Animation for the stats counter
+        document.addEventListener('DOMContentLoaded', function() {
+            const statNumbers = document.querySelectorAll('.stat-item .number');
+            
+            statNumbers.forEach(number => {
+                const target = parseInt(number.textContent);
+                let count = 0;
+                const increment = target / 50;
+                
+                const updateCount = () => {
+                    if (count < target) {
+                        count += increment;
+                        number.textContent = Math.ceil(count);
+                        setTimeout(updateCount, 30);
+                    } else {
+                        number.textContent = target + (number.textContent.includes('+') ? '+' : '');
+                    }
+                };
+                
+                updateCount();
+            });
+            
+            // Upload area interaction
+            const uploadArea = document.querySelector('.upload-area');
+            if (uploadArea) {
+                uploadArea.addEventListener('click', function() {
+                    alert("In a real application, this would open a file selection dialog");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

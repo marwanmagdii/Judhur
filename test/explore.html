@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Tours - Judhur</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS (Animate on Scroll) Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Core Theme & Variables --- */
+        :root {
+            --primary: #1a2c2b; 
+            --secondary: #c9a86a; 
+            --light: #fdfcf9;
+            --dark: #2d3748;
+            --font-sans: 'Inter', sans-serif;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background-color: #F9FAFB; /* Using the specific background from the original explore page */
+            color: var(--dark);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* --- Color & Component Utilities --- */
+        .bg-primary { background-color: var(--primary); }
+        .text-primary { color: var(--primary); }
+        .bg-secondary { background-color: var(--secondary); }
+        .text-secondary { color: var(--secondary); }
+        .border-secondary { border-color: var(--secondary); }
+        .hover\:bg-primary-dark:hover { background-color: #12201f; }
+        .hover\:bg-secondary-dark:hover { background-color: #b9985a; }
+
+        .elegant-shadow {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* --- Header Styles --- */
+        .header-scrolled {
+            background-color: rgba(253, 252, 249, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Change header text color on scroll */
+        .header-scrolled a[href="index.html"],
+        .header-scrolled nav,
+        .header-scrolled #menu-btn {
+             color: var(--primary);
+        }
+
+        /* Ensure active link retains its unique color on scroll */
+        .header-scrolled nav .active {
+            color: var(--secondary);
+        }
+
+
+        .link-underline {
+            position: relative;
+            text-decoration: none;
+        }
+        .link-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--secondary);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .link-underline:hover::after,
+        .link-underline.active::after { /* Added .active for persistent underline on the current page */
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        
+        /* --- Animated Button Styles --- */
+        .base-button {
+           display: inline-block;
+           font-weight: 600;
+           padding: 0.5rem 1rem;
+           border-radius: 0.5rem;
+           font-size: 0.875rem;
+           line-height: 1.25rem;
+           text-decoration: none;
+           transition: all 0.3s ease;
+           position: relative;
+           overflow: hidden;
+           cursor: pointer;
+           border: 1px solid var(--secondary);
+        }
+
+        .base-button span {
+           display: inline-block;
+           color: transparent;
+           -webkit-background-clip: text;
+           background-clip: text;
+        }
+        
+        .base-button:hover {
+           transform: translateY(-2px);
+           box-shadow: 0 4px 10px rgba(201, 168, 106, 0.2);
+        }
+
+        @keyframes flow-lr {
+            to {
+                background-position: -200% center;
+            }
+        }
+
+        .anim-flow-10 {
+            background-color: var(--primary);
+            border: 1px solid var(--secondary);
+        }
+        
+        .anim-flow-10 span {
+            background-image: linear-gradient(90deg, #ffffff, var(--secondary), #ffffff);
+            background-size: 200% auto;
+            animation: flow-lr 4s linear infinite;
+        }
+
+        /* --- Page-Specific Styles (Explore) --- */
+        .hero-bg-explore {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/Gemini_Generated_Image_js8qpsjs8qpsjs8q.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .card-shadow-hover:hover {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        
+        .modal-overlay { transition: opacity 0.3s ease; }
+        .modal-container { transition: transform 0.3s ease, opacity 0.3s ease; }
+        
+        @keyframes pulse-active {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            animation: pulse-active 2s infinite;
+        }
+    </style>
+</head>
+<body class="text-dark">
+
+    <!-- Header (from home page, modified for this page) -->
+    <header id="main-header" class="fixed w-full top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-bold text-white flex items-center gap-3 transition-colors duration-300">
+                <i class="fas fa-sun text-secondary"></i>
+                <span>Judhur</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-white transition-colors duration-300">
+                <a href="index.html" class="link-underline">Home</a>
+                <a href="#" class="link-underline active font-bold text-secondary">Explore</a>
+                <a href="bidding.html" class="base-button anim-flow-10"><span>Start Bidding</span></a>
+                <a href="for-guides.html" class="link-underline">For Guides</a>
+                <a href="about-us.html" class="link-underline">About Us</a>
+            </nav>
+            <a href="for-guides.html#registration-form" class="hidden md:inline-block bg-primary text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-primary-dark transition-all duration-300 elegant-shadow">
+                Become a Guide
+            </a>
+            <button id="menu-btn" class="md:hidden text-white text-2xl transition-colors duration-300">
+                <i id="menu-icon" class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-light/95 backdrop-blur-md">
+            <nav class="px-6 pb-4 flex flex-col space-y-4 pt-4">
+                <a href="index.html" class="text-gray-600 hover:text-primary py-2">Home</a>
+                <a href="#" class="text-primary font-bold py-2">Explore</a>
+                <a href="for-guides.html" class="text-gray-600 hover:text-primary py-2">For Guides</a>
+                <a href="about-us.html" class="text-gray-600 hover:text-primary py-2">About Us</a>
+                <a href="bidding.html" class="base-button anim-flow-10 text-center py-3"><span>Start Bidding</span></a>
+                <a href="for-guides.html#registration-form" class="mt-2 inline-block bg-primary text-white font-semibold px-6 py-3 rounded-lg hover:bg-primary-dark transition-all shadow-lg w-full text-center">
+                    Become a Guide
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg-explore text-white pt-32 pb-24 sm:pt-40 sm:pb-32">
+            <div class="container mx-auto px-6 text-center" data-aos="fade-up">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.3);">Explore & Compare Tours</h1>
+                <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto opacity-90">Discover your next adventure. See different company offerings for the same iconic locations.</p>
+            </div>
+        </section>
+
+        <!-- Search and Content Area -->
+        <div class="container mx-auto px-6 py-12">
+             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                 <!-- Left Column: Filters (Desktop) -->
+                 <aside id="filters-sidebar-desktop" class="lg:col-span-1 hidden lg:block" data-aos="fade-right">
+                     <div class="bg-white p-6 rounded-lg card-shadow lg:sticky top-28">
+                         <!-- Filter content will be injected here -->
+                     </div>
+                 </aside>
+                
+                 <!-- Right Column: Tour Grid -->
+                 <div class="lg:col-span-3" data-aos="fade-up" data-aos-delay="100">
+                     <div class="mb-4 flex gap-2">
+                         <input type="text" id="search-input" placeholder="Search tours by keyword..." class="w-full p-3 border border-gray-300 rounded-md focus:ring-secondary focus:border-secondary">
+                         <button id="keyword-search-btn" class="bg-primary text-white font-semibold px-6 py-2 rounded-md hover:bg-primary-dark transition-colors">Search</button>
+                     </div>
+                      <!-- Advanced Search Toggle (Mobile/Tablet) -->
+                    <div class="lg:hidden mb-4">
+                         <button id="advanced-search-toggle" class="w-full bg-white p-3 rounded-lg card-shadow flex justify-between items-center font-semibold text-primary">
+                             <span><i class="fas fa-filter mr-2"></i>Advanced Search</span>
+                             <i id="advanced-search-icon" class="fas fa-chevron-down transition-transform"></i>
+                         </button>
+                    </div>
+                   
+                     <!-- Mobile Filters container -->
+                     <aside id="filters-sidebar-mobile" class="lg:hidden hidden mb-4">
+                          <div class="bg-white p-6 rounded-lg card-shadow">
+                              <!-- Filter content will be injected here -->
+                          </div>
+                     </aside>
+
+                     <div id="tour-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                         <!-- Tour cards will be dynamically inserted here -->
+                     </div>
+                    
+                     <div id="pagination-container" class="flex justify-center items-center mt-8 space-x-1 sm:space-x-2">
+                         <!-- Pagination buttons will be injected here -->
+                     </div>
+
+                     <p id="no-results" class="hidden text-center text-gray-600 mt-8">No tours found matching your criteria.</p>
+                 </div>
+             </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="tour-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay bg-black bg-opacity-50 opacity-0 pointer-events-none">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container transform scale-95 opacity-0">
+            <!-- Modal Header -->
+            <div class="p-6 flex justify-between items-center border-b">
+                <h2 id="modal-title" class="text-2xl font-bold text-primary">Tour Details</h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-primary text-2xl">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="flex-grow p-6 md:p-8 overflow-y-auto">
+                <div id="modal-details-view">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Left Column: Gallery & Info -->
+                        <div>
+                            <div id="modal-gallery" class="relative w-full h-64 rounded-xl overflow-hidden mb-4">
+                                <div id="gallery-content" class="w-full h-full"></div>
+                                <button id="gallery-prev" class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full w-8 h-8 flex items-center justify-center transition-opacity z-10 hidden">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button id="gallery-next" class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full w-8 h-8 flex items-center justify-center transition-opacity z-10 hidden">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            <h3 id="modal-tour-name" class="text-3xl font-extrabold text-primary"></h3>
+                            <a id="modal-provider-link" href="#" class="text-md text-primary font-semibold mt-1 flex items-center hover:underline"></a>
+                            <div class="flex items-center gap-2 mt-3">
+                                <div id="modal-rating" class="text-secondary"></div>
+                                <span id="modal-reviews" class="text-gray-600 text-sm"></span>
+                            </div>
+                            <div class="mt-3 space-y-2 border-t pt-3">
+                                <div class="flex items-center text-gray-700"><i class="fas fa-map-marker-alt w-5 mr-2 text-primary"></i><span id="modal-tour-location"></span></div>
+                                <div class="flex items-center text-gray-700"><i class="fas fa-language w-5 mr-2 text-primary"></i><span id="modal-tour-languages"></span></div>
+                            </div>
+                            <p id="modal-description" class="text-gray-700 mt-4"></p>
+                        </div>
+                        <!-- Right Column: Agenda & Booking -->
+                        <div class="bg-gray-50 p-6 rounded-xl">
+                            <h4 class="text-xl font-bold text-primary mb-4">What's Included</h4>
+                            <ul id="modal-includes" class="space-y-2 text-gray-600 text-sm mb-6">
+                                <!-- Inclusions will be injected here -->
+                            </ul>
+                            <h4 class="text-xl font-bold text-primary mb-4">Agenda</h4>
+                            <ol id="modal-itinerary" class="space-y-3 text-gray-600 text-sm border-l-2 border-secondary pl-4">
+                                <!-- Agenda steps will be injected here -->
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- Booking View -->
+                <div id="modal-booking-view" class="hidden">
+                    <h3 class="text-2xl font-bold text-primary mb-2">Confirm Your Booking</h3>
+                    <p id="booking-tour-name" class="text-gray-600 mb-6"></p>
+                    
+                    <div class="bg-gray-50 p-6 rounded-xl">
+                        <div>
+                            <label for="guest-count" class="block text-sm font-bold text-gray-700 mb-1">Number of Guests</label>
+                            <input type="number" id="guest-count" value="1" min="1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary">
+                        </div>
+                        <div class="mt-6 border-t pt-4">
+                            <div class="flex justify-between items-center text-lg">
+                                <span class="font-semibold text-gray-700">Total Price:</span>
+                                <span id="total-price" class="font-bold text-2xl text-primary">$0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex gap-4">
+                        <button id="back-to-details-btn" class="w-1/2 bg-gray-200 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-300 transition-colors">Back to Details</button>
+                        <button id="confirm-booking-btn" class="w-1/2 bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary-dark transition-colors">Confirm Booking</button>
+                    </div>
+                </div>
+                <!-- Success View -->
+                 <div id="modal-success-view" class="hidden text-center py-12">
+                   <div class="mx-auto w-24 h-24 flex items-center justify-center bg-green-100 rounded-full">
+                       <i class="fas fa-check text-5xl text-green-600"></i>
+                   </div>
+                   <h3 class="text-2xl font-bold text-primary mt-6">Booking Confirmed!</h3>
+                   <p class="text-gray-600 mt-2">Thank you! You will receive a confirmation email shortly.</p>
+                   <button onclick="closeModal()" class="mt-6 bg-primary text-white font-bold py-2 px-8 rounded-lg hover:bg-primary-dark transition-colors">Close</button>
+               </div>
+            </div>
+             <!-- Modal Footer for Booking -->
+            <div id="modal-footer" class="p-6 border-t bg-gray-50">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p id="modal-price-footer" class="text-2xl font-bold text-primary"></p>
+                        <p class="text-sm text-gray-500 -mt-1">per person</p>
+                    </div>
+                    <button id="modal-book-btn-footer" class="bg-secondary text-primary font-bold py-3 px-8 rounded-lg hover:bg-yellow-600 transition-colors">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        const allTours = {
+             'fayoum-farm-stay-premium': {
+                 title: 'Fayoum Oasis Farm Stay',
+                 provider: 'Egypt Eco-Lodges',
+                 providerId: 'egypt-eco-lodges',
+                 providerType: 'company',
+                 destination: 'Fayoum',
+                 experience: 'Farm Life',
+                 type: 'Rural Tourism',
+                 languages: ['English', 'Arabic', 'German'],
+                 availableOn: '2025-09-10',
+                 image: 'https://images.unsplash.com/photo-1598192728993-41f8382f6271?q=80&w=1470&auto=format&fit=crop',
+                 description: 'A premium, all-inclusive day trip to a traditional farm in Fayoum. Learn to milk a cow, bake bread, and enjoy a farm-to-table feast prepared by local chefs.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                 reviews: '(85 reviews)',
+                 price: 125,
+                 galleryImages: ['https://images.unsplash.com/photo-1557090495-20760e254751?q=80&w=1470&auto=format&fit=crop', 'https://images.unsplash.com/photo-1599557041284-7e2a156165fb?q=80&w=1471&auto=format&fit=crop'],
+                 includes: ['Private A/C transport from Cairo', 'Professional guide', 'All farm activities (milking, baking, etc.)', 'Gourmet farm-to-table lunch', 'Pottery making session'],
+                 itinerary: ['<strong>8:00 AM:</strong> Hotel Pickup in Cairo', '<strong>10:00 AM:</strong> Arrive at Fayoum Farm', '<strong>10:30 AM:</strong> Farm tour & activities (milking, feeding animals)', '<strong>12:30 PM:</strong> Traditional bread-baking class', '<strong>1:30 PM:</strong> Farm-to-table lunch', '<strong>3:00 PM:</strong> Pottery making', '<strong>5:00 PM:</strong> Depart for Cairo']
+             },
+             'fayoum-farm-stay-standard': {
+                 title: 'Fayoum Oasis Farm Stay',
+                 provider: 'Cairo Adventures',
+                 providerId: 'cairo-adventures',
+                 providerType: 'company',
+                 destination: 'Fayoum',
+                 experience: 'Farm Life',
+                 type: 'Rural Tourism',
+                 languages: ['English', 'Arabic'],
+                 availableOn: '2025-09-10',
+                 image: 'https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1374&auto=format&fit=crop',
+                 description: 'Experience authentic rural life in Fayoum. This tour includes a visit to a local farm where you can try milking a cow and enjoy a delicious, traditional homemade lunch.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>',
+                 reviews: '(62 reviews)',
+                 price: 90,
+                 galleryImages: ['https://images.unsplash.com/photo-1598192728993-41f8382f6271?q=80&w=1470&auto=format&fit=crop', 'https://images.unsplash.com/photo-1586790170443-469b4c0ab88e?q=80&w=1470&auto=format&fit=crop'],
+                 includes: ['Shared A/C transport from Cairo', 'Local guide', 'Cow milking experience', 'Homemade lunch with a local family', 'Bottled water'],
+                 itinerary: ['<strong>7:30 AM:</strong> Pickup from central point in Cairo', '<strong>9:30 AM:</strong> Arrive in Fayoum', '<strong>10:00 AM:</strong> Visit a local farm for activities', '<strong>1:00 PM:</strong> Lunch with a host family', '<strong>3:00 PM:</strong> Visit Qarun Lake viewpoint', '<strong>4:30 PM:</strong> Depart for Cairo']
+             },
+             'fayoum-farm-stay-budget': {
+                 title: 'Fayoum Oasis Farm Stay',
+                 provider: 'Ahmed Hassan',
+                 providerId: 'ahmed-hassan',
+                 providerType: 'guide',
+                 destination: 'Fayoum',
+                 experience: 'Farm Life',
+                 type: 'Rural Tourism',
+                 languages: ['English', 'Arabic'],
+                 availableOn: '2025-09-11',
+                 image: 'https://images.unsplash.com/photo-1599557041284-7e2a156165fb?q=80&w=1471&auto=format&fit=crop',
+                 description: 'A personal and budget-friendly trip to a farm in Fayoum with an experienced local guide. Get hands-on with farm animals, including milking a cow, and enjoy fresh local tea.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                 reviews: '(78 reviews)',
+                 price: 75,
+                 galleryImages: ['https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=1374&auto=format&fit=crop', 'https://images.unsplash.com/photo-1557090495-20760e254751?q=80&w=1470&auto=format&fit=crop'],
+                 includes: ['Private guide (transportation not included)', 'Farm visit coordination', 'Cow milking demonstration & participation', 'Traditional tea with farmers'],
+                 itinerary: ['Flexible start time (meet guide in Fayoum)', '<strong>Morning:</strong> Visit the farm and interact with animals', '<strong>Noon:</strong> Tea break and conversation with the farmers', '<strong>Afternoon:</strong> Guide can recommend local spots for lunch (cost not included)']
+             },
+             'giza-full-day-hassan': {
+                 title: 'Full-Day Giza Discovery',
+                 provider: 'Hassan Youssef',
+                 providerId: 'hassan-youssef',
+                 providerType: 'guide',
+                 destination: 'Giza',
+                 experience: 'Pyramids',
+                 type: 'Historical',
+                 languages: ['English', 'Arabic', 'Spanish'],
+                 availableOn: '2025-07-28',
+                 image: 'images/pyramid.webp',
+                 description: 'An immersive all-day tour covering the Great Pyramids, Sphinx, and the Valley Temple with a certified Egyptologist. Includes a traditional Egyptian lunch.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>',
+                 reviews: '(124 reviews)',
+                 price: 95,
+                 galleryImages: ['images/camelpyramid3.jpg','images/camelpyramid.webp'],
+                 includes: ['Hotel pickup and drop-off', 'Private air-conditioned vehicle', 'Certified Egyptologist guide', 'Entrance fees to all sites', 'Bottled water', 'Traditional Egyptian lunch'],
+                 itinerary: ['<strong>8:00 AM:</strong> Hotel Pickup', '<strong>9:00 AM:</strong> Explore the Great Pyramid of Khufu', '<strong>11:00 AM:</strong> Visit the Pyramids of Khafre and Menkaure', '<strong>12:30 PM:</strong> Photo stop at the panoramic viewpoint', '<strong>1:30 PM:</strong> Lunch at a local restaurant', '<strong>3:00 PM:</strong> Discover the Great Sphinx and Valley Temple', '<strong>4:30 PM:</strong> Return to hotel']
+             },
+             'giza-full-day-egypt-tours': {
+                 title: 'Full-Day Giza Discovery',
+                 provider: 'Egypt Tours Co.',
+                 providerId: 'egypt-tours-co',
+                 providerType: 'company',
+                 destination: 'Giza',
+                 experience: 'Pyramids',
+                 type: 'Historical',
+                 languages: ['English', 'Arabic'],
+                 availableOn: '2025-07-28',
+                 image: 'images/pyramids1.jfif',
+                 description: 'A comprehensive one-day exploration of Giza\'s ancient wonders. This package includes a camel ride near the pyramids.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>',
+                 reviews: '(99 reviews)',
+                 price: 90,
+                 galleryImages: ['images/camelpyramid3.jpg','images/camelpyramid.webp'],
+                 includes: ['Hotel pickup and drop-off', 'Camel ride (30 mins)', 'Licensed tour guide', 'Entrance fees', 'Bottled water'],
+                 itinerary: ['<strong>8:30 AM:</strong> Hotel Pickup', '<strong>9:30 AM:</strong> Visit the Great Pyramids', '<strong>12:00 PM:</strong> Camel Ride', '<strong>1:00 PM:</strong> Lunch (not included)', '<strong>2:30 PM:</strong> Explore the Great Sphinx', '<strong>4:00 PM:</strong> Return to hotel']
+             },
+              'giza-full-day-fatima': {
+                 title: 'Full-Day Giza Discovery',
+                 provider: 'Fatima Ahmed',
+                 providerId: 'fatima-ahmed',
+                 providerType: 'guide',
+                 destination: 'Giza',
+                 experience: 'Pyramids',
+                 type: 'Historical',
+                 languages: ['English', 'French'],
+                 availableOn: '2025-07-29',
+                 image: 'images/cita3.2.jfif',
+                 description: 'A personalized and flexible tour of the Giza Plateau with a highly-rated local guide. Go at your own pace and ask all your questions!',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                 reviews: '(112 reviews)',
+                 price: 80,
+                 galleryImages: ['images/pyramid3.jfif','images/pyramid3.1.jfif'],
+                 includes: ['Personal certified guide', 'Flexible start time', 'Bottled water'],
+                 itinerary: ['Flexible agenda based on your interests, typically covering all major sites of the Giza Plateau over 6-7 hours.']
+             },
+             'giza-express': {
+                 title: 'Pyramids & Sphinx Express',
+                 provider: 'Cairo Adventures',
+                 providerId: 'cairo-adventures',
+                 providerType: 'company',
+                 destination: 'Giza',
+                 experience: 'Pyramids',
+                 type: 'Historical',
+                 languages: ['English', 'Arabic'],
+                 availableOn: '2025-07-28',
+                 image: 'images/sphin2.jpg',
+                 description: 'A perfect half-day tour for those short on time, focusing on the main highlights of the Giza plateau. Ideal for a quick but memorable visit.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>',
+                 reviews: '(88 reviews)',
+                 price: 70,
+                 galleryImages: ['images/sphin1.jpg', 'images/sphin3.jpg'],
+                 includes: ['Hotel pickup and drop-off', 'Private air-conditioned vehicle', 'Licensed tour guide', 'Entrance fees', 'Bottled water'],
+                 itinerary: ['<strong>9:00 AM:</strong> Hotel Pickup', '<strong>10:00 AM:</strong> Visit the Great Pyramids', '<strong>11:30 AM:</strong> Explore the Great Sphinx', '<strong>12:30 PM:</strong> Panoramic photo opportunities', '<strong>1:30 PM:</strong> Return to hotel']
+             },
+             'ahmed-cairo-walking': {
+                 title: 'Old Cairo Walking Tour',
+                 provider: 'Ahmed Hassan',
+                 providerId: 'ahmed-hassan',
+                 providerType: 'guide',
+                 destination: 'Cairo',
+                 experience: 'City Exploration',
+                 type: 'Cultural',
+                 languages: ['English', 'Arabic'],
+                 availableOn: '2025-07-29',
+                 image: 'images/cairo1.jfif',
+                 description: 'Discover the hidden gems of Islamic and Coptic Cairo on a personal walking tour with a passionate local guide.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                 reviews: '(73 reviews)',
+                 price: 50,
+                 galleryImages: ['images/cairo2.jfif','images/cairo3.jfif'],
+                 includes: ['Expert local guide', 'Entrance fees to select sites', 'Egyptian tea/coffee break'],
+                 itinerary: ['<strong>9:00 AM:</strong> Meet at Bab Zuweila', '<strong>9:30 AM:</strong> Walk through Khan el-Khalili bazaar', '<strong>11:00 AM:</strong> Visit Al-Azhar Mosque', '<strong>12:30 PM:</strong> Explore Coptic Cairo (Hanging Church, Ben Ezra Synagogue)', '<strong>2:00 PM:</strong> Tour ends']
+             },
+             'luxor-temples': {
+                 title: 'Karnak & Luxor Tour',
+                 provider: 'Luxor Legacy Tours',
+                 providerId: 'luxor-legacy-tours',
+                 providerType: 'company',
+                 destination: 'Luxor',
+                 experience: 'Temples',
+                 type: 'Cultural',
+                 languages: ['English', 'Arabic', 'German'],
+                 availableOn: '2025-07-30',
+                 image: 'images/lux22.jpg',
+                 description: 'Explore the grand temples of Karnak and Luxor on the East Bank of the Nile, witnessing centuries of Pharaonic history.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                 reviews: '(156 reviews)',
+                 price: 85,
+                 galleryImages: ['images/kar2.jfif', 'images/kar3.jfif'],
+                 includes: ['Expert guide', 'Entrance fees', 'Air-conditioned transport'],
+                 itinerary: ['<strong>8:30 AM:</strong> Visit Karnak Temple Complex', '<strong>11:00 AM:</strong> Explore Luxor Temple', '<strong>1:00 PM:</strong> Return to hotel/cruise']
+             },
+              'desert-safari': {
+                 title: 'Siwa Oasis Desert Safari',
+                 provider: 'Desert Wanderers',
+                 providerId: 'desert-wanderers',
+                 providerType: 'company',
+                 destination: 'Siwa',
+                 experience: 'Safari',
+                 type: 'Adventure',
+                 languages: ['English', 'Arabic'],
+                 availableOn: '2025-08-01',
+                 image: 'images/siwa1jfif.jfif',
+                 description: 'An exhilarating 4x4 safari adventure through the Great Sand Sea, including sandboarding and a dip in the salt lakes.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                 reviews: '(95 reviews)',
+                 price: 120,
+                 galleryImages: ['images/siwa2.jfif','images/siwa3.jfif'],
+                 includes: ['4x4 vehicle with driver', 'Sandboarding equipment', 'Lunch in the desert', 'Visit to salt lakes'],
+                 itinerary: ['<strong>10:00 AM:</strong> Depart from Siwa town', '<strong>11:00 AM:</strong> Dune bashing in the Great Sand Sea', '<strong>1:00 PM:</strong> Traditional Bedouin lunch', '<strong>3:00 PM:</strong> Sandboarding and swimming', '<strong>5:00 PM:</strong> Return to Siwa']
+             },
+             'alexandria-day-trip': {
+                 title: 'Alexandria Historical Day Trip',
+                 provider: 'Mediterra Tours',
+                 providerId: 'mediterra-tours',
+                 providerType: 'company',
+                 destination: 'Alexandria',
+                 experience: 'City Exploration',
+                 type: 'Historical',
+                 languages: ['English', 'Arabic'],
+                 availableOn: '2025-07-31',
+                 image: 'images/alex3.jfif',
+                 description: 'Discover the Greco-Roman history of Alexandria, visiting the Catacombs, Pompey\'s Pillar, and the modern Library of Alexandria.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>',
+                 reviews: '(115 reviews)',
+                 price: 110,
+                 galleryImages: ['images/alex2.jfif','images/alex1.jfif'],
+                 includes: ['Transport from Cairo', 'Lunch', 'Guide', 'Entrance Fees'],
+                 itinerary: ['<strong>7:00 AM:</strong> Depart from Cairo', '<strong>10:00 AM:</strong> Visit Catacombs of Kom El Shoqafa', '<strong>12:00 PM:</strong> See Pompey\'s Pillar', '<strong>1:30 PM:</strong> Lunch', '<strong>3:00 PM:</strong> Explore the Bibliotheca Alexandrina', '<strong>5:00 PM:</strong> Return to Cairo']
+             },
+             'aswan-felucca': {
+                 title: 'Nile Felucca Sailing',
+                 provider: 'Captain Omar',
+                 providerId: 'captain-omar',
+                 providerType: 'guide',
+                 destination: 'Aswan',
+                 experience: 'Nile Sailing',
+                 type: 'Adventure',
+                 languages: ['English', 'Arabic', 'Nubian'],
+                 availableOn: '2025-08-02',
+                 image: 'images/nile1.jfif',
+                 description: 'Enjoy a relaxing afternoon sailing on a traditional Felucca on the Nile, around Elephantine Island and the Botanical Gardens.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                 reviews: '(180 reviews)',
+                 price: 45,
+                 galleryImages: ['images/nile2.jfif','images/nile3.jfif'],
+                 includes: ['Felucca boat with captain', 'Tea on board'],
+                 itinerary: ['<strong>2:00 PM:</strong> Depart from Aswan dock', '<strong>2:30 PM:</strong> Sail around Elephantine Island', '<strong>3:30 PM:</strong> View of the Botanical Gardens from the river', '<strong>4:30 PM:</strong> Relax and enjoy the sunset', '<strong>5:30 PM:</strong> Return to dock']
+             },
+             'sharm-diving': {
+                 title: 'Red Sea Diving Adventure',
+                 provider: 'Red Sea Divers',
+                 providerId: 'red-sea-divers',
+                 providerType: 'company',
+                 destination: 'Sharm El Sheikh',
+                 experience: 'Diving',
+                 type: 'Marine',
+                 languages: ['English', 'Russian', 'German'],
+                 availableOn: '2025-08-10',
+                 image: 'https://images.unsplash.com/photo-1577457492628-09348235f5f4?q=80&w=1470&auto=format&fit=crop',
+                 description: 'Explore the vibrant coral reefs of Ras Muhammad National Park on a full-day diving trip. Suitable for certified divers.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                 reviews: '(250 reviews)',
+                 price: 150,
+                 galleryImages: ['https://images.unsplash.com/photo-1616039328854-0cf73943b4f4?q=80&w=1470&auto=format&fit=crop', 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1470&auto=format&fit=crop'],
+                 includes: ['2 dives with instructor', 'Diving equipment', 'Lunch and drinks on boat', 'Park entrance fees'],
+                 itinerary: ['<strong>8:00 AM:</strong> Hotel Pickup & transfer to jetty', '<strong>9:00 AM:</strong> First dive', '<strong>12:00 PM:</strong> Lunch on the boat', '<strong>1:30 PM:</strong> Second dive', '<strong>4:00 PM:</strong> Return to jetty and hotel']
+             },
+             'abu-simbel-tour': {
+                 title: 'Abu Simbel Temples Tour',
+                 provider: 'Luxor Legacy Tours',
+                 providerId: 'luxor-legacy-tours',
+                 providerType: 'company',
+                 destination: 'Aswan',
+                 experience: 'Temples',
+                 type: 'Historical',
+                 languages: ['English', 'Arabic', 'German'],
+                 availableOn: '2025-08-05',
+                 image: 'https://images.unsplash.com/photo-1583209575916-2d1d494b5924?q=80&w=1470&auto=format&fit=crop',
+                 description: 'A day trip from Aswan to the magnificent rock-cut temples of Abu Simbel, built by Pharaoh Ramesses II.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>',
+                 reviews: '(180 reviews)',
+                 price: 130,
+                 galleryImages: ['https://images.unsplash.com/photo-1620923408712-4682498715a3?q=80&w=1470&auto=format&fit=crop', 'https://images.unsplash.com/photo-1605522136981-d21a2a5135f6?q=80&w=1470&auto=format&fit=crop'],
+                 includes: ['Private air-conditioned vehicle', 'Egyptologist guide', 'Entrance fees', 'Bottled water'],
+                 itinerary: ['<strong>4:00 AM:</strong> Early morning pickup from Aswan', '<strong>8:00 AM:</strong> Arrive and explore Abu Simbel temples', '<strong>11:00 AM:</strong> Depart from Abu Simbel', '<strong>3:00 PM:</strong> Arrive back in Aswan']
+             },
+             'cairo-food-tour': {
+                 title: 'Cairo Culinary Delights',
+                 provider: 'Cairo Kitchen',
+                 providerId: 'cairo-kitchen',
+                 providerType: 'company',
+                 destination: 'Cairo',
+                 experience: 'Food Tour',
+                 type: 'Culinary',
+                 languages: ['English', 'Arabic'],
+                 availableOn: '2025-08-15',
+                 image: 'https://images.unsplash.com/photo-1572019483391-7531a781a74d?q=80&w=1374&auto=format&fit=crop',
+                 description: 'Taste your way through the streets of Cairo, sampling authentic local dishes like Koshary, Ful, and Ta\'ameya.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                 reviews: '(95 reviews)',
+                 price: 65,
+                 galleryImages: ['https://images.unsplash.com/photo-1569035394218-b7a4ce83de72?q=80&w=1470&auto=format&fit=crop', 'images/cairo2.jfif'],
+                 includes: ['Expert local guide', 'All food tastings (at least 5 stops)', 'Bottled water'],
+                 itinerary: ['<strong>5:00 PM:</strong> Meet in Tahrir Square', '<strong>5:30 PM:</strong> Begin food tour', '<strong>8:30 PM:</strong> End tour with a traditional dessert']
+             },
+             'siwa-salt-lakes': {
+                 title: 'Siwa Salt Lakes Relaxation',
+                 provider: 'Desert Wanderers',
+                 providerId: 'desert-wanderers',
+                 providerType: 'company',
+                 destination: 'Siwa',
+                 experience: 'Wellness',
+                 type: 'Relaxation',
+                 languages: ['English', 'Arabic'],
+                 availableOn: '2025-08-20',
+                 image: 'https://images.unsplash.com/photo-1614087813534-a2123c6c1b35?q=80&w=870&auto=format&fit=crop',
+                 description: 'Float effortlessly in the surreal, turquoise salt lakes of Siwa Oasis. A unique and relaxing experience.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>',
+                 reviews: '(60 reviews)',
+                 price: 55,
+                 galleryImages: ['images/siwa2.jfif', 'images/siwa3.jfif'],
+                 includes: ['Private transport', 'Local guide', 'Bottled water'],
+                 itinerary: ['<strong>10:00 AM:</strong> Hotel pickup', '<strong>10:30 AM:</strong> Arrive at the salt lakes for swimming', '<strong>1:00 PM:</strong> Return to hotel']
+             },
+             'hurghada-snorkeling': {
+                 title: 'Hurghada Coral Reef Snorkeling',
+                 provider: 'Red Sea Divers',
+                 providerId: 'red-sea-divers',
+                 providerType: 'company',
+                 destination: 'Hurghada',
+                 experience: 'Snorkeling',
+                 type: 'Marine',
+                 languages: ['English', 'Russian', 'German'],
+                 availableOn: '2025-08-12',
+                 image: 'https://images.unsplash.com/photo-1590525287313-a37a8354c29a?q=80&w=1548&auto=format&fit=crop',
+                 description: 'A full-day boat trip to the best snorkeling spots near Hurghada. See colorful fish and vibrant coral reefs.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                 reviews: '(180 reviews)',
+                 price: 75,
+                 galleryImages: ['https://images.unsplash.com/photo-1604719333833-28639e525143?q=80&w=1470&auto=format&fit=crop'],
+                 includes: ['Boat trip', 'Snorkeling equipment', 'Lunch and drinks on board', 'Professional guide'],
+                 itinerary: ['<strong>8:30 AM:</strong> Hotel Pickup', '<strong>9:30 AM:</strong> Boat departs', '<strong>11:00 AM:</strong> First snorkeling stop', '<strong>1:00 PM:</strong> Lunch', '<strong>2:30 PM:</strong> Second snorkeling stop', '<strong>4:30 PM:</strong> Return to hotel']
+             },
+             'khan-khalili-shopping': {
+                 title: 'Khan el-Khalili Bazaar Shopping',
+                 provider: 'Ahmed Hassan',
+                 providerId: 'ahmed-hassan',
+                 providerType: 'guide',
+                 destination: 'Cairo',
+                 experience: 'Shopping',
+                 type: 'Shopping',
+                 languages: ['English', 'Arabic'],
+                 availableOn: '2025-07-30',
+                 image: 'images/cairo3.jfif',
+                 description: 'Navigate the bustling alleys of the famous Khan el-Khalili bazaar with a local expert to find the best souvenirs, spices, and crafts.',
+                 ratingHtml: '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>',
+                 reviews: '(45 reviews)',
+                 price: 40,
+                 galleryImages: ['https://images.unsplash.com/photo-1569573994334-63116a8003f?q=80&w=870&auto=format&fit=crop', 'images/cairo1.jfif'],
+                 includes: ['Personal guide and shopping assistant', 'Tips on bargaining'],
+                 itinerary: ['Flexible 3-hour tour scheduled at your convenience.']
+             }
+         };
+
+        const modal = document.getElementById('tour-modal');
+        const modalContainer = modal.querySelector('.modal-container');
+        const tourGrid = document.getElementById('tour-grid');
+        const noResults = document.getElementById('no-results');
+        const searchInput = document.getElementById('search-input');
+        const keywordSearchBtn = document.getElementById('keyword-search-btn');
+        const advancedSearchToggle = document.getElementById('advanced-search-toggle');
+        const filtersSidebarDesktop = document.getElementById('filters-sidebar-desktop');
+        const filtersSidebarMobile = document.getElementById('filters-sidebar-mobile');
+        const advancedSearchIcon = document.getElementById('advanced-search-icon');
+        
+        let currentTourId = null;
+        let currentImageIndex = 0;
+        let currentGalleryImages = [];
+        let currentPage = 1;
+        const toursPerPage = 9;
+        let currentFilteredTourIds = Object.keys(allTours);
+        
+        const availableCities = [...new Set(Object.values(allTours).map(tour => tour.destination))].sort();
+        const availableExperiences = [...new Set(Object.values(allTours).map(tour => tour.experience))].sort();
+        const availableTourTypes = [...new Set(Object.values(allTours).map(tour => tour.type))].sort();
+
+        function showImage(index) {
+            const galleryContent = document.getElementById('gallery-content');
+            const images = galleryContent.querySelectorAll('img');
+            images.forEach((img, i) => {
+                img.style.opacity = i === index ? '1' : '0';
+            });
+        }
+
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % currentGalleryImages.length;
+            showImage(currentImageIndex);
+        }
+
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+            showImage(currentImageIndex);
+        }
+
+        function renderTours() {
+            tourGrid.innerHTML = '';
+            const startIndex = (currentPage - 1) * toursPerPage;
+            const endIndex = startIndex + toursPerPage;
+            const toursForPage = currentFilteredTourIds.slice(startIndex, endIndex);
+
+            if (toursForPage.length === 0) {
+                 noResults.classList.remove('hidden');
+            } else {
+                 noResults.classList.add('hidden');
+            }
+            
+            toursForPage.forEach(tourId => {
+                const tour = allTours[tourId];
+                const providerIcon = tour.providerType === 'guide' ? '<i class="fas fa-user text-gray-500 mr-2"></i>' : '<i class="fas fa-building text-gray-500 mr-2"></i>';
+                const tourCard = `
+                    <div class="bg-white rounded-xl overflow-hidden card-shadow card-shadow-hover transition-shadow duration-300 flex flex-col">
+                        <div class="relative">
+                            <img src="${tour.image}" alt="${tour.title}" class="w-full h-48 object-cover"  onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">
+                            <div class="absolute top-3 right-3 bg-primary text-white text-xs uppercase font-semibold px-3 py-1 rounded-full">${tour.destination}</div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <a href="profile.html?provider=${tour.providerId}" class="text-sm text-primary font-semibold flex items-center hover:underline">${providerIcon} by ${tour.provider}</a>
+                            <h3 class="text-xl font-bold text-primary mt-1">${tour.title}</h3>
+                             <div class="mt-2 flex justify-start text-xs text-gray-500">
+                                 <span class="flex items-center"><i class="fas fa-language mr-2 text-primary"></i>${tour.languages.join(', ')}</span>
+                             </div>
+                            <p class="text-gray-600 mt-2 text-sm flex-grow">${tour.description.substring(0, 100)}...</p>
+                            <div class="flex items-center gap-2 mt-4">
+                                <div class="text-secondary">${tour.ratingHtml}</div>
+                                <span class="text-gray-600 text-sm">${tour.reviews}</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-6">
+                                <div>
+                                    <p class="text-2xl font-bold text-primary">$${tour.price}</p>
+                                    <p class="text-sm text-gray-500 -mt-1">per person</p>
+                                </div>
+                                <button onclick="openModal('${tourId}')" class="bg-secondary text-primary font-semibold px-5 py-2 rounded-lg text-sm hover:bg-yellow-600 transition-colors">View Details</button>
+                            </div>
+                        </div>
+                    </div>`;
+                tourGrid.innerHTML += tourCard;
+            });
+        }
+        
+        function getFilterValues(form) {
+            if (!form) return {};
+            
+            const minPrice = parseFloat(form.querySelector('input[name="minPrice"]').value);
+            const maxPrice = parseFloat(form.querySelector('input[name="maxPrice"]').value);
+            const selectedCities = Array.from(form.querySelectorAll('input[name="city"]:checked')).map(el => el.value);
+            const selectedExperiences = Array.from(form.querySelectorAll('input[name="experience"]:checked')).map(el => el.value);
+            const selectedTypes = Array.from(form.querySelectorAll('input[name="tourType"]:checked')).map(el => el.value);
+            const date = form.querySelector('input[name="date"]').value;
+
+            return { minPrice, maxPrice, selectedCities, selectedExperiences, selectedTypes, date };
+        }
+
+        function filterAndPaginateTours() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const form = window.innerWidth < 1024 
+                ? document.getElementById('mobile-filters-form') 
+                : document.getElementById('filters-form');
+            const filters = getFilterValues(form);
+            
+            currentFilteredTourIds = Object.keys(allTours).filter(tourId => {
+                const tour = allTours[tourId];
+
+                const textMatch = (
+                    tour.title.toLowerCase().includes(searchTerm) ||
+                    tour.description.toLowerCase().includes(searchTerm) ||
+                    tour.provider.toLowerCase().includes(searchTerm)
+                );
+                
+                const cityMatch = filters.selectedCities.length === 0 || filters.selectedCities.includes(tour.destination);
+                const experienceMatch = filters.selectedExperiences.length === 0 || filters.selectedExperiences.includes(tour.experience);
+                const typeMatch = filters.selectedTypes.length === 0 || filters.selectedTypes.includes(tour.type);
+                
+                let priceMatch = true;
+                if (!isNaN(filters.minPrice) && !isNaN(filters.maxPrice)) {
+                    priceMatch = tour.price >= filters.minPrice && tour.price <= filters.maxPrice;
+                } else if (!isNaN(filters.minPrice)) {
+                    priceMatch = tour.price >= filters.minPrice;
+                } else if (!isNaN(filters.maxPrice)) {
+                    priceMatch = tour.price <= filters.maxPrice;
+                }
+                
+                const dateMatch = !filters.date || !tour.availableOn || tour.availableOn === filters.date;
+
+                return textMatch && cityMatch && experienceMatch && typeMatch && priceMatch && dateMatch;
+            });
+            
+            currentPage = 1;
+            renderTours();
+            setupPagination();
+        }
+
+        function buildFilterHtml(idPrefix = '') {
+            return `
+                <h3 class="text-xl font-bold text-primary mb-4">Filters</h3>
+                <form id="${idPrefix}filters-form" class="space-y-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">Price Range</h4>
+                        <div class="flex items-center gap-2">
+                            <input type="number" name="minPrice" placeholder="min $" class="w-full p-2 border border-gray-300 rounded-md text-sm">
+                            <span>-</span>
+                            <input type="number" name="maxPrice" placeholder="max $" class="w-full p-2 border border-gray-300 rounded-md text-sm">
+                        </div>
+                    </div>
+                     <div>
+                        <h4 class="font-semibold mb-2">Date</h4>
+                        <input type="date" name="date" class="w-full p-2 border border-gray-300 rounded-md text-sm">
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">Tour Type</h4>
+                         <div class="relative" id="${idPrefix}tourType-filter-container">
+                             <button id="${idPrefix}tourType-filter-btn" type="button" class="w-full bg-white p-2 border border-gray-300 rounded-md text-left flex justify-between items-center">
+                                 <span id="${idPrefix}tourType-filter-text" class="text-sm text-gray-500">Select types...</span>
+                                 <i class="fas fa-chevron-down text-xs"></i>
+                             </button>
+                             <div id="${idPrefix}tourType-filter-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                                 <div class="p-2"><input type="text" id="${idPrefix}tourType-search" placeholder="Search types..." class="w-full p-2 border border-gray-300 rounded-md text-sm"></div>
+                                 <div id="${idPrefix}tourType-options" class="p-2 text-sm max-h-40 overflow-y-auto"></div>
+                             </div>
+                         </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">City</h4>
+                        <div class="relative" id="${idPrefix}city-filter-container">
+                            <button id="${idPrefix}city-filter-btn" type="button" class="w-full bg-white p-2 border border-gray-300 rounded-md text-left flex justify-between items-center">
+                                <span id="${idPrefix}city-filter-text" class="text-sm text-gray-500">Select cities...</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="${idPrefix}city-filter-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                                <div class="p-2"><input type="text" id="${idPrefix}city-search" placeholder="Search cities..." class="w-full p-2 border border-gray-300 rounded-md text-sm"></div>
+                                <div id="${idPrefix}city-options" class="p-2 text-sm max-h-40 overflow-y-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">Experience</h4>
+                        <div class="relative" id="${idPrefix}experience-filter-container">
+                            <button id="${idPrefix}experience-filter-btn" type="button" class="w-full bg-white p-2 border border-gray-300 rounded-md text-left flex justify-between items-center">
+                                <span id="${idPrefix}experience-filter-text" class="text-sm text-gray-500">Select experiences...</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="${idPrefix}experience-filter-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                                <div class="p-2"><input type="text" id="${idPrefix}experience-search" placeholder="Search experiences..." class="w-full p-2 border border-gray-300 rounded-md text-sm"></div>
+                                <div id="${idPrefix}experience-options" class="p-2 text-sm max-h-40 overflow-y-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 pt-2 border-t">
+                        <button type="button" class="reset-filters-btn w-1/2 bg-gray-200 text-gray-700 font-semibold px-6 py-2 rounded-md hover:bg-gray-300 transition-colors">Reset</button>
+                        <button type="button" class="apply-filters-btn w-1/2 bg-primary text-white font-semibold px-6 py-2 rounded-md hover:bg-primary-dark transition-colors">Apply</button>
+                    </div>
+                </form>
+            `;
+        }
+        
+        let dropdownClosers = {};
+
+        function setupDropdownFilter(prefix, type, availableItems) {
+            const container = document.getElementById(`${prefix}${type}-filter-container`);
+            if(!container) return; 
+
+            const btn = document.getElementById(`${prefix}${type}-filter-btn`);
+            const dropdown = document.getElementById(`${prefix}${type}-filter-dropdown`);
+            const text = document.getElementById(`${prefix}${type}-filter-text`);
+            const optionsContainer = document.getElementById(`${prefix}${type}-options`);
+            const searchInput = document.getElementById(`${prefix}${type}-search`);
+            const currentForm = document.getElementById(`${prefix}filters-form`);
+
+            function closeAllOtherDropdowns() {
+                for (const key in dropdownClosers[prefix]) {
+                    if (key !== type) {
+                        dropdownClosers[prefix][key]();
+                    }
+                }
+            }
+
+            function renderOptions(searchTerm = '') {
+                const filteredItems = availableItems.filter(item => item.toLowerCase().includes(searchTerm.toLowerCase()));
+                const selected = Array.from(currentForm.querySelectorAll(`input[name="${type}"]:checked`)).map(el => el.value);
+                optionsContainer.innerHTML = filteredItems.map(item => `
+                    <label class="flex items-center p-1 hover:bg-gray-100 rounded-md cursor-pointer">
+                        <input type="checkbox" name="${type}" value="${item}" class="mr-2 text-primary focus:ring-secondary" ${selected.includes(item) ? 'checked' : ''}>
+                        ${item}
+                    </label>
+                `).join('');
+            }
+
+            function updateText() {
+                const selected = Array.from(currentForm.querySelectorAll(`input[name="${type}"]:checked`)).map(el => el.value);
+                if (selected.length === 0) {
+                    text.textContent = `Select ${type.replace('tourType', 'type')}...`;
+                    text.classList.add('text-gray-500');
+                } else if (selected.length <= 2) {
+                    text.textContent = selected.join(', ');
+                    text.classList.remove('text-gray-500');
+                } else {
+                    text.textContent = `${selected.length} ${type.replace('tourType', 'type')}s selected`;
+                    text.classList.remove('text-gray-500');
+                }
+            }
+            
+            const closeDropdown = () => dropdown.classList.add('hidden');
+            dropdownClosers[prefix][type] = closeDropdown;
+
+            renderOptions();
+            btn.addEventListener('click', (e) => { 
+                e.stopPropagation(); 
+                closeAllOtherDropdowns();
+                dropdown.classList.toggle('hidden'); 
+            });
+            searchInput.addEventListener('input', () => renderOptions(searchInput.value));
+            optionsContainer.addEventListener('change', updateText);
+            
+            return { updateText, renderOptions };
+        }
+        
+        function resetAllFilters() {
+            const desktopForm = document.getElementById('filters-form');
+            const mobileForm = document.getElementById('mobile-filters-form');
+            if(desktopForm) desktopForm.reset();
+            if(mobileForm) mobileForm.reset();
+
+            searchInput.value = '';
+
+            ['', 'mobile-'].forEach(prefix => {
+                ['city', 'experience', 'tourType'].forEach(type => {
+                     const controller = dropdownControllers[prefix][type];
+                     if(controller) {
+                         controller.renderOptions();
+                         controller.updateText();
+                     }
+                });
+            });
+            
+            filterAndPaginateTours();
+        }
+
+        let dropdownControllers = { '': {}, 'mobile-': {} };
+
+        function setupPagination() {
+            const paginationContainer = document.getElementById('pagination-container');
+            const totalPages = Math.ceil(currentFilteredTourIds.length / toursPerPage);
+            paginationContainer.innerHTML = '';
+
+            if (totalPages <= 1) return;
+
+            // Previous Button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = `<i class="fas fa-chevron-left"></i>`;
+            prevButton.className = 'pagination-btn p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed';
+            if (currentPage === 1) prevButton.disabled = true;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTours();
+                    setupPagination();
+                    window.scrollTo(0, 0);
+                }
+            });
+            paginationContainer.appendChild(prevButton);
+
+            // Page Number Buttons
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.className = `pagination-btn px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100`;
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    renderTours();
+                    setupPagination();
+                    window.scrollTo(0, 0);
+                });
+                paginationContainer.appendChild(pageButton);
+            }
+
+            // Next Button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = `<i class="fas fa-chevron-right"></i>`;
+            nextButton.className = 'pagination-btn p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed';
+            if (currentPage === totalPages) nextButton.disabled = true;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderTours();
+                    setupPagination();
+                    window.scrollTo(0, 0);
+                }
+            });
+            paginationContainer.appendChild(nextButton);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Initialize AOS ---
+            AOS.init({
+                duration: 700,
+                once: true,
+                offset: 50,
+            });
+
+            // --- Header Logic ---
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const header = document.getElementById('main-header');
+            
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuIcon.classList.toggle('fa-bars');
+                menuIcon.classList.toggle('fa-times');
+            });
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+
+            // --- Page Logic (Filters & Tours) ---
+            const filterHTML = buildFilterHtml();
+            filtersSidebarDesktop.firstElementChild.innerHTML = filterHTML;
+            filtersSidebarMobile.firstElementChild.innerHTML = buildFilterHtml('mobile-');
+
+            filterAndPaginateTours();
+            
+            ['', 'mobile-'].forEach(prefix => {
+                dropdownClosers[prefix] = {};
+                dropdownControllers[prefix].city = setupDropdownFilter(prefix, 'city', availableCities);
+                dropdownControllers[prefix].experience = setupDropdownFilter(prefix, 'experience', availableExperiences);
+                dropdownControllers[prefix].tourType = setupDropdownFilter(prefix, 'tourType', availableTourTypes);
+                
+                const form = document.getElementById(`${prefix}filters-form`);
+                
+                form.querySelector('.apply-filters-btn').addEventListener('click', () => {
+                    filterAndPaginateTours();
+                    if(prefix === 'mobile-') {
+                        filtersSidebarMobile.classList.add('hidden');
+                        advancedSearchIcon.classList.remove('rotate-180');
+                    }
+                });
+                
+                form.querySelector('.reset-filters-btn').addEventListener('click', resetAllFilters);
+            });
+
+            window.addEventListener('click', () => {
+                for (const prefix in dropdownClosers) {
+                    for (const type in dropdownClosers[prefix]) {
+                        dropdownClosers[prefix][type]();
+                    }
+                }
+            });
+
+            keywordSearchBtn.addEventListener('click', filterAndPaginateTours);
+            searchInput.addEventListener('keyup', (e) => { if (e.key === 'Enter') filterAndPaginateTours(); });
+
+            advancedSearchToggle.addEventListener('click', () => {
+                filtersSidebarMobile.classList.toggle('hidden');
+                advancedSearchIcon.classList.toggle('rotate-180');
+            });
+            
+            document.getElementById('gallery-prev').addEventListener('click', showPrevImage);
+            document.getElementById('gallery-next').addEventListener('click', showNextImage);
+        });
+
+        function showBookingForm(tourId) {
+            currentTourId = tourId;
+            const tour = allTours[tourId];
+            document.getElementById('modal-details-view').classList.add('hidden');
+            document.getElementById('modal-booking-view').classList.remove('hidden');
+            document.getElementById('modal-footer').classList.add('hidden');
+            document.getElementById('booking-tour-name').textContent = `${tour.title} - by ${tour.provider}`;
+            document.getElementById('guest-count').value = 1;
+            updateTotalPrice();
+        }
+
+        function showTourDetails() {
+            document.getElementById('modal-details-view').classList.remove('hidden');
+            document.getElementById('modal-booking-view').classList.add('hidden');
+            document.getElementById('modal-success-view').classList.add('hidden');
+            document.getElementById('modal-footer').classList.remove('hidden');
+        }
+        
+        function updateTotalPrice() {
+            const guestCount = document.getElementById('guest-count').value;
+            const tour = allTours[currentTourId];
+            const totalPrice = guestCount * tour.price;
+            document.getElementById('total-price').textContent = `$${totalPrice}`;
+        }
+        
+        document.addEventListener('input', (e) => {
+            if (e.target.id === 'guest-count') {
+                updateTotalPrice();
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'modal-book-btn-footer') showBookingForm(currentTourId);
+            if (e.target.id === 'back-to-details-btn') showTourDetails();
+            if (e.target.id === 'confirm-booking-btn') {
+                document.getElementById('modal-booking-view').classList.add('hidden');
+                document.getElementById('modal-success-view').classList.remove('hidden');
+            }
+        });
+
+        function openModal(tourId) {
+            currentTourId = tourId;
+            const data = allTours[tourId];
+            if (!data) return;
+            
+            currentGalleryImages = data.galleryImages;
+            currentImageIndex = 0;
+
+            const providerIcon = data.providerType === 'guide' ? '<i class="fas fa-user text-gray-500 mr-2"></i>' : '<i class="fas fa-building text-gray-500 mr-2"></i>';
+            document.getElementById('modal-tour-name').textContent = data.title;
+            const providerLink = document.getElementById('modal-provider-link');
+            providerLink.innerHTML = `${providerIcon} by ${data.provider}`;
+            providerLink.href = `profile.html?provider=${data.providerId}`;
+            document.getElementById('modal-description').textContent = data.description;
+            document.getElementById('modal-rating').innerHTML = data.ratingHtml;
+            document.getElementById('modal-reviews').textContent = data.reviews;
+            document.getElementById('modal-price-footer').textContent = `$${data.price}`;
+            document.getElementById('modal-tour-location').textContent = data.destination;
+            document.getElementById('modal-tour-languages').textContent = data.languages.join(', ');
+            
+            const galleryContent = document.getElementById('gallery-content');
+            galleryContent.innerHTML = data.galleryImages.map((src, index) => `<img src="${src}" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300" style="opacity: ${index === 0 ? 1 : 0}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found';">`).join('');
+            
+            const prevBtn = document.getElementById('gallery-prev');
+            const nextBtn = document.getElementById('gallery-next');
+
+            if (data.galleryImages.length > 1) {
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+            } else {
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+            }
+            
+            document.getElementById('modal-includes').innerHTML = data.includes.map(item => `<li><i class="fas fa-check text-secondary mr-2"></i>${item}</li>`).join('');
+            document.getElementById('modal-itinerary').innerHTML = data.itinerary.map(item => `<li>${item}</li>`).join('');
+            
+            showTourDetails();
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            modalContainer.classList.remove('scale-95', 'opacity-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('pointer-events-none', 'opacity-0');
+            modalContainer.classList.add('scale-95', 'opacity-0');
+            document.body.style.overflow = 'auto';
+        }
+
+        window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    </script>
+
+</body>
+</html>

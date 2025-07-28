@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judhur - Discover Real Egypt</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom CSS for brand colors and specific styles */
+        :root {
+            --primary: #123332;
+            --secondary: #d4af37;
+            --accent: #c53030;
+            --light: #f8f5f0;
+            --dark: #2d3748;
+            --sand: #e6d3a7;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+        }
+
+        /* Applying brand colors to Tailwind utilities */
+        .bg-primary { background-color: var(--primary); }
+        .bg-secondary { background-color: var(--secondary); }
+        .bg-light { background-color: var(--light); }
+        .bg-sand { background-color: var(--sand); }
+
+        .text-primary { color: var(--primary); }
+        .text-secondary { color: var(--secondary); }
+        
+        .border-secondary { border-color: var(--secondary); }
+
+        .hover\:bg-primary-dark:hover { background-color: #0a2221; }
+        .hover\:bg-secondary-dark:hover { background-color: #c29a1e; }
+
+        /* Style for the active navigation link */
+        .nav-link-active {
+            color: var(--primary) !important;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .nav-link-active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        /* New Hero background */
+        .hero-bg-new {
+           background-image: linear-gradient(to right, rgba(248, 245, 240, 0.95), rgba(248, 245, 240, 0.8)), url('https://images.unsplash.com/photo-1569056306564-825a65743434?q=80&w=2070&auto=format&fit=crop');
+           background-size: cover;
+           background-position: center;
+        }
+
+        /* Custom shadow for cards */
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.07), 0 8px 10px -6px rgba(0, 0, 0, 0.07);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <!-- Header -->
+    <header id="main-header" class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6">
+            <nav class="flex justify-between items-center py-4">
+                <a href="#home" class="text-3xl font-extrabold text-primary flex items-center">
+                    <i class="fas fa-sun text-secondary mr-3"></i>
+                    Judhur
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <ul id="desktop-nav" class="hidden md:flex items-center space-x-8">
+                    <li><a href="#home" class="nav-link text-gray-600 hover:text-primary transition-colors duration-300 font-medium">Home</a></li>
+                    <li><a href="#for-tourists" class="nav-link text-gray-600 hover:text-primary transition-colors duration-300 font-medium">For Tourists</a></li>
+                    <li><a href="#for-guides" class="nav-link text-gray-600 hover:text-primary transition-colors duration-300 font-medium">For Guides</a></li>
+                    <li><a href="#for-companies" class="nav-link text-gray-600 hover:text-primary transition-colors duration-300 font-medium">For Companies</a></li>
+                    <li><a href="#about-us" class="nav-link text-gray-600 hover:text-primary transition-colors duration-300 font-medium">About Us</a></li>
+                </ul>
+                
+                <a href="#registration" class="hidden md:inline-block bg-primary text-white font-semibold px-6 py-2 rounded-lg hover:bg-primary-dark transition-all shadow-lg">
+                    Join as Guide
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="menu-btn" class="focus:outline-none">
+                        <i id="menu-icon" class="fas fa-bars text-2xl text-primary"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <ul class="px-6 pb-4 space-y-3">
+                <li><a href="#home" class="block text-gray-700 hover:text-primary">Home</a></li>
+                <li><a href="#for-tourists" class="block text-gray-700 hover:text-primary">For Tourists</a></li>
+                <li><a href="#for-guides" class="block text-gray-700 hover:text-primary">For Guides</a></li>
+                <li><a href="#for-companies" class="block text-gray-700 hover:text-primary">For Companies</a></li>
+                <li><a href="#about-us" class="block text-gray-700 hover:text-primary">About Us</a></li>
+                 <li><a href="#registration" class="mt-2 inline-block bg-secondary text-primary font-semibold px-6 py-2 rounded-lg hover:bg-secondary-dark transition-all shadow-lg w-full text-center">Join as Guide</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-bg-new">
+             <div class="container mx-auto px-6 pt-20 pb-20 lg:pt-32 lg:pb-32">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <!-- Left Column: Text Content -->
+                    <div class="text-center lg:text-left">
+                        <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.1);">
+                            Discover Real<br>Egypt
+                        </h1>
+                        <p class="mt-6 text-lg text-gray-700 max-w-lg mx-auto lg:mx-0">
+                            Connect with authentic local experiences. Whether you want a customized adventure or expertly crafted tours, Judhur brings you closer to Egypt's true spirit.
+                        </p>
+                        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                            <a href="#for-tourists" class="bg-primary text-white font-semibold px-8 py-3 rounded-lg hover:bg-primary-dark transition-all shadow-lg flex items-center gap-2 w-full sm:w-auto justify-center">
+                                Start Your Journey
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <a href="#how-it-works" class="bg-white/60 backdrop-blur-sm text-gray-800 font-semibold px-8 py-3 rounded-lg hover:bg-white/80 transition-all shadow-md border border-white/50 w-full sm:w-auto justify-center">
+                                Learn How It Works
+                            </a>
+                        </div>
+                        <div class="mt-12 flex justify-center lg:justify-start gap-6 sm:gap-8 text-gray-700">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-star text-secondary"></i>
+                                <span class="font-medium">Authentic Experiences</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-users text-secondary"></i>
+                                <span class="font-medium">Local Connections</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-map-signs text-secondary"></i>
+                                <span class="font-medium">Tailored Adventures</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Column: Feature Cards -->
+                    <div class="space-y-5">
+                        <a href="#for-tourists" class="block bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/50 card-shadow transition-transform hover:scale-105 hover:shadow-xl">
+                            <div class="flex items-center gap-5">
+                                <div class="bg-light p-3 rounded-full">
+                                    <i class="fas fa-user-friends text-2xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-primary">For Tourists</h3>
+                                    <p class="text-gray-600 text-sm">Customize your adventure or pick a ready tour.</p>
+                                </div>
+                            </div>
+                        </a>
+                         <a href="#for-guides" class="block bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/50 card-shadow transition-transform hover:scale-105 hover:shadow-xl">
+                            <div class="flex items-center gap-5">
+                                <div class="bg-light p-3 rounded-full">
+                                    <i class="fas fa-compass text-2xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-primary">For Guides</h3>
+                                    <p class="text-gray-600 text-sm">Bid on custom trips and showcase your local knowledge.</p>
+                                </div>
+                            </div>
+                        </a>
+                         <a href="#for-companies" class="block bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/50 card-shadow transition-transform hover:scale-105 hover:shadow-xl">
+                            <div class="flex items-center gap-5">
+                                <div class="bg-light p-3 rounded-full">
+                                    <i class="fas fa-building text-2xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-primary">For Companies</h3>
+                                    <p class="text-gray-600 text-sm">Post curated tours and connect with adventure seekers.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- For Tourists Section -->
+        <section id="for-tourists" class="py-20 bg-light">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-primary">How Judhur Works for Tourists</h2>
+                    <p class="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">Your journey to an authentic Egyptian experience is just a few clicks away.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="bg-secondary text-white p-6 flex items-center gap-4">
+                            <div class="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center">
+                                <i class="fas fa-search-location text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-primary">1. Find or Create</h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-700">Browse curated tours from top companies or post a request for your own unique, customized adventure.</p>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="bg-secondary text-white p-6 flex items-center gap-4">
+                            <div class="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center">
+                                <i class="fas fa-comments text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-primary">2. Connect & Choose</h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-700">Receive competitive bids from our community of verified local guides. Chat with them to find the perfect match.</p>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="bg-secondary text-white p-6 flex items-center gap-4">
+                            <div class="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center">
+                                <i class="fas fa-plane-departure text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-primary">3. Book & Experience</h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-700">Securely book your chosen guide or tour and get ready for an unforgettable, authentic Egyptian experience.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map and Tour Comparison Section -->
+        <section id="how-it-works" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-primary">Explore & Compare Tours</h2>
+                    <p class="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">See different company offerings for the same iconic locations.</p>
+                </div>
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Map Image -->
+                    <div class="lg:col-span-1 bg-gray-200 rounded-xl card-shadow overflow-hidden">
+                        <img src="https://i.ibb.co/gVf3bWq/egypt-map-stylized.jpg" alt="Stylized Map of Egypt" class="w-full h-full object-cover min-h-[400px]">
+                    </div>
+                    <!-- Tour Listings -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <h3 class="text-2xl font-bold text-primary">Pyramids of Giza Tours</h3>
+                        <!-- Tour Card 1 -->
+                        <div class="bg-light p-6 rounded-xl card-shadow flex flex-col sm:flex-row items-start gap-6">
+                            <img src="https://i.ibb.co/P9tLqg9/nile-voyages.jpg" alt="Nile Voyages Logo" class="w-24 h-24 rounded-lg object-cover">
+                            <div class="flex-grow">
+                                <h4 class="font-bold text-lg text-primary">Full-Day Giza Discovery</h4>
+                                <p class="text-sm text-gray-500">by Nile Voyages</p>
+                                <p class="text-gray-600 mt-2 text-sm">An immersive all-day tour covering the Great Pyramids, Sphinx, and the Valley Temple with a certified Egyptologist.</p>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <div class="text-secondary">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span class="text-gray-600 text-sm">(124 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="text-center sm:text-right mt-4 sm:mt-0 flex-shrink-0">
+                                <p class="text-2xl font-bold text-primary">$95</p>
+                                <p class="text-sm text-gray-500">per person</p>
+                                <button class="mt-2 bg-secondary text-primary font-semibold px-4 py-2 rounded-lg text-sm hover:bg-secondary-dark transition-colors">View Details</button>
+                            </div>
+                        </div>
+                        <!-- Tour Card 2 -->
+                        <div class="bg-light p-6 rounded-xl card-shadow flex flex-col sm:flex-row items-start gap-6">
+                            <img src="https://i.ibb.co/L6kC4yC/cairo-adventures.jpg" alt="Cairo Adventures Logo" class="w-24 h-24 rounded-lg object-cover">
+                            <div class="flex-grow">
+                                <h4 class="font-bold text-lg text-primary">Pyramids & Sphinx Express</h4>
+                                <p class="text-sm text-gray-500">by Cairo Adventures</p>
+                                <p class="text-gray-600 mt-2 text-sm">A perfect half-day tour for those short on time, focusing on the main highlights of the Giza plateau.</p>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <div class="text-secondary">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                    </div>
+                                    <span class="text-gray-600 text-sm">(88 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="text-center sm:text-right mt-4 sm:mt-0 flex-shrink-0">
+                                <p class="text-2xl font-bold text-primary">$70</p>
+                                <p class="text-sm text-gray-500">per person</p>
+                                <button class="mt-2 bg-secondary text-primary font-semibold px-4 py-2 rounded-lg text-sm hover:bg-secondary-dark transition-colors">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- For Guides Section -->
+        <section id="for-guides" class="py-20 bg-light">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-primary">How Judhur Works for Guides</h2>
+                    <p class="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">Our platform makes it simple to connect with travelers and grow your guiding business.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="bg-primary text-white p-6 flex items-center gap-4">
+                            <div class="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user-plus text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Create Your Profile</h3>
+                        </div>
+                        <div class="p-6">
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>Showcase your expertise and specialties.</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>Highlight certifications and languages.</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>Add photos and videos of your tours.</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>Set your preferred tour locations.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="bg-primary text-white p-6 flex items-center gap-4">
+                            <div class="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center">
+                                <i class="fas fa-search text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Browse Trip Requests</h3>
+                        </div>
+                        <div class="p-6">
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>Find trips matching your expertise.</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>See detailed requirements and budgets.</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>Filter by location, duration, and group size.</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>View other guides' bids for transparency.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="bg-primary text-white p-6 flex items-center gap-4">
+                            <div class="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center">
+                                <i class="fas fa-handshake text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Connect & Guide</h3>
+                        </div>
+                        <div class="p-6">
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>Submit competitive bids with your rates.</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>Chat with potential clients before booking.</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>Get paid securely through our platform.</li>
+                                <li class="flex items-start"><i class="fas fa-check-circle text-secondary mt-1 mr-3"></i>Build your reputation with reviews.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- For Companies Section -->
+        <section id="for-companies" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-primary">How Judhur Works for Companies</h2>
+                    <p class="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">Expand your reach and connect with a global audience of eager travelers.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-light rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="bg-primary text-white p-6 flex items-center gap-4">
+                            <div class="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center">
+                                <i class="fas fa-list-alt text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">List Your Tours</h3>
+                        </div>
+                        <div class="p-6">
+                           <p class="text-gray-700">Create a compelling profile and showcase your expertly crafted tour packages to thousands of potential customers.</p>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="bg-light rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="bg-primary text-white p-6 flex items-center gap-4">
+                            <div class="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center">
+                                <i class="fas fa-globe-africa text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Reach New Markets</h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-700">Gain visibility with international travelers actively looking for unique and authentic Egyptian experiences.</p>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="bg-light rounded-xl overflow-hidden card-shadow transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="bg-primary text-white p-6 flex items-center gap-4">
+                            <div class="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center">
+                                <i class="fas fa-chart-line text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Manage & Grow</h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-700">Use our powerful dashboard to manage bookings, communicate with clients, and track your business growth.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Us Section -->
+        <section id="about-us" class="py-20 bg-sand" style="background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-extrabold text-primary">About Judhur</h2>
+                    <p class="mt-3 text-lg text-gray-700 max-w-3xl mx-auto">Our mission is to plant your journey in authentic roots, connecting you with the true culture of Egypt.</p>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-primary mb-4">Our Story</h3>
+                        <p class="text-gray-700">Judhur (جذور), meaning "Roots," was born to bridge the gap between travelers seeking authentic experiences and the local experts who provide them. We empower guides and artisans with direct access to a global audience, ensuring fair compensation and fostering deep, meaningful cultural connections for everyone.</p>
+                    </div>
+                    <div class="bg-white/50 backdrop-blur-sm p-8 rounded-xl card-shadow">
+                        <h3 class="text-2xl font-bold text-primary mb-6">Our Team</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <img src="https://i.ibb.co/6gX5c3N/team-1.jpg" alt="Founder" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h4 class="font-bold text-lg text-primary">Marwan Magdy</h4>
+                                    <p class="text-gray-600 font-medium">Founder & CEO</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <img src="https://i.ibb.co/L8yPZk9/team-2.jpg" alt="CTO" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h4 class="font-bold text-lg text-primary">Peru Alper</h4>
+                                    <p class="text-gray-600 font-medium">CTO & Senior Mobile Developer</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <img src="https://i.ibb.co/Y2jWJHY/team-3.jpg" alt="PR" class="w-16 h-16 rounded-full object-cover">
+                                <div>
+                                    <h4 class="font-bold text-lg text-primary">Mokhtar Erfan</h4>
+                                    <p class="text-gray-600 font-medium">PR/QA Tester</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Section -->
+        <section id="registration" class="py-20 bg-primary text-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-extrabold">Become a Judhur Guide</h2>
+                    <p class="mt-3 text-lg opacity-80 max-w-2xl mx-auto">Join our community of professional guides in just a few simple steps.</p>
+                </div>
+                
+                <div class="bg-white text-dark max-w-3xl mx-auto rounded-xl card-shadow p-8 sm:p-12">
+                    <h3 class="text-2xl font-bold text-primary text-center mb-8">Guide Application Form</h3>
+                    <form action="#" method="POST">
+                        <div class="grid sm:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                <input type="text" id="firstName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Enter your first name">
+                            </div>
+                            <div>
+                                <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                <input type="text" id="lastName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Enter your last name">
+                            </div>
+                        </div>
+                         <div class="grid sm:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Enter your email">
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Enter your phone number">
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Primary Guiding Location</label>
+                            <select id="location" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary bg-white">
+                                <option value="">Select your primary location</option>
+                                <option value="cairo">Cairo & Giza</option>
+                                <option value="luxor">Luxor</option>
+                                <option value="aswan">Aswan</option>
+                                <option value="alexandria">Alexandria</option>
+                                <option value="redsea">Red Sea Coast</option>
+                                <option value="siwa">Siwa Oasis</option>
+                                <option value="multiple">Multiple Locations</option>
+                            </select>
+                        </div>
+                        <div class="mb-6">
+                            <label for="specialties" class="block text-sm font-medium text-gray-700 mb-1">Specialties & Expertise</label>
+                            <textarea id="specialties" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary" placeholder="Describe your guiding specialties, historical periods you focus on, unique tour experiences, etc."></textarea>
+                        </div>
+                        <div class="mb-8">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Certification & License Upload</label>
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                <div class="space-y-1 text-center">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400"></i>
+                                    <div class="flex text-sm text-gray-600 justify-center">
+                                        <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-secondary focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-secondary">
+                                            <span>Upload a file</span>
+                                            <input id="file-upload" name="file-upload" type="file" class="sr-only" multiple>
+                                        </label>
+                                        <p class="pl-1">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">PDF, JPG, PNG up to 5MB</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="bg-secondary text-primary font-bold px-10 py-3 rounded-lg hover:bg-secondary-dark transition-all shadow-lg text-lg transform hover:scale-105">Submit Application</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white">
+        <div class="container mx-auto px-6 pt-16 pb-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+                <!-- Column 1: About -->
+                <div class="lg:col-span-1">
+                    <h3 class="text-xl font-bold mb-4 border-b-2 border-secondary pb-2 inline-block">Judhur</h3>
+                    <p class="text-gray-300">Planting your journey in authentic roots. We connect visitors with the heart of Egypt for meaningful cultural experiences.</p>
+                </div>
+                <!-- Column 2: Quick Links -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4 border-b-2 border-secondary pb-2 inline-block">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#for-tourists" class="text-gray-300 hover:text-secondary transition-colors">For Tourists</a></li>
+                        <li><a href="#for-guides" class="text-gray-300 hover:text-secondary transition-colors">For Guides</a></li>
+                        <li><a href="#for-companies" class="text-gray-300 hover:text-secondary transition-colors">For Companies</a></li>
+                        <li><a href="#about-us" class="text-gray-300 hover:text-secondary transition-colors">About Us</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Support -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4 border-b-2 border-secondary pb-2 inline-block">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-secondary transition-colors">Help Center</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-secondary transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-secondary transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-secondary transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <!-- Column 4: Contact -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4 border-b-2 border-secondary pb-2 inline-block">Contact Info</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-center"><i class="fas fa-map-marker-alt w-6 text-secondary"></i>Cairo, Egypt</li>
+                        <li class="flex items-center"><i class="fas fa-envelope w-6 text-secondary"></i>guides@judhur.com</li>
+                        <li class="flex items-center"><i class="fas fa-phone w-6 text-secondary"></i>+20 121 042 5000</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-gray-400 border-t border-white/10 pt-6">
+                <p>&copy; 2024 Judhur. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Menu Toggle ---
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                if (mobileMenu.classList.contains('hidden')) {
+                    menuIcon.classList.remove('fa-times');
+                    menuIcon.classList.add('fa-bars');
+                } else {
+                    menuIcon.classList.remove('fa-bars');
+                    menuIcon.classList.add('fa-times');
+                }
+            });
+
+            // --- Smooth Scrolling & Active Nav Link on Click ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                         mobileMenu.classList.add('hidden');
+                         menuIcon.classList.remove('fa-times');
+                         menuIcon.classList.add('fa-bars');
+                    }
+
+                    const targetElement = document.querySelector(this.getAttribute('href'));
+                    if(targetElement){
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // --- Active Nav Link on Scroll ---
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('#desktop-nav .nav-link');
+
+            const activateNavOnScroll = () => {
+                let current = '';
+
+                sections.forEach( section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 60) {
+                        current = section.getAttribute('id');
+                    }
+                })
+                
+                navLinks.forEach( link => {
+                    link.classList.remove('nav-link-active');
+                    if(link.getAttribute('href') == '#' + current) {
+                        link.classList.add('nav-link-active');
+                    }
+                })
+            };
+
+            window.addEventListener('scroll', activateNavOnScroll);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Judhur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+<style>
+        :root {
+            --primary: #123332;
+            --secondary: #d4af37;
+            --light: #f8f5f0;
+            --dark: #2d3748;
+            --success: #108a00;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+        }
+        .bg-primary { background-color: var(--primary); }
+        .text-primary { color: var(--primary); }
+        .bg-secondary { background-color: var(--secondary); }
+        .text-secondary { color: var(--secondary); }
+        .border-secondary { border-color: var(--secondary); }
+        .hover\:bg-primary-dark:hover { background-color: #0a2221; }
+        .hover\:bg-secondary-dark:hover { background-color: #c29a1e; }
+        .text-success { color: var(--success); }
+        .border-success { border-color: var(--success); }
+        .bg-success { background-color: var(--success); }
+
+        /* Custom shadow for a subtle lift effect */
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .card-shadow-hover:hover {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        /* FAQ Accordion */
+        .faq-question svg {
+            transition: transform 0.3s ease;
+        }
+        .faq-question[aria-expanded="true"] svg {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+            overflow: hidden;
+            max-height: 0;
+        }
+        .faq-question[aria-expanded="true"] + .faq-answer {
+            max-height: 500px; /* Adjust as needed */
+            padding-top: 1rem;
+        }
+
+        /* Modal Styles from Explore Page */
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="text-dark">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-extrabold text-primary flex items-center">
+      <img src="images/logo.png" alt="Judhur Logo" class="w-12 h-12 rounded-full object-contain" />
+                Judhur
+            </a>
+            <!-- <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="text-gray-600 hover:text-primary">Home</a>
+                <a href="explore.html" class="text-gray-600 hover:text-primary">Explore</a>
+                <a href="#" class="text-primary font-bold border-b-2 border-secondary pb-1">Profiles</a>
+                <a href="for-guides.html" class="text-gray-600 hover:text-primary">For Guides</a>
+                <a href="about-us.html" class="text-gray-600 hover:text-primary">About Us</a>
+            </nav>
+            <a href="for-guides.html#registration-form" class="hidden md:inline-block bg-primary text-white font-semibold px-5 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                Join as Guide
+            </a> -->
+            <button id="menu-btn" class="md:hidden text-primary text-2xl">
+                <i id="menu-icon" class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <!-- <div id="mobile-menu" class="hidden md:hidden">
+            <nav class="px-6 pb-4 flex flex-col space-y-2">
+                <a href="index.html" class="text-gray-600 hover:text-primary py-2">Home</a>
+                <a href="explore.html" class="text-gray-600 hover:text-primary py-2">Explore</a>
+                <a href="#" class="text-primary font-bold py-2">Profiles</a>
+                <a href="for-guides.html" class="text-gray-600 hover:text-primary py-2">For Guides</a>
+                <a href="about-us.html" class="text-gray-600 hover:text-primary py-2">About Us</a>
+                <a href="for-guides.html#registration-form" class="mt-2 inline-block bg-primary text-white font-semibold px-6 py-2 rounded-lg hover:bg-primary-dark transition-all shadow-lg w-full text-center">
+                    Join as Guide
+                </a>
+            </nav>
+        </div> -->
+    </header>
+
+    <main id="profile-container" class="container mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <!-- Profile data will be injected here -->
+    </main>
+    
+    <!-- Tour Details Modal -->
+    <div id="tour-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay bg-black bg-opacity-50 opacity-0 pointer-events-none">
+        <!-- Portfolio Navigation Arrows -->
+        <button id="portfolio-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-black/30 hover:bg-black/50 text-white rounded-full w-12 h-12 flex items-center justify-center transition-colors">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container transform scale-95 opacity-0">
+            <!-- Modal Header -->
+            <div class="p-6 flex justify-between items-center border-b">
+                <h2 id="modal-title" class="text-2xl font-bold text-primary">Tour Details</h2>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-primary text-2xl">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="flex-grow p-6 md:p-8 overflow-y-auto">
+                <div id="modal-details-view">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Left Column: Gallery & Info -->
+                        <div>
+                            <div id="modal-gallery" class="relative w-full h-64 rounded-xl overflow-hidden mb-4 group">
+                                <div id="gallery-content" class="w-full h-full"></div>
+                                <button id="gallery-prev" class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full w-8 h-8 flex items-center justify-center transition-opacity z-10 hidden">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button id="gallery-next" class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full w-8 h-8 flex items-center justify-center transition-opacity z-10 hidden">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            <h3 id="modal-tour-name" class="text-3xl font-extrabold text-primary"></h3>
+                            <div class="flex items-center gap-2 mt-3">
+                                <div id="modal-rating" class="text-secondary"></div>
+                                <span id="modal-reviews" class="text-gray-600 text-sm"></span>
+                            </div>
+                            <p id="modal-description" class="text-gray-700 mt-4"></p>
+                        </div>
+                        <!-- Right Column: Agenda & Booking -->
+                        <div class="bg-light p-6 rounded-xl">
+                            <h4 class="text-xl font-bold text-primary mb-4">What's Included</h4>
+                            <ul id="modal-includes" class="space-y-2 text-gray-600 text-sm mb-6">
+                               <!-- Inclusions will be injected here -->
+                            </ul>
+                            <h4 class="text-xl font-bold text-primary mb-4">Agenda</h4>
+                            <ol id="modal-itinerary" class="space-y-3 text-gray-600 text-sm border-l-2 border-secondary pl-4">
+                                <!-- Agenda steps will be injected here -->
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- Booking View -->
+                <div id="modal-booking-view" class="hidden">
+                    <h3 class="text-2xl font-bold text-primary mb-2">Confirm Your Booking</h3>
+                    <p id="booking-tour-name" class="text-gray-600 mb-6"></p>
+                    
+                    <div class="bg-light p-6 rounded-xl">
+                        <div>
+                            <label for="guest-count" class="block text-sm font-bold text-gray-700 mb-1">Number of Guests</label>
+                            <input type="number" id="guest-count" value="1" min="1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-secondary focus:border-secondary">
+                        </div>
+                        <div class="mt-6 border-t pt-4">
+                            <div class="flex justify-between items-center text-lg">
+                                <span class="font-semibold text-gray-700">Total Price:</span>
+                                <span id="total-price" class="font-bold text-2xl text-primary">$0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex gap-4">
+                        <button id="back-to-details-btn" class="w-1/2 bg-gray-200 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-300 transition-colors">Back to Details</button>
+                        <button id="confirm-booking-btn" class="w-1/2 bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary-dark transition-colors">Confirm Booking</button>
+                    </div>
+                </div>
+                <!-- Success View -->
+                 <div id="modal-success-view" class="hidden text-center py-12">
+                     <div class="mx-auto w-24 h-24 flex items-center justify-center bg-green-100 rounded-full">
+                         <i class="fas fa-check text-5xl text-green-600"></i>
+                     </div>
+                     <h3 class="text-2xl font-bold text-primary mt-6">Booking Confirmed!</h3>
+                     <p class="text-gray-600 mt-2">Thank you! You will receive a confirmation email shortly.</p>
+                     <button id="close-success-btn" class="mt-6 bg-primary text-white font-bold py-2 px-8 rounded-lg hover:bg-primary-dark transition-colors">Close</button>
+                 </div>
+            </div>
+             <!-- Modal Footer for Booking -->
+            <div id="modal-footer" class="p-6 border-t">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p id="modal-price-footer" class="text-2xl font-bold text-primary"></p>
+                        <p class="text-sm text-gray-500 -mt-1">per person</p>
+                    </div>
+                    <button id="modal-book-btn-footer" class="bg-primary text-white font-bold py-3 px-8 rounded-lg hover:bg-primary-dark transition-colors">Book Now</button>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Navigation Arrows -->
+        <button id="portfolio-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-black/30 hover:bg-black/50 text-white rounded-full w-12 h-12 flex items-center justify-center transition-colors">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const providerData = {
+            'hassan-youssef': {
+                name: 'Hassan Youssef',
+                type: 'guide',
+                image: 'https://randomuser.me/api/portraits/men/32.jpg',
+                location: 'Giza, Egypt',
+                rate: '$50.00/hr',
+                tagline: 'Giza Pyramids Specialist | Egyptologist',
+                jobSuccess: '99%',
+                status: 'Top Rated',
+                totalJobs: 310,
+                totalHours: 2500,
+                availability: 'Open to Offers',
+                about: 'With a degree in Egyptology and a passion for storytelling, I bring the ancient history of the Giza Plateau to life. My tours are designed to be both educational and entertaining, offering deep insights into one of the world\'s most incredible wonders.',
+                skills: ['Egyptology', 'Giza Pyramids', 'Ancient History', 'Private Tours', 'Photography'],
+                languages: ['Arabic', 'English'],
+                cities: ['Giza', 'Cairo'],
+                portfolio: [
+                    {
+                        title: 'Full-Day Giza Discovery',
+                        img: 'images/pyramid.webp',
+                        galleryImages: ['images/pyramid.webp', 'images/camelpyramid3.jpg', 'images/camelpyramid.webp'],
+                        description: 'An immersive all-day tour covering the Great Pyramids, Sphinx, and the Valley Temple with a certified Egyptologist. Includes a traditional Egyptian lunch.',
+                        price: 95,
+                        rating: 4.8,
+                        reviewsCount: 124,
+                        whatsIncluded: ['Hotel pickup and drop-off', 'Private air-conditioned vehicle', 'Certified Egyptologist guide', 'Entrance fees to all sites', 'Bottled water', 'Traditional Egyptian lunch'],
+                        agenda: [
+                            { time: '8:00 AM', activity: 'Hotel Pickup' },
+                            { time: '9:00 AM', activity: 'Explore the Great Pyramid of Khufu' },
+                            { time: '1:30 PM', activity: 'Lunch at a local restaurant' },
+                            { time: '3:00 PM', activity: 'Discover the Great Sphinx and Valley Temple' }
+                        ]
+                    },
+                    {
+                        title: 'Pyramids at Sunrise Tour',
+                        img: 'images/camelpyramid.webp',
+                        galleryImages: ['images/camelpyramid.webp', 'images/sphin1.jpg'],
+                        description: 'Experience the magic of the Giza Plateau as the sun rises, casting a golden glow on the ancient wonders. Includes a camel ride.',
+                        price: 75,
+                        rating: 5.0,
+                        reviewsCount: 88,
+                        whatsIncluded: ['Early morning hotel pickup', 'Private guide', 'Camel ride (45 mins)', 'Bottled water'],
+                        agenda: [
+                            { time: '5:00 AM', activity: 'Hotel Pickup' },
+                            { time: '5:45 AM', activity: 'Arrive for sunrise views' },
+                            { time: '6:30 AM', activity: 'Camel ride around the pyramids' },
+                            { time: '8:00 AM', activity: 'Return to hotel' }
+                        ]
+                    },
+                    {
+                        title: 'Giza Sound and Light Show',
+                        img: 'images/sphin3.jpg',
+                        galleryImages: ['images/sphin3.jpg', 'images/pyramids1.jfif'],
+                        description: 'Witness the history of the pyramids come to life in a spectacular evening show of lights and sound against the backdrop of the Sphinx.',
+                        price: 60,
+                        rating: 4.7,
+                        reviewsCount: 95,
+                        whatsIncluded: ['Hotel pickup and drop-off', 'Show entrance tickets', 'Assistance from a local guide'],
+                        agenda: [
+                            { time: '6:00 PM', activity: 'Hotel Pickup' },
+                            { time: '7:00 PM', activity: 'Sound and Light Show begins' },
+                            { time: '8:00 PM', activity: 'Show ends, return to hotel' }
+                        ]
+                    }
+                ],
+                workHistory: [
+                    { user: 'Alex P.', title: 'Giza Plateau Full-Day Tour', rating: 5.0, date: 'Jul 22, 2025', feedback: 'Hassan was an incredible guide. His knowledge is immense, and he made our visit to the pyramids unforgettable.' },
+                    { user: 'Brenda K.', title: 'Pyramids at Sunrise Tour', rating: 5.0, date: 'Jul 15, 2025', feedback: 'Absolutely magical. Seeing the sunrise over the pyramids was a once-in-a-lifetime experience. Hassan made it perfect.' },
+                    { user: 'Michael S.', title: 'Giza Sound and Light Show', rating: 4.5, date: 'Jul 12, 2025', feedback: 'A great way to see the pyramids at night. Hassan was very helpful and made sure we had great seats.' },
+                    { user: 'Jennifer T.', title: 'Full-Day Giza Discovery', rating: 5.0, date: 'Jun 28, 2025', feedback: 'We learned so much! Hassan is patient and a fantastic storyteller. Highly recommend him for anyone visiting Giza.'},
+                    { user: 'David L.', title: 'Giza Discovery', rating: 4.8, date: 'Jun 20, 2025', feedback: 'A very thorough and enjoyable tour. Hassan is a true professional.'}
+                ],
+                ratingBreakdown: { average: 4.9, total: 307, stars: { 5: 286, 4: 18, 3: 3, 2: 0, 1: 0 }, categories: { Skills: 4.9, Availability: 4.8, Communication: 4.9, Cooperation: 4.8, Deadlines: 4.9, Quality: 4.9 } },
+                faqs: [
+                    { q: 'Is lunch included in the hourly rate?', a: 'Lunch is not included in my standard hourly rate but can be arranged as part of a full-day package. Let\'s discuss your needs!' },
+                    { q: 'What should I wear for the tour?', a: 'Comfortable walking shoes are a must. I also recommend light, breathable clothing, a hat, and sunscreen, especially during the summer months.' },
+                    { q: 'Can you accommodate large groups?', a: 'Yes, I can arrange tours for larger groups with advance notice. Please contact me to discuss the details.' },
+                    { q: 'Is the tour wheelchair accessible?', a: 'Some areas of the Giza Plateau can be challenging for wheelchairs. Please contact me to discuss accessibility options and we can customize a suitable itinerary.' },
+                    { q: 'What is your cancellation policy?', a: 'A full refund is available for cancellations made at least 24 hours in advance. No refunds for cancellations within 24 hours of the tour.' }
+                ]
+            },
+            'egypt-tours-co': {
+                name: 'Egypt Tours Co.',
+                type: 'company',
+                image: 'https://placehold.co/128x128/c53030/FFFFFF?text=ET',
+                location: 'Giza, Egypt',
+                rate: 'View Tours',
+                tagline: 'Affordable & Comprehensive Egyptian Tours',
+                jobSuccess: '95%',
+                status: 'Rising Talent',
+                totalJobs: 500,
+                totalHours: 3200,
+                availability: 'Accepting New Bookings',
+                about: 'We specialize in providing high-quality, affordable tours across Egypt. Our most popular package is the Full-Day Giza tour which includes a memorable camel ride.',
+                skills: ['Budget Tours', 'Camel Rides', 'Giza Tours', 'Group Bookings'],
+                languages: ['English', 'Arabic'],
+                cities: ['Giza', 'Cairo', 'Sakkara'],
+                portfolio: [
+                    {
+                        title: 'Full-Day Giza Discovery',
+                        img: 'images/pyramids1.jfif',
+                        galleryImages: ['images/pyramids1.jfif', 'images/camelpyramid3.jpg'],
+                        description: 'A comprehensive one-day exploration of Giza\'s ancient wonders. This package includes a camel ride near the pyramids.',
+                        price: 90,
+                        rating: 4.5,
+                        reviewsCount: 99,
+                        whatsIncluded: ['Hotel pickup and drop-off', 'Camel ride (30 mins)', 'Licensed tour guide', 'Entrance fees', 'Bottled water'],
+                        agenda: [
+                            { time: '8:30 AM', activity: 'Hotel Pickup' },
+                            { time: '12:00 PM', activity: 'Camel Ride' },
+                            { time: '2:30 PM', activity: 'Explore the Great Sphinx' }
+                        ]
+                    },
+                    {
+                        title: 'Day Trip to Sakkara & Memphis',
+                        img: 'images/sphin1.jpg',
+                        galleryImages: ['images/sphin1.jpg', 'images/pyramid.webp'],
+                        description: 'Journey back in time to the ancient capital of Memphis and the Step Pyramid of Djoser at Sakkara.',
+                        price: 115,
+                        rating: 4.7,
+                        reviewsCount: 65,
+                        whatsIncluded: ['Hotel pickup and drop-off', 'Air-conditioned vehicle', 'Egyptologist guide', 'Entrance fees'],
+                        agenda: [
+                            { time: '8:00 AM', activity: 'Hotel Pickup' },
+                            { time: '9:00 AM', activity: 'Explore the ruins of Memphis' },
+                            { time: '11:00 AM', activity: 'Visit the Sakkara necropolis' },
+                            { time: '2:00 PM', activity: 'Return to hotel' }
+                        ]
+                    },
+                    {
+                        title: 'Nile Dinner Cruise',
+                        img: 'images/nile3.jfif',
+                        galleryImages: ['images/nile3.jfif', 'images/nile2.jfif'],
+                        description: 'Enjoy a magical evening on the Nile with a buffet dinner and beautiful views of the Cairo skyline.',
+                        price: 55,
+                        rating: 4.4,
+                        reviewsCount: 120,
+                        whatsIncluded: ['Hotel pickup and drop-off', '2-hour Nile cruise', 'Open buffet dinner'],
+                        agenda: [
+                            { time: '7:00 PM', activity: 'Hotel Pickup' },
+                            { time: '8:00 PM', activity: 'Board the cruise and enjoy dinner' },
+                            { time: '10:00 PM', activity: 'Return to dock and transfer to hotel' }
+                        ]
+                    }
+                ],
+                workHistory: [
+                    { user: 'Jessica L.', title: 'Giza Tour with Camel Ride', rating: 4.5, date: 'Jul 19, 2025', feedback: 'Great value for the money. The camel ride was the highlight!' },
+                    { user: 'Mike T.', title: 'Day Trip to Sakkara', rating: 5.0, date: 'Jul 10, 2025', feedback: 'Very well organized trip. Our guide for Sakkara was excellent and showed us things we would have missed on our own.' },
+                    { user: 'Olivia R.', title: 'Nile Dinner Cruise', rating: 4.0, date: 'Jul 08, 2025', feedback: 'The food was good and the views were nice. A relaxing evening on the water.' },
+                    { user: 'Daniel G.', title: 'Giza Tour with Camel Ride', rating: 4.5, date: 'Jun 25, 2025', feedback: 'The tour was exactly as described. The guide was friendly and the whole day ran smoothly. Good value.' },
+                    { user: 'Sophia B.', title: 'Nile Dinner Cruise', rating: 4.2, date: 'Jun 22, 2025', feedback: 'A pleasant evening. The views were beautiful.' }
+                ],
+                ratingBreakdown: { average: 4.6, total: 284, stars: { 5: 225, 4: 45, 3: 14, 2: 0, 1: 0 }, categories: { Skills: 4.6, Availability: 4.7, Communication: 4.5, Cooperation: 4.5, Deadlines: 4.8, Quality: 4.6 } },
+                faqs: [
+                    { q: 'Do you offer group discounts?', a: 'Yes, we offer special rates for groups of 10 or more. Please contact us for a quote.' },
+                    { q: 'Are meals included in all tours?', a: 'Lunch is included in some full-day tours, but not all. Please check the "What\'s Included" section for each specific tour.' },
+                    { q: 'Can we customize a tour package?', a: 'Absolutely! We can create a custom itinerary based on your interests and schedule. Contact us to start planning.' },
+                    { q: 'What languages are your guides fluent in?', a: 'Our primary guides are fluent in English and Arabic. We can arrange for guides in other languages upon request.' },
+                    { q: 'Is hotel pickup available from all locations?', a: 'We offer pickup from most hotels in central Cairo and Giza. Please confirm your hotel location with us when booking.' }
+                ]
+            },
+            'fatima-ahmed': {
+                name: 'Fatima Ahmed',
+                type: 'guide',
+                image: 'images/ava3girl.jfif',
+                location: 'Giza, Egypt',
+                rate: '$40.00/hr',
+                tagline: 'Giza Plateau Expert | Family-Friendly Tours',
+                jobSuccess: '99%',
+                status: 'Top Rated',
+                totalJobs: 180,
+                totalHours: 1500,
+                availability: 'Accepting New Bookings',
+                about: 'As a mother and a guide, I specialize in creating engaging and fun tours for families visiting the Giza Plateau. I know how to keep children entertained while making history accessible and exciting for all ages. Let me show you the wonders of the pyramids through a storyteller\'s eyes.',
+                skills: ['Family Tours', 'Giza Pyramids', 'Ancient History', 'Storytelling', 'Child-Friendly Activities'],
+                languages: ['Arabic', 'English', 'French'],
+                cities: ['Giza', 'Cairo'],
+                portfolio: [
+                    {
+                        title: 'Family Tour of Giza',
+                        img: 'images/cita3.2.jfif',
+                        galleryImages: ['images/cita3.2.jfif', 'images/pyramid3.jfif'],
+                        description: 'A personalized and flexible tour of the Giza Plateau with a highly-rated local guide. Go at your own pace and ask all your questions!',
+                        price: 80,
+                        rating: 5.0,
+                        reviewsCount: 112,
+                        whatsIncluded: ['Personal certified guide', 'Flexible start time', 'Bottled water', 'Kid-friendly activities'],
+                        agenda: [{ time: 'Flexible', activity: 'Agenda based on your family\'s interests, typically covering all major sites of the Giza Plateau over 6-7 hours.' }]
+                    },
+                    {
+                        title: 'Khan el-Khalili Shopping Trip',
+                        img: 'images/cairo3.jfif',
+                        galleryImages: ['images/cairo3.jfif', 'images/cairo1.jfif'],
+                        description: 'A fun and safe shopping experience for the whole family in the famous Khan el-Khalili bazaar. I can help you find the best souvenirs and practice your bargaining skills!',
+                        price: 40,
+                        rating: 5.0,
+                        reviewsCount: 45,
+                        whatsIncluded: ['Personal guide and shopping assistant', 'Tips on bargaining', 'Help with navigation'],
+                        agenda: [{ time: 'Flexible', activity: 'A 3-hour shopping tour scheduled at your convenience.' }]
+                    },
+                    {
+                        title: 'Pharaonic Village Tour',
+                        img: 'images/pyramid3.jfif',
+                        galleryImages: ['images/pyramid3.jfif', 'images/pyramid3.1.jfif'],
+                        description: 'A fun, interactive tour for kids at the Pharaonic Village, where they can see actors demonstrate ancient Egyptian life.',
+                        price: 70,
+                        rating: 4.9,
+                        reviewsCount: 60,
+                        whatsIncluded: ['Personal guide', 'Entrance tickets', 'Transportation'],
+                        agenda: [
+                            { time: '10:00 AM', activity: 'Hotel Pickup' },
+                            { time: '10:45 AM', activity: 'Explore the Pharaonic Village' },
+                            { time: '2:00 PM', activity: 'Return to hotel' }
+                        ]
+                    }
+                ],
+                workHistory: [
+                    { user: 'The Johnson Family', title: 'Family Tour of Giza', rating: 5.0, date: 'Jul 21, 2025', feedback: 'Fatima was amazing with our kids! She made the pyramids come alive for them. The best family tour we have ever had.' },
+                    { user: 'Laura M.', title: 'Khan el-Khalili Shopping', rating: 5.0, date: 'Jul 18, 2025', feedback: 'Fatima was a lifesaver in the bazaar! She knew all the best shops and helped us get great prices. Highly recommend!' },
+                    { user: 'The Chen Family', title: 'Pharaonic Village Tour', rating: 5.0, date: 'Jul 14, 2025', feedback: 'Our children loved this tour! It was so much more engaging for them than a regular museum. Fatima was wonderful with them.' },
+                    { user: 'The Smith Family', title: 'Family Tour of Giza', rating: 5.0, date: 'Jul 10, 2025', feedback: 'Fatima is a gem! Our kids are still talking about the stories she told. A fantastic day.' },
+                    { user: 'Emily R.', title: 'Shopping Trip', rating: 5.0, date: 'Jul 05, 2025', feedback: 'So much fun! Fatima is a great shopping companion and guide.' }
+                ],
+                ratingBreakdown: { average: 5.0, total: 217, stars: { 5: 217, 4: 0, 3: 0, 2: 0, 1: 0 }, categories: { Skills: 5.0, Availability: 5.0, Communication: 5.0, Cooperation: 5.0, Deadlines: 5.0, Quality: 5.0 } },
+                faqs: [
+                    { q: 'Is this tour suitable for young children?', a: 'Absolutely! I specialize in making history fun and engaging for kids of all ages, with plenty of breaks and stories.' },
+                    { q: 'Are snacks provided for the kids?', a: 'While a full meal isn\'t included in shorter tours, I always bring some local snacks and water for the children.' },
+                    { q: 'Can you help with photography?', a: 'Yes, I love taking photos! I can help you get the best family shots with the pyramids in the background.' },
+                    { q: 'Is the camel ride safe for children?', a: 'Yes, the camel handlers are very experienced and ensure a safe and gentle ride for all ages.' },
+                    { q: 'What if my child gets tired?', a: 'No problem! My tours are flexible, and we can take breaks whenever needed. We can always find a shady spot to rest and have a drink.' }
+                ]
+            },
+            'cairo-adventures': {
+                name: 'Cairo Adventures',
+                type: 'company',
+                image: 'https://placehold.co/128x128/c53030/FFFFFF?text=CA',
+                location: 'Cairo, Egypt',
+                rate: 'View Tours',
+                tagline: 'Express & Half-Day Tours in Cairo & Giza',
+                jobSuccess: '96%',
+                status: 'Top Rated',
+                totalJobs: 800,
+                totalHours: 4500,
+                availability: 'Accepting New Bookings',
+                about: 'Cairo Adventures specializes in short, high-impact tours for travelers on a tight schedule. We ensure you see the absolute must-see sights without the wait, perfect for layovers or weekend trips.',
+                skills: ['Half-Day Tours', 'Express Tours', 'Giza', 'Cairo', 'Airport Layovers'],
+                languages: ['English', 'Arabic'],
+                cities: ['Cairo', 'Giza'],
+                portfolio: [
+                    {
+                        title: 'Pyramids & Sphinx Express',
+                        img: 'images/sphin2.jpg',
+                        galleryImages: ['images/sphin2.jpg', 'images/sphin1.jpg'],
+                        description: 'A perfect half-day tour for those short on time, focusing on the main highlights of the Giza plateau. Ideal for a quick but memorable visit.',
+                        price: 70,
+                        rating: 4.8,
+                        reviewsCount: 88,
+                        whatsIncluded: ['Hotel pickup and drop-off', 'Private air-conditioned vehicle', 'Licensed tour guide', 'Entrance fees', 'Bottled water'],
+                        agenda: [
+                            { time: '9:00 AM', activity: 'Hotel Pickup' },
+                            { time: '10:00 AM', activity: 'Visit the Great Pyramids' },
+                            { time: '11:30 AM', activity: 'Explore the Great Sphinx' }
+                        ]
+                    },
+                    {
+                        title: 'Egyptian Museum Express',
+                        img: 'images/cairo1.jfif',
+                        galleryImages: ['images/cairo1.jfif', 'images/cairo2.jfif'],
+                        description: 'A guided 3-hour tour of the main highlights of the Egyptian Museum in Tahrir Square, including the treasures of Tutankhamun.',
+                        price: 65,
+                        rating: 4.9,
+                        reviewsCount: 110,
+                        whatsIncluded: ['Hotel pickup and drop-off', 'Egyptologist guide', 'Entrance fees'],
+                        agenda: [
+                            { time: '1:00 PM', activity: 'Hotel Pickup' },
+                            { time: '1:45 PM', activity: 'Begin guided museum tour' },
+                            { time: '4:45 PM', activity: 'End of tour, return to hotel' }
+                        ]
+                    },
+                    {
+                        title: 'Coptic Cairo Express',
+                        img: 'images/cairo3.jfif',
+                        galleryImages: ['images/cairo3.jfif', 'images/cairo_placeholder.png'],
+                        description: 'A quick 2-hour tour of historic Coptic Cairo, including the Hanging Church and the Church of St. Sergius and Bacchus.',
+                        price: 50,
+                        rating: 4.8,
+                        reviewsCount: 75,
+                        whatsIncluded: ['Hotel pickup and drop-off', 'Private guide', 'Entrance fees'],
+                        agenda: [
+                            { time: '10:00 AM', activity: 'Hotel Pickup' },
+                            { time: '10:30 AM', activity: 'Tour the Hanging Church' },
+                            { time: '11:30 AM', activity: 'Visit other Coptic sites' }
+                        ]
+                    }
+                ],
+                workHistory: [
+                    { user: 'David K.', title: 'Half-Day Giza Express', rating: 4.8, date: 'Jul 21, 2025', feedback: 'Perfect for our layover! We saw the pyramids and were back at the airport with time to spare. Very efficient.' },
+                    { user: 'Samantha R.', title: 'Egyptian Museum Express', rating: 5.0, date: 'Jul 14, 2025', feedback: 'Our guide was so knowledgeable and made the museum visit fascinating. A must-do tour if you are short on time.' },
+                    { user: 'Tom W.', title: 'Coptic Cairo Express', rating: 4.9, date: 'Jul 10, 2025', feedback: 'A great quick tour to see a different side of Cairo\'s history. Very well organized.' },
+                    { user: 'Alice F.', title: 'Pyramids & Sphinx Express', rating: 4.7, date: 'Jul 05, 2025', feedback: 'Good for a quick visit. The guide was professional and we saw everything we wanted to.' },
+                    { user: 'Mark H.', title: 'Egyptian Museum Express', rating: 5.0, date: 'Jun 30, 2025', feedback: 'Excellent tour. Our guide was an expert and made the museum come alive.' }
+                ],
+                ratingBreakdown: { average: 4.8, total: 273, stars: { 5: 260, 4: 10, 3: 3, 2: 0, 1: 0 }, categories: { Skills: 4.8, Availability: 4.9, Communication: 4.8, Cooperation: 4.8, Deadlines: 5.0, Quality: 4.8 } },
+                faqs: [
+                    { q: 'Can you pick up from the airport?', a: 'Yes, we specialize in airport layover tours and can arrange pickup and drop-off at Cairo International Airport.' },
+                    { q: 'How "express" are the tours?', a: 'Our express tours are designed to cover the main highlights efficiently, usually within 3-4 hours, including travel time.' },
+                    { q: 'Can I combine two express tours?', a: 'Yes, many guests combine a morning Giza tour with an afternoon Museum tour. Contact us for a custom package.' },
+                    { q: 'Are your vehicles air-conditioned?', a: 'Yes, all our vehicles are modern, clean, and equipped with air conditioning for your comfort.' },
+                    { q: 'Do we have time for shopping?', a: 'Our express tours are focused on sightseeing to maximize your time. We can arrange a separate shopping tour if you are interested.' }
+                ]
+            },
+            'ahmed-hassan': {
+                name: 'Ahmed Hassan',
+                type: 'guide',
+                image: 'https://randomuser.me/api/portraits/men/32.jpg',
+                location: 'Cairo, Egypt',
+                rate: '$45.00/hr',
+                tagline: 'Expert Egyptologist | Old Cairo Specialist',
+                jobSuccess: '100%',
+                status: 'Top Rated Plus',
+                totalJobs: 215,
+                totalHours: 1850,
+                availability: 'As Needed - Open to Offers',
+                about: 'I’m a passionate and certified Egyptologist with over 8 years of experience guiding travelers through the rich tapestry of Egyptian history. I specialize in immersive walking tours of Old Cairo, bringing to life the stories behind the ancient mosques, churches, and bustling bazaars.',
+                skills: ['Egyptology', 'Cultural Tours', 'Walking Tours', 'Islamic History', 'Coptic History', 'Photography Tours', 'Fluent English', 'Local Cuisine'],
+                languages: ['Arabic', 'English', 'German'],
+                cities: ['Cairo'],
+                portfolio: [
+                    {
+                        title: 'Old Cairo Walking Tour',
+                        img: 'images/cairo1.jfif',
+                        galleryImages: ['images/cairo1.jfif', 'images/cairo2.jfif', 'images/cairo3.jfif'],
+                        description: 'Discover the hidden gems of Islamic and Coptic Cairo on a personal walking tour with a passionate local guide.',
+                        price: 50,
+                        rating: 5.0,
+                        reviewsCount: 73,
+                        whatsIncluded: ['Expert local guide', 'Entrance fees to select sites', 'Egyptian tea/coffee break'],
+                        agenda: [
+                            { time: '9:00 AM', activity: 'Meet at Bab Zuweila' },
+                            { time: '9:30 AM', activity: 'Walk through Khan el-Khalili bazaar' },
+                            { time: '11:00 AM', activity: 'Visit Al-Azhar Mosque' }
+                        ]
+                    },
+                    {
+                        title: 'Citadel & Islamic Cairo Tour',
+                        img: 'images/cairo2.jfif',
+                        galleryImages: ['images/cairo2.jfif', 'images/cairo_placeholder.png'],
+                        description: 'Explore the massive medieval Citadel of Saladin and the historic mosques and madrasas of Islamic Cairo.',
+                        price: 55,
+                        rating: 4.9,
+                        reviewsCount: 52,
+                        whatsIncluded: ['Expert local guide', 'Entrance fees', 'Bottled Water'],
+                        agenda: [
+                            { time: '9:00 AM', activity: 'Meet at hotel' },
+                            { time: '9:45 AM', activity: 'Tour the Citadel of Saladin' },
+                            { time: '12:00 PM', activity: 'Walk through Muizz Street' }
+                        ]
+                    },
+                    {
+                        title: 'Food Tour of Downtown Cairo',
+                        img: 'images/cairo3.jfif',
+                        galleryImages: ['images/cairo3.jfif', 'images/cairo_placeholder_2.png'],
+                        description: 'Taste your way through the streets of Cairo, sampling authentic local dishes like Koshary, Ful, and Ta\'ameya.',
+                        price: 60,
+                        rating: 5.0,
+                        reviewsCount: 90,
+                        whatsIncluded: ['Expert local guide', 'All food tastings (at least 5 stops)', 'Bottled water'],
+                        agenda: [
+                            { time: '5:00 PM', activity: 'Meet in Tahrir Square' },
+                            { time: '5:30 PM', activity: 'Begin food tour' },
+                            { time: '8:30 PM', activity: 'End tour with a traditional dessert' }
+                        ]
+                    }
+                ],
+                workHistory: [
+                    { user: 'Sarah W.', title: 'Private Walking Tour of Old Cairo', rating: 5.0, date: 'Jul 20, 2025', feedback: 'Ahmed was the best guide we could have asked for. His knowledge and passion are incredible. We saw parts of Cairo we never would have found on our own.' },
+                    { user: 'Ben C.', title: 'Citadel & Islamic Cairo Tour', rating: 5.0, date: 'Jul 16, 2025', feedback: 'A fantastic tour. Ahmed is a true historian and brought the city to life. I learned so much.' },
+                    { user: 'Chloe T.', title: 'Food Tour of Downtown Cairo', rating: 5.0, date: 'Jul 12, 2025', feedback: 'The best food tour ever! Ahmed took us to places we never would have found. Everything was delicious.' },
+                    { user: 'Peter J.', title: 'Old Cairo Walking Tour', rating: 5.0, date: 'Jul 08, 2025', feedback: 'Ahmed is an amazing guide. His passion for his city is infectious. We had a wonderful day.' },
+                    { user: 'Nancy K.', title: 'Food Tour', rating: 5.0, date: 'Jul 01, 2025', feedback: 'I never would have tried these amazing foods without Ahmed. A highlight of my trip!' }
+                ],
+                ratingBreakdown: { average: 5.0, total: 215, stars: { 5: 215, 4: 0, 3: 0, 2: 0, 1: 0 }, categories: { Skills: 5.0, Availability: 5.0, Communication: 5.0, Cooperation: 5.0, Deadlines: 5.0, Quality: 5.0 } },
+                faqs: [
+                    { q: 'Do you offer tours outside of Cairo?', a: 'Yes, I can arrange tours to Alexandria, Luxor, and Aswan with trusted colleagues. Please contact me to discuss a custom itinerary.' },
+                    { q: 'Are your walking tours strenuous?', a: 'The pace is relaxed, and we take plenty of breaks. The tours are suitable for most fitness levels, but please let me know if you have any mobility concerns.' },
+                    { q: 'Is the food on the food tour safe to eat?', a: 'Absolutely! I only take my guests to reputable, clean establishments that I personally frequent. Your health and safety are my top priority.' },
+                    { q: 'Can you accommodate dietary restrictions?', a: 'Yes, please let me know about any dietary restrictions or allergies in advance, and I will customize the food tour for you.' },
+                    { q: 'What is the best time of year to visit Cairo?', a: 'The weather is most pleasant from October to April. Summers can be very hot, but tours can be arranged early in the morning to avoid the midday heat.' }
+                ]
+            },
+            'luxor-legacy-tours': {
+                name: 'Luxor Legacy Tours',
+                type: 'company',
+                image: 'https://placehold.co/128x128/d4af37/FFFFFF?text=LL',
+                location: 'Luxor, Egypt',
+                rate: 'View Tours',
+                tagline: 'Specialists in the Temples of Luxor & Karnak',
+                jobSuccess: '97%',
+                status: 'Top Rated',
+                totalJobs: 950,
+                totalHours: 6000,
+                availability: 'Accepting New Bookings',
+                about: 'We are a team of Luxor-based historians and guides dedicated to showcasing the magnificent temples of the East and West Banks. We offer in-depth tours that explore the history, art, and mythology of these incredible ancient sites.',
+                skills: ['Luxor Temple', 'Karnak Temple', 'Valley of the Kings', 'Cultural Tours', 'Historical Tours'],
+                languages: ['English', 'Arabic', 'Spanish'],
+                cities: ['Luxor'],
+                portfolio: [
+                    {
+                        title: 'Karnak & Luxor Tour',
+                        img: 'images/lux22.jpg',
+                        galleryImages: ['images/lux22.jpg', 'images/kar2.jfif', 'images/kar3.jfif'],
+                        description: 'Explore the grand temples of Karnak and Luxor on the East Bank of the Nile, witnessing centuries of Pharaonic history.',
+                        price: 85,
+                        rating: 5.0,
+                        reviewsCount: 156,
+                        whatsIncluded: ['Expert guide', 'Entrance fees', 'Air-conditioned transport'],
+                        agenda: [
+                            { time: '8:30 AM', activity: 'Visit Karnak Temple Complex' },
+                            { time: '11:00 AM', activity: 'Explore Luxor Temple' },
+                            { time: '1:00 PM', activity: 'Return to hotel/cruise' }
+                        ]
+                    },
+                    {
+                        title: 'Valley of the Kings Tour',
+                        img: 'images/kar2.jfif',
+                        galleryImages: ['images/kar2.jfif', 'images/lux22.jpg'],
+                        description: 'Descend into the tombs of the Pharaohs in the world-famous Valley of the Kings on the West Bank of Luxor.',
+                        price: 95,
+                        rating: 4.9,
+                        reviewsCount: 130,
+                        whatsIncluded: ['Expert guide', 'Entrance to 3 tombs', 'Air-conditioned transport'],
+                        agenda: [
+                            { time: '8:00 AM', activity: 'Cross to the West Bank' },
+                            { time: '9:00 AM', activity: 'Explore the Valley of the Kings' },
+                            { time: '12:00 PM', activity: 'Visit the Temple of Hatshepsut' }
+                        ]
+                    },
+                    {
+                        title: 'Hot Air Balloon over Luxor',
+                        img: 'images/kar3.jfif',
+                        galleryImages: ['images/kar3.jfif', 'images/lux22.jpg'],
+                        description: 'Get a breathtaking bird\'s-eye view of Luxor\'s ancient monuments with a sunrise hot air balloon ride.',
+                        price: 100,
+                        rating: 4.9,
+                        reviewsCount: 250,
+                        whatsIncluded: ['Hotel pickup and drop-off', 'Hot air balloon flight', 'Flight certificate'],
+                        agenda: [
+                            { time: '4:30 AM', activity: 'Hotel Pickup' },
+                            { time: '5:30 AM', activity: 'Take off for sunrise flight' },
+                            { time: '7:00 AM', activity: 'Land and return to hotel' }
+                        ]
+                    }
+                ],
+                workHistory: [
+                    { user: 'Prof. Eleanor Vance', title: 'East Bank Temples Tour', rating: 5.0, date: 'Jul 20, 2025', feedback: 'Our guide was a university professor and her knowledge was astounding. A fantastic tour.' },
+                    { user: 'Richard P.', title: 'Valley of the Kings', rating: 5.0, date: 'Jul 11, 2025', feedback: 'An absolutely unforgettable experience. The tombs were incredible and our guide made the history come alive.' },
+                    { user: 'Megan B.', title: 'Hot Air Balloon', rating: 5.0, date: 'Jul 05, 2025', feedback: 'Stunning views and a very professional team. Felt completely safe and the experience was magical. A must-do in Luxor!' },
+                    { user: 'Chris G.', title: 'Karnak & Luxor Tour', rating: 5.0, date: 'Jun 29, 2025', feedback: 'Our guide was fantastic. We learned so much more than we could have from a book. Highly recommend.' },
+                    { user: 'Linda S.', title: 'Valley of the Kings', rating: 4.9, date: 'Jun 21, 2025', feedback: 'A great tour. The guide was very knowledgeable and helped us choose the best tombs to visit.' }
+                ],
+                ratingBreakdown: { average: 5.0, total: 536, stars: { 5: 530, 4: 6, 3: 0, 2: 0, 1: 0 }, categories: { Skills: 5.0, Availability: 4.9, Communication: 5.0, Cooperation: 5.0, Deadlines: 5.0, Quality: 5.0 } },
+                faqs: [
+                    { q: 'Do your tours include the West Bank?', a: 'We offer separate tours for the West Bank, including the Valley of the Kings. We also have multi-day packages that cover both banks.' },
+                    { q: 'Is the hot air balloon ride safe?', a: 'Yes, we work with highly reputable companies that adhere to the strictest safety standards. All pilots are licensed and experienced.' },
+                    { q: 'How many tombs can we visit in the Valley of the Kings?', a: 'The standard ticket includes entrance to three tombs. The tomb of Tutankhamun requires a separate ticket, which we can arrange for you.' },
+                    { q: 'What is the best way to get from Cairo to Luxor?', a: 'You can fly, take an overnight sleeper train, or a day train. We can assist with booking your transportation.' },
+                    { q: 'Are your tours private?', a: 'We offer both private tours and small group tours. Please specify your preference when booking.' }
+                ]
+            },
+            'desert-wanderers': {
+                name: 'Desert Wanderers',
+                type: 'company',
+                image: 'https://placehold.co/128x128/8c5a32/FFFFFF?text=DW',
+                location: 'Siwa, Egypt',
+                rate: 'View Tours',
+                tagline: 'Authentic Desert Safari Adventures',
+                jobSuccess: '99%',
+                status: 'Top Rated',
+                totalJobs: 400,
+                totalHours: 3000,
+                availability: 'Accepting New Bookings',
+                about: 'Experience the magic of the Great Sand Sea with our team of expert Bedouin drivers and guides. We offer thrilling 4x4 adventures, sandboarding, and unforgettable nights under the stars.',
+                skills: ['4x4 Safari', 'Desert Camping', 'Sandboarding', 'Siwa Oasis', 'Adventure Travel'],
+                languages: ['Arabic', 'English', 'Berber'],
+                cities: ['Siwa Oasis'],
+                portfolio: [
+                    {
+                        title: 'Siwa Oasis Desert Safari',
+                        img: 'images/siwa1jfif.jfif',
+                        galleryImages: ['images/siwa1jfif.jfif', 'images/siwa2.jfif'],
+                        description: 'An exhilarating 4x4 safari adventure through the Great Sand Sea, including sandboarding and a dip in the salt lakes.',
+                        price: 120,
+                        rating: 5.0,
+                        reviewsCount: 95,
+                        whatsIncluded: ['4x4 vehicle with driver', 'Sandboarding equipment', 'Lunch in the desert', 'Visit to salt lakes'],
+                        agenda: [
+                            { time: '10:00 AM', activity: 'Depart from Siwa town' },
+                            { time: '11:00 AM', activity: 'Dune bashing in the Great Sand Sea' },
+                            { time: '1:00 PM', activity: 'Traditional Bedouin lunch' }
+                        ]
+                    },
+                    {
+                        title: 'Overnight Desert Camping',
+                        img: 'images/siwa2.jfif',
+                        galleryImages: ['images/siwa2.jfif', 'images/siwa3.jfif'],
+                        description: 'Spend a night under the stars in the serene beauty of the desert. Includes a traditional Bedouin dinner and breakfast.',
+                        price: 180,
+                        rating: 5.0,
+                        reviewsCount: 75,
+                        whatsIncluded: ['4x4 vehicle', 'All camping equipment', 'Dinner and breakfast', 'Stargazing guide'],
+                        agenda: [
+                            { time: '3:00 PM', activity: 'Depart for the desert' },
+                            { time: '5:00 PM', activity: 'Set up camp and watch the sunset' },
+                            { time: '7:00 PM', activity: 'Bedouin dinner' }
+                        ]
+                    },
+                    {
+                        title: 'Cleopatra\'s Bath & Oracle Temple',
+                        img: 'images/siwa3.jfif',
+                        galleryImages: ['images/siwa3.jfif', 'images/siwa1jfif.jfif'],
+                        description: 'A relaxing tour of Siwa\'s most famous landmarks, including a swim in the spring-fed Cleopatra\'s Bath and a visit to the historic Oracle Temple.',
+                        price: 50,
+                        rating: 4.8,
+                        reviewsCount: 110,
+                        whatsIncluded: ['Private transport', 'Local guide', 'Entrance fees'],
+                        agenda: [
+                            { time: '9:00 AM', activity: 'Visit the Oracle Temple' },
+                            { time: '11:00 AM', activity: 'Swim at Cleopatra\'s Bath' },
+                            { time: '1:00 PM', activity: 'Return to your hotel' }
+                        ]
+                    }
+                ],
+                workHistory: [
+                    { user: 'Chris & Chloe', title: 'Overnight Desert Safari', rating: 5.0, date: 'Jul 18, 2025', feedback: 'The highlight of our trip to Egypt! The team was professional, and the desert landscapes were surreal. Unforgettable.' },
+                    { user: 'Anna F.', title: 'Desert Safari', rating: 5.0, date: 'Jul 09, 2025', feedback: 'So much fun! The dune bashing was a thrill and the guides were fantastic. A must-do in Siwa.' },
+                    { user: 'Henry J.', title: 'Cleopatra\'s Bath', rating: 4.9, date: 'Jul 02, 2025', feedback: 'A lovely and relaxing morning. Our guide was very informative about the history of the Oracle.' },
+                    { user: 'Isabelle D.', title: 'Overnight Desert Camping', rating: 5.0, date: 'Jun 28, 2025', feedback: 'The stars were incredible. The best night of our trip. The guides were so friendly and the food was delicious.' },
+                    { user: 'James P.', title: 'Desert Safari', rating: 4.9, date: 'Jun 20, 2025', feedback: 'A great adventure. The 4x4 ride was exhilarating and the scenery was beautiful.' }
+                ],
+                ratingBreakdown: { average: 4.9, total: 280, stars: { 5: 275, 4: 5, 3: 0, 2: 0, 1: 0 }, categories: { Skills: 5.0, Availability: 4.9, Communication: 4.9, Cooperation: 5.0, Deadlines: 5.0, Quality: 4.9 } },
+                faqs: [
+                    { q: 'Is it safe?', a: 'Safety is our top priority. Our drivers are highly experienced, our vehicles are well-maintained, and we are equipped with all necessary safety gear.' },
+                    { q: 'What should I bring for an overnight trip?', a: 'We recommend bringing warm clothing for the evening, a hat, sunscreen, a reusable water bottle, and a sense of adventure!' },
+                    { q: 'Are there bathroom facilities during the camping trip?', a: 'We provide a private, portable toilet tent for your comfort and convenience.' },
+                    { q: 'Can you accommodate dietary restrictions?', a: 'Yes, please let us know of any dietary needs when booking, and we will prepare your meals accordingly.' },
+                    { q: 'How do I get to Siwa?', a: 'Siwa is typically reached by an overnight bus from Cairo. We can provide information and assistance with booking your bus tickets.' }
+                ]
+            },
+            'mediterra-tours': {
+                name: 'Mediterra Tours',
+                type: 'company',
+                image: 'https://placehold.co/128x128/3b82f6/FFFFFF?text=MT',
+                location: 'Alexandria, Egypt',
+                rate: 'View Tours',
+                tagline: 'Greco-Roman History & Mediterranean Charm',
+                jobSuccess: '96%',
+                status: 'Top Rated',
+                totalJobs: 600,
+                totalHours: 4200,
+                availability: 'Accepting New Bookings',
+                about: 'Explore the unique blend of cultures in Alexandria with us. We specialize in day trips that cover the city\'s rich Greco-Roman history, from the catacombs to the great modern library.',
+                skills: ['Alexandria', 'Greco-Roman History', 'Day Trips from Cairo', 'Library of Alexandria'],
+                languages: ['English', 'Arabic', 'Italian'],
+                cities: ['Alexandria', 'El Alamein'],
+                portfolio: [
+                    {
+                        title: 'Alexandria Historical Day Trip',
+                        img: 'images/alex3.jfif',
+                        galleryImages: ['images/alex3.jfif', 'images/alex2.jfif'],
+                        description: 'Discover the Greco-Roman history of Alexandria, visiting the Catacombs, Pompey\'s Pillar, and the modern Library of Alexandria.',
+                        price: 110,
+                        rating: 4.7,
+                        reviewsCount: 115,
+                        whatsIncluded: ['Transport from Cairo', 'Lunch', 'Guide', 'Entrance Fees'],
+                        agenda: [
+                            { time: '7:00 AM', activity: 'Depart from Cairo' },
+                            { time: '10:00 AM', activity: 'Visit Catacombs of Kom El Shoqafa' },
+                            { time: '3:00 PM', activity: 'Explore the Bibliotheca Alexandrina' }
+                        ]
+                    },
+                    {
+                        title: 'Montaza Palace & Gardens Tour',
+                        img: 'images/alex1.jfif',
+                        galleryImages: ['images/alex1.jfif', 'images/alex3.jfif'],
+                        description: 'A relaxing tour of the beautiful Montaza Palace gardens, overlooking the Mediterranean Sea.',
+                        price: 60,
+                        rating: 4.6,
+                        reviewsCount: 85,
+                        whatsIncluded: ['Private transport', 'Guide', 'Entrance fees'],
+                        agenda: [
+                            { time: '10:00 AM', activity: 'Hotel Pickup' },
+                            { time: '10:30 AM', activity: 'Stroll through Montaza Gardens' },
+                            { time: '12:30 PM', activity: 'Return to hotel' }
+                        ]
+                    },
+                    {
+                        title: 'WWII El Alamein Day Trip',
+                        img: 'images/alex2.jfif',
+                        galleryImages: ['images/alex2.jfif', 'images/alex1.jfif'],
+                        description: 'Visit the historic WWII battlefields and memorials at El Alamein, a moving day trip from Alexandria.',
+                        price: 130,
+                        rating: 4.8,
+                        reviewsCount: 55,
+                        whatsIncluded: ['Private transport', 'Expert guide', 'Entrance to Military Museum'],
+                        agenda: [
+                            { time: '8:00 AM', activity: 'Depart from Alexandria' },
+                            { time: '9:30 AM', activity: 'Visit the El Alamein Military Museum' },
+                            { time: '12:00 PM', activity: 'Visit the Commonwealth & German War Cemeteries' }
+                        ]
+                    }
+                ],
+                workHistory: [
+                    { user: 'Maria G.', title: 'Alexandria Day Tour', rating: 4.7, date: 'Jul 17, 2025', feedback: 'A long day but worth it. Our guide was excellent and showed us the best of Alexandria.' },
+                    { user: 'Frank H.', title: 'Alexandria Day Tour', rating: 4.5, date: 'Jul 05, 2025', feedback: 'Good tour, covered all the main sites. The guide was knowledgeable. The included lunch was also very nice.' },
+                    { user: 'Robert P.', title: 'WWII El Alamein Day Trip', rating: 5.0, date: 'Jun 28, 2025', feedback: 'A very moving and informative tour. Our guide was a history expert and provided incredible context.' },
+                    { user: 'Susan B.', title: 'Montaza Palace Tour', rating: 4.6, date: 'Jun 25, 2025', feedback: 'The gardens were beautiful. A nice relaxing afternoon away from the city.' },
+                    { user: 'Paul V.', title: 'Alexandria Historical Day Trip', rating: 4.8, date: 'Jun 19, 2025', feedback: 'Very well organized. The library is a must-see!' }
+                ],
+                ratingBreakdown: { average: 4.7, total: 255, stars: { 5: 220, 4: 25, 3: 10, 2: 0, 1: 0 }, categories: { Skills: 4.8, Availability: 4.7, Communication: 4.7, Cooperation: 4.6, Deadlines: 4.8, Quality: 4.7 } },
+                faqs: [
+                    { q: 'How long is the drive from Cairo?', a: 'The drive typically takes around 3 hours each way, depending on traffic conditions.' },
+                    { q: 'Is the Library of Alexandria included in all tours?', a: 'The library is included in our main historical day trip. Please check the itinerary for other tours.' },
+                    { q: 'Can we swim in the Mediterranean?', a: 'Our tours are focused on historical sites, but we can recommend beaches for you to visit on your own time.' },
+                    { q: 'What is the best local dish to try in Alexandria?', a: 'You must try the fresh seafood! Alexandria is famous for it. We can recommend some excellent local restaurants.' },
+                    { q: 'Are your tours available from Alexandria as well as Cairo?', a: 'Yes, we offer tours starting from both Cairo and Alexandria.' }
+                ]
+            },
+            'captain-omar': {
+                name: 'Captain Omar',
+                type: 'guide',
+                image: 'https://randomuser.me/api/portraits/men/40.jpg',
+                location: 'Aswan, Egypt',
+                rate: '$25.00/hr',
+                tagline: 'Traditional Felucca Captain on the Nile',
+                jobSuccess: '100%',
+                status: 'Top Rated',
+                totalJobs: 550,
+                totalHours: 2100,
+                availability: 'Open to Offers',
+                about: 'I am a Nubian captain born and raised on the banks of the Nile in Aswan. Sailing is in my blood. Join me on my traditional felucca for a relaxing and authentic journey on the world\'s most famous river. I will share stories of my home and show you the best views of the islands and desert.',
+                skills: ['Felucca Sailing', 'Nubian Culture', 'Aswan', 'Sunset Tours', 'Relaxation'],
+                languages: ['Arabic', 'English', 'Nubian'],
+                cities: ['Aswan'],
+                portfolio: [
+                    {
+                        title: 'Nile Felucca Sailing',
+                        img: 'images/nile1.jfif',
+                        galleryImages: ['images/nile1.jfif', 'images/nile2.jfif'],
+                        description: 'Enjoy a relaxing afternoon sailing on a traditional Felucca on the Nile, around Elephantine Island and the Botanical Gardens.',
+                        price: 45,
+                        rating: 5.0,
+                        reviewsCount: 180,
+                        whatsIncluded: ['Felucca boat with captain', 'Tea on board'],
+                        agenda: [
+                            { time: '2:00 PM', activity: 'Depart from Aswan dock' },
+                            { time: '2:30 PM', activity: 'Sail around Elephantine Island' },
+                            { time: '4:30 PM', activity: 'Relax and enjoy the sunset' }
+                        ]
+                    },
+                    {
+                        title: 'Nubian Village Visit by Felucca',
+                        img: 'images/nile2.jfif',
+                        galleryImages: ['images/nile2.jfif', 'images/nile3.jfif'],
+                        description: 'Sail to a traditional Nubian village, experience the local culture, visit a family home, and enjoy authentic hospitality.',
+                        price: 60,
+                        rating: 5.0,
+                        reviewsCount: 120,
+                        whatsIncluded: ['Felucca boat with captain', 'Visit to a Nubian village', 'Tea with a local family'],
+                        agenda: [
+                            { time: '1:00 PM', activity: 'Depart from Aswan dock' },
+                            { time: '2:00 PM', activity: 'Arrive at the Nubian village' },
+                            { time: '4:00 PM', activity: 'Sail back to Aswan' }
+                        ]
+                    },
+                    {
+                        title: 'Aswan High Dam & Philae Temple',
+                        img: 'images/nile3.jfif',
+                        galleryImages: ['images/nile3.jfif', 'images/nile1.jfif'],
+                        description: 'A motorboat tour to the stunningly relocated Philae Temple and a visit to the impressive Aswan High Dam.',
+                        price: 70,
+                        rating: 4.9,
+                        reviewsCount: 150,
+                        whatsIncluded: ['Private guide', 'Motorboat to Philae Temple', 'Entrance fees'],
+                        agenda: [
+                            { time: '9:00 AM', activity: 'Hotel Pickup' },
+                            { time: '9:30 AM', activity: 'Visit the Aswan High Dam' },
+                            { time: '11:00 AM', activity: 'Visit Philae Temple' }
+                        ]
+                    }
+                ],
+                workHistory: [
+                    { user: 'Thomas P.', title: 'Sunset Felucca Trip', rating: 5.0, date: 'Jul 22, 2025', feedback: 'Captain Omar is a true gentleman of the Nile. His boat is beautiful, and the experience was peaceful and magical. The best part of our time in Aswan.' },
+                    { user: 'Grace E.', title: 'Nubian Village Visit', rating: 5.0, date: 'Jul 19, 2025', feedback: 'What an amazing cultural experience. Omar was the perfect host and the visit to the village was so welcoming and colorful. A must do!' },
+                    { user: 'Henry T.', title: 'Philae Temple Tour', rating: 5.0, date: 'Jul 15, 2025', feedback: 'Omar arranged a fantastic tour to Philae for us. The temple is stunning and his knowledge made it even better.' },
+                    { user: 'Olivia M.', title: 'Nile Felucca Sailing', rating: 5.0, date: 'Jul 10, 2025', feedback: 'A perfect afternoon. Omar is a skilled sailor and a wonderful person. We loved every minute.' },
+                    { user: 'William C.', title: 'Nubian Village Visit', rating: 5.0, date: 'Jul 04, 2025', feedback: 'A truly authentic experience. We felt so welcomed by the Nubian family. Thank you, Omar!' }
+                ],
+                ratingBreakdown: { average: 5.0, total: 450, stars: { 5: 450, 4: 0, 3: 0, 2: 0, 1: 0 }, categories: { Skills: 5.0, Availability: 5.0, Communication: 5.0, Cooperation: 5.0, Deadlines: 5.0, Quality: 5.0 } },
+                faqs: [
+                    { q: 'Can we swim in the Nile?', a: 'Yes, in safe and clean areas, I can stop the felucca for a refreshing swim if you would like.' },
+                    { q: 'How many people can fit on the felucca?', a: 'My felucca can comfortably accommodate up to 8 guests.' },
+                    { q: 'Are life jackets provided?', a: 'Yes, safety is very important. Life jackets are available on board for all guests.' },
+                    { q: 'What if the weather is bad?', a: 'If there is not enough wind to sail, we can use a small motorboat to tour the islands. If the weather is unsafe, we can reschedule or provide a full refund.' },
+                    { q: 'Can you arrange longer, multi-day felucca trips?', a: 'Yes, I can arrange overnight or multi-day trips from Aswan to Kom Ombo or Edfu. Please contact me to discuss a custom itinerary.' }
+                ]
+            },
+        };
+
+        // --- RENDER FUNCTION ---
+        function renderProfile(providerId) {
+            const data = providerData[providerId];
+            if (!data) {
+                document.getElementById('profile-container').innerHTML = `<p class="text-center text-red-500 text-lg">Profile not found. Please select a provider from the <a href="explore.html" class="text-primary underline">Explore page</a>.</p>`;
+                return;
+            }
+
+            const profileHtml = `
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-8 space-y-8">
+                        
+                        <div class="bg-white p-8 rounded-lg border border-gray-200 shadow-sm">
+                            <p class="text-gray-500 text-sm">Cultural & Historical Tours</p>
+                            <h1 class="text-3xl font-bold text-primary mt-2">${data.tagline}</h1>
+                            <div class="mt-6 flex items-center gap-4">
+                                <img src="${data.image}" alt="${data.name}" class="w-16 h-16 rounded-full object-cover shadow-md">
+                                <div>
+                                    <div class="flex items-center gap-3">
+                                        <p class="font-bold text-xl text-primary">${data.name}</p>
+                                        <span class="bg-green-100 text-success text-xs font-bold px-2 py-1 rounded-full"><i class="fas fa-check-circle"></i> ${data.status}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-secondary mt-1">
+                                        <i class="fas fa-star"></i>
+                                        <span class="font-bold text-gray-800">${data.ratingBreakdown.average.toFixed(1)}</span>
+                                        <span class="text-gray-500">(${data.ratingBreakdown.total} reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="portfolio" class="bg-white p-8 rounded-lg border border-gray-200 shadow-sm">
+                            <h2 class="text-2xl font-bold text-primary mb-6">Portfolio</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                ${data.portfolio.slice(0, 3).map((item, index) => {
+                                    const ratingHtml = Array(5).fill('').map((_, i) => {
+                                        if (item.rating >= i + 0.8) return '<i class="fas fa-star"></i>';
+                                        if (item.rating >= i + 0.3) return '<i class="fas fa-star-half-alt"></i>';
+                                        return '<i class="far fa-star"></i>';
+                                    }).join('');
+
+                                    return `
+                                    <div class="bg-white rounded-xl overflow-hidden card-shadow card-shadow-hover transition-shadow duration-300 flex flex-col">
+                                        <img src="${item.img}" alt="${item.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eee/ccc?text=Image+Not+Found';">
+                                        <div class="p-6 flex flex-col flex-grow">
+                                            <h3 class="text-xl font-bold text-primary mt-1">${item.title}</h3>
+                                            <p class="text-gray-600 mt-2 text-sm flex-grow">${item.description.substring(0, 100)}...</p>
+                                            <div class="flex items-center gap-2 mt-4">
+                                                <div class="text-secondary">${ratingHtml}</div>
+                                                <span class="text-gray-600 text-sm">(${item.reviewsCount} reviews)</span>
+                                            </div>
+                                            <div class="flex justify-between items-center mt-6">
+                                                <div>
+                                                    <p class="text-2xl font-bold text-primary">$${item.price}</p>
+                                                    <p class="text-sm text-gray-500 -mt-1">per person</p>
+                                                </div>
+                                                <button class="portfolio-item-btn bg-secondary text-primary font-semibold px-5 py-2 rounded-lg text-sm hover:bg-yellow-500 transition-colors" data-index="${index}">View Details</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-lg border border-gray-200 shadow-sm">
+                            <h2 class="text-2xl font-bold text-primary mb-4">About This ${data.type === 'guide' ? 'Guide' : 'Service'}</h2>
+                            <p class="text-gray-700 whitespace-pre-line leading-relaxed">${data.about}</p>
+                             <div class="mt-6 border-t border-gray-200 pt-6 space-y-6">
+                                <div>
+                                    <h3 class="text-lg font-bold text-primary mb-2">Skills</h3>
+                                    <div class="flex flex-wrap gap-2">
+                                        ${data.skills.map(skill => `<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">${skill}</span>`).join('')}
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-primary mb-2">Languages</h3>
+                                    <div class="flex flex-wrap gap-2">
+                                        ${(data.languages || []).map(lang => `<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">${lang}</span>`).join('')}
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-primary mb-2">Cities</h3>
+                                    <div class="flex flex-wrap gap-2">
+                                        ${(data.cities || []).map(city => `<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">${city}</span>`).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="reviews" class="bg-white p-8 rounded-lg border border-gray-200 shadow-sm">
+                             <h2 class="text-2xl font-bold text-primary mb-4">Reviews</h2>
+                             <div class="flex items-center gap-4 mb-6">
+                                 <div class="text-secondary flex items-baseline gap-1">
+                                     <span class="text-5xl font-bold text-gray-800">${data.ratingBreakdown.average.toFixed(1)}</span>
+                                     <i class="fas fa-star text-3xl"></i>
+                                 </div>
+                                 <p class="text-gray-600 font-semibold">${data.ratingBreakdown.total} reviews</p>
+                             </div>
+                             <div id="reviews-list" class="space-y-8">
+                                 ${data.workHistory.slice(0, 3).map(job => `
+                                     <div class="border-t border-gray-200 pt-6">
+                                         <div class="flex items-start gap-4">
+                                             <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold flex-shrink-0">
+                                                 ${job.user.charAt(0)}
+                                             </div>
+                                             <div>
+                                                 <div class="flex items-center gap-2">
+                                                     <h3 class="font-bold text-gray-800">${job.user}</h3>
+                                                     <div class="text-secondary">${Array(5).fill('').map((_, i) => job.rating >= i + 1 ? '<i class="fas fa-star text-sm"></i>' : (job.rating > i ? '<i class="fas fa-star-half-alt text-sm"></i>' : '<i class="far fa-star text-sm"></i>')).join('')}</div>
+                                                     <span class="text-gray-500 font-bold">${job.rating.toFixed(1)}</span>
+                                                 </div>
+                                                 <p class="text-sm text-gray-500">${job.date}</p>
+                                             </div>
+                                         </div>
+                                         <p class="mt-4 text-gray-700 pl-16">"${job.feedback}"</p>
+                                     </div>
+                                 `).join('')}
+                             </div>
+                             <div id="reviews-button-container" class="mt-8 text-center">
+                                 ${data.workHistory.length > 3 ? `
+                                    <button id="view-all-reviews-btn" class="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors">View All Reviews</button>
+                                 ` : ''}
+                             </div>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-lg border border-gray-200 shadow-sm">
+                            <h2 class="text-2xl font-bold text-primary mb-6">Frequently Asked Questions</h2>
+                            <div id="faq-list" class="space-y-4">
+                                ${data.faqs.slice(0, 3).map((faq, index) => `
+                                    <div class="border-t border-gray-200 pt-4">
+                                        <button class="faq-question w-full flex justify-between items-center text-left" aria-expanded="false">
+                                            <h3 class="text-lg text-gray-800 font-semibold">${faq.q}</h3>
+                                            <svg class="w-5 h-5 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                        </button>
+                                        <div class="faq-answer text-gray-600">
+                                            <p class="pt-2">${faq.a}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div id="faq-button-container" class="mt-8 text-center">
+                                ${data.faqs.length > 3 ? `
+                                    <button id="view-all-faqs-btn" class="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors">View All Questions</button>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="lg:col-span-4">
+                        <div class="bg-white rounded-lg border border-gray-200 sticky top-28 shadow-sm p-6">
+                            <div class="flex items-center gap-4">
+                                <div class="text-4xl font-bold text-primary">${data.jobSuccess}</div>
+                                <div class="font-semibold text-primary">Job Success</div>
+                            </div>
+                            <div class="mt-2 text-sm text-success font-bold">${data.status}</div>
+                            <div class="mt-6 text-center">
+                                <div class="text-3xl font-bold text-primary">${data.rate}</div>
+                            </div>
+                            <button class="w-full mt-4 bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary-dark transition-colors">Contact ${data.type === 'guide' ? 'Me' : 'Us'}</button>
+                            <div class="mt-6 border-t border-gray-200 pt-6 space-y-4 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="font-semibold text-gray-700">Total Jobs</span>
+                                    <span>${data.totalJobs}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="font-semibold text-gray-700">Total Hours</span>
+                                    <span>${data.totalHours.toLocaleString()}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="font-semibold text-gray-700">Availability</span>
+                                    <span>${data.availability}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('profile-container').innerHTML = profileHtml;
+            setupInteractiveElements(providerId);
+        }
+
+        // --- INTERACTIVITY ---
+        function setupInteractiveElements(providerId) {
+            const data = providerData[providerId];
+            
+            // Setup FAQ Accordion
+            document.querySelectorAll('.faq-question').forEach(button => {
+                button.addEventListener('click', () => {
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                    button.setAttribute('aria-expanded', !isExpanded);
+                });
+            });
+
+            // Setup View All/Show Less Reviews Button
+            const viewAllReviewsBtn = document.getElementById('view-all-reviews-btn');
+            const reviewsList = document.getElementById('reviews-list');
+            const reviewsButtonContainer = document.getElementById('reviews-button-container');
+
+            if (viewAllReviewsBtn) {
+                viewAllReviewsBtn.addEventListener('click', () => {
+                    reviewsList.innerHTML = data.workHistory.map(job => `
+                        <div class="border-t border-gray-200 pt-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold flex-shrink-0">
+                                    ${job.user.charAt(0)}
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="font-bold text-gray-800">${job.user}</h3>
+                                        <div class="text-secondary">${Array(5).fill('').map((_, i) => job.rating >= i + 1 ? '<i class="fas fa-star text-sm"></i>' : (job.rating > i ? '<i class="fas fa-star-half-alt text-sm"></i>' : '<i class="far fa-star text-sm"></i>')).join('')}</div>
+                                        <span class="text-gray-500 font-bold">${job.rating.toFixed(1)}</span>
+                                    </div>
+                                    <p class="text-sm text-gray-500">${job.date}</p>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-gray-700 pl-16">"${job.feedback}"</p>
+                        </div>
+                    `).join('');
+                    reviewsButtonContainer.innerHTML = '<button id="show-less-reviews-btn" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition-colors">Show Less</button>';
+                    document.getElementById('show-less-reviews-btn').addEventListener('click', showLessReviews);
+                });
+            }
+            
+            function showLessReviews() {
+                reviewsList.innerHTML = data.workHistory.slice(0, 3).map(job => `
+                    <div class="border-t border-gray-200 pt-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold flex-shrink-0">
+                                ${job.user.charAt(0)}
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-bold text-gray-800">${job.user}</h3>
+                                    <div class="text-secondary">${Array(5).fill('').map((_, i) => job.rating >= i + 1 ? '<i class="fas fa-star text-sm"></i>' : (job.rating > i ? '<i class="fas fa-star-half-alt text-sm"></i>' : '<i class="far fa-star text-sm"></i>')).join('')}</div>
+                                    <span class="text-gray-500 font-bold">${job.rating.toFixed(1)}</span>
+                                </div>
+                                <p class="text-sm text-gray-500">${job.date}</p>
+                            </div>
+                        </div>
+                        <p class="mt-4 text-gray-700 pl-16">"${job.feedback}"</p>
+                    </div>
+                `).join('');
+                reviewsButtonContainer.innerHTML = '<button id="view-all-reviews-btn" class="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors">View All Reviews</button>';
+                document.getElementById('view-all-reviews-btn').addEventListener('click', () => {
+                     reviewsList.innerHTML = data.workHistory.map(job => `
+                        <div class="border-t border-gray-200 pt-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold flex-shrink-0">
+                                    ${job.user.charAt(0)}
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="font-bold text-gray-800">${job.user}</h3>
+                                        <div class="text-secondary">${Array(5).fill('').map((_, i) => job.rating >= i + 1 ? '<i class="fas fa-star text-sm"></i>' : (job.rating > i ? '<i class="fas fa-star-half-alt text-sm"></i>' : '<i class="far fa-star text-sm"></i>')).join('')}</div>
+                                        <span class="text-gray-500 font-bold">${job.rating.toFixed(1)}</span>
+                                    </div>
+                                    <p class="text-sm text-gray-500">${job.date}</p>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-gray-700 pl-16">"${job.feedback}"</p>
+                        </div>
+                    `).join('');
+                    reviewsButtonContainer.innerHTML = '<button id="show-less-reviews-btn" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition-colors">Show Less</button>';
+                    document.getElementById('show-less-reviews-btn').addEventListener('click', showLessReviews);
+                });
+            }
+            
+            // Setup View All/Show Less FAQs Button
+            const viewAllFaqsBtn = document.getElementById('view-all-faqs-btn');
+            const faqList = document.getElementById('faq-list');
+            const faqButtonContainer = document.getElementById('faq-button-container');
+
+            if (viewAllFaqsBtn) {
+                viewAllFaqsBtn.addEventListener('click', () => {
+                    faqList.innerHTML = data.faqs.map(faq => `
+                        <div class="border-t border-gray-200 pt-4">
+                            <button class="faq-question w-full flex justify-between items-center text-left" aria-expanded="false">
+                                <h3 class="text-lg text-gray-800 font-semibold">${faq.q}</h3>
+                                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="faq-answer text-gray-600">
+                                <p class="pt-2">${faq.a}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                    faqButtonContainer.innerHTML = '<button id="show-less-faqs-btn" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition-colors">Show Less</button>';
+                    document.querySelectorAll('.faq-question').forEach(button => button.addEventListener('click', () => button.setAttribute('aria-expanded', button.getAttribute('aria-expanded') !== 'true')));
+                    document.getElementById('show-less-faqs-btn').addEventListener('click', showLessFaqs);
+                });
+            }
+
+            function showLessFaqs() {
+                faqList.innerHTML = data.faqs.slice(0, 3).map(faq => `
+                    <div class="border-t border-gray-200 pt-4">
+                        <button class="faq-question w-full flex justify-between items-center text-left" aria-expanded="false">
+                            <h3 class="text-lg text-gray-800 font-semibold">${faq.q}</h3>
+                            <svg class="w-5 h-5 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="faq-answer text-gray-600">
+                            <p class="pt-2">${faq.a}</p>
+                        </div>
+                    </div>
+                `).join('');
+                faqButtonContainer.innerHTML = '<button id="view-all-faqs-btn" class="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors">View All Questions</button>';
+                document.querySelectorAll('.faq-question').forEach(button => button.addEventListener('click', () => button.setAttribute('aria-expanded', button.getAttribute('aria-expanded') !== 'true')));
+                document.getElementById('view-all-faqs-btn').addEventListener('click', () => {
+                    faqList.innerHTML = data.faqs.map(faq => `
+                        <div class="border-t border-gray-200 pt-4">
+                            <button class="faq-question w-full flex justify-between items-center text-left" aria-expanded="false">
+                                <h3 class="text-lg text-gray-800 font-semibold">${faq.q}</h3>
+                                <svg class="w-5 h-5 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="faq-answer text-gray-600">
+                                <p class="pt-2">${faq.a}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                    faqButtonContainer.innerHTML = '<button id="show-less-faqs-btn" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition-colors">Show Less</button>';
+                    document.querySelectorAll('.faq-question').forEach(button => button.addEventListener('click', () => button.setAttribute('aria-expanded', button.getAttribute('aria-expanded') !== 'true')));
+                    document.getElementById('show-less-faqs-btn').addEventListener('click', showLessFaqs);
+                });
+            }
+
+            // Setup Modal
+            const modal = document.getElementById('tour-modal');
+            const modalContainer = modal.querySelector('.modal-container');
+            const portfolioItems = document.querySelectorAll('.portfolio-item-btn');
+            
+            let currentPortfolioIndex = 0;
+            let currentPortfolioItem = null;
+            let currentImageIndex = 0;
+            let currentGalleryImages = [];
+
+            function showImage(index) {
+                const galleryContent = document.getElementById('gallery-content');
+                const images = galleryContent.querySelectorAll('img');
+                images.forEach((img, i) => {
+                    img.style.opacity = i === index ? '1' : '0';
+                });
+            }
+
+            function showNextImage() {
+                currentImageIndex = (currentImageIndex + 1) % currentGalleryImages.length;
+                showImage(currentImageIndex);
+            }
+
+            function showPrevImage() {
+                currentImageIndex = (currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+                showImage(currentImageIndex);
+            }
+            
+            function openModal(index) {
+                currentPortfolioIndex = index;
+                currentPortfolioItem = data.portfolio[currentPortfolioIndex];
+                if (!currentPortfolioItem) return;
+
+                currentGalleryImages = currentPortfolioItem.galleryImages || [currentPortfolioItem.img];
+                currentImageIndex = 0;
+
+                const ratingHtml = Array(5).fill('').map((_, i) => {
+                    if (currentPortfolioItem.rating >= i + 0.8) return '<i class="fas fa-star"></i>';
+                    if (currentPortfolioItem.rating >= i + 0.3) return '<i class="fas fa-star-half-alt"></i>';
+                    return '<i class="far fa-star"></i>';
+                }).join('');
+
+                document.getElementById('modal-tour-name').textContent = currentPortfolioItem.title;
+                document.getElementById('modal-rating').innerHTML = ratingHtml;
+                document.getElementById('modal-reviews').textContent = `(${currentPortfolioItem.reviewsCount} reviews)`;
+                document.getElementById('modal-description').textContent = currentPortfolioItem.description;
+                document.getElementById('modal-price-footer').textContent = `$${currentPortfolioItem.price}`;
+                
+                const galleryContent = document.getElementById('gallery-content');
+                galleryContent.innerHTML = currentGalleryImages.map((src, idx) => `<img src="${src}" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300" style="opacity: ${idx === 0 ? 1 : 0}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eee/ccc?text=Image+Not+Found';">`).join('');
+                
+                const prevBtn = document.getElementById('gallery-prev');
+                const nextBtn = document.getElementById('gallery-next');
+
+                if (currentGalleryImages.length > 1) {
+                    prevBtn.classList.remove('hidden');
+                    nextBtn.classList.remove('hidden');
+                } else {
+                    prevBtn.classList.add('hidden');
+                    nextBtn.classList.add('hidden');
+                }
+                
+                document.getElementById('modal-includes').innerHTML = currentPortfolioItem.whatsIncluded.map(item => `<li><i class="fas fa-check text-secondary mr-2"></i>${item}</li>`).join('');
+                document.getElementById('modal-itinerary').innerHTML = currentPortfolioItem.agenda.map(item => `<li><strong>${item.time}:</strong> ${item.activity}</li>`).join('');
+                
+                showTourDetails();
+                modal.classList.remove('pointer-events-none', 'opacity-0');
+                modalContainer.classList.remove('scale-95', 'opacity-0');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modal.classList.add('pointer-events-none', 'opacity-0');
+                modalContainer.classList.add('scale-95', 'opacity-0');
+                document.body.style.overflow = 'auto';
+            }
+            
+            function showBookingForm() {
+                if (!currentPortfolioItem) return;
+                document.getElementById('modal-details-view').classList.add('hidden');
+                document.getElementById('modal-booking-view').classList.remove('hidden');
+                document.getElementById('modal-footer').classList.add('hidden');
+                document.getElementById('booking-tour-name').textContent = `${currentPortfolioItem.title} - by ${data.name}`;
+                document.getElementById('guest-count').value = 1;
+                updateTotalPrice();
+            }
+
+            function showTourDetails() {
+                document.getElementById('modal-details-view').classList.remove('hidden');
+                document.getElementById('modal-booking-view').classList.add('hidden');
+                document.getElementById('modal-success-view').classList.add('hidden');
+                document.getElementById('modal-footer').classList.remove('hidden');
+            }
+            
+            function updateTotalPrice() {
+                const guestCount = document.getElementById('guest-count').value;
+                const totalPrice = guestCount * currentPortfolioItem.price;
+                document.getElementById('total-price').textContent = `$${totalPrice}`;
+            }
+
+            function navigatePortfolio(direction) {
+                const newIndex = (currentPortfolioIndex + direction + data.portfolio.length) % data.portfolio.length;
+                openModal(newIndex);
+            }
+
+            portfolioItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal(parseInt(item.dataset.index));
+                });
+            });
+            
+            document.getElementById('portfolio-prev').addEventListener('click', () => navigatePortfolio(-1));
+            document.getElementById('portfolio-next').addEventListener('click', () => navigatePortfolio(1));
+
+            document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+            document.getElementById('close-success-btn').addEventListener('click', closeModal);
+            document.getElementById('gallery-prev').addEventListener('click', showPrevImage);
+            document.getElementById('gallery-next').addEventListener('click', showNextImage);
+            document.getElementById('modal-book-btn-footer').addEventListener('click', showBookingForm);
+            document.getElementById('back-to-details-btn').addEventListener('click', showTourDetails);
+            document.getElementById('guest-count').addEventListener('input', updateTotalPrice);
+            document.getElementById('confirm-booking-btn').addEventListener('click', () => {
+                document.getElementById('modal-booking-view').classList.add('hidden');
+                document.getElementById('modal-success-view').classList.remove('hidden');
+            });
+            
+            window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const providerId = urlParams.get('provider'); 
+            if (providerId) {
+                renderProfile(providerId);
+            } else {
+                // Show a default or an error message if no provider is specified
+                document.getElementById('profile-container').innerHTML = `<div class="text-center p-12 bg-white rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-primary mb-4">No Profile Selected</h2>
+                    <p class="text-gray-600">Please go to the <a href="explore.html" class="text-secondary font-semibold hover:underline">Explore Page</a> to select a tour provider.</p>
+                </div>`;
+            }
+
+            // Mobile Menu Toggle
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            if(menuBtn) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        menuIcon.classList.remove('fa-times');
+                        menuIcon.classList.add('fa-bars');
+                    } else {
+                        menuIcon.classList.remove('fa-bars');
+                        menuIcon.classList.add('fa-times');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Judhur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #123332;
+            --secondary: #d4af37;
+            --light: #f8f5f0;
+            --dark: #2d3748;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+        }
+        .bg-primary { background-color: var(--primary); }
+        .text-primary { color: var(--primary); }
+        .bg-secondary { background-color: var(--secondary); }
+        .text-secondary { color: var(--secondary); }
+        .border-secondary { border-color: var(--secondary); }
+        .hover\:bg-primary-dark:hover { background-color: #0a2221; }
+        .hover\:bg-secondary-dark:hover { background-color: #c29a1e; }
+    </style>
+</head>
+<body class="text-dark">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+             <a href="explore.html" class="text-3xl font-extrabold text-primary flex items-center">
+                <i class="fas fa-sun text-secondary mr-3"></i>
+                Judhur
+            </a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-primary">Home</a>
+                <a href="explore.html" class="text-gray-600 hover:text-primary">Explore</a>
+                <a href="#" class="text-primary font-bold border-b-2 border-secondary pb-1">Profiles</a>
+                <a href="about-us.html" class="text-gray-600 hover:text-primary">About Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Profile Content -->
+    <main id="profile-container" class="container mx-auto px-6 py-8 md:py-12">
+        <!-- Profile data will be injected here -->
+    </main>
+    
+    <script>
+        const providerData = {
+            'nile-voyages': {
+                name: 'Nile Voyages',
+                type: 'company',
+                image: 'https://placehold.co/128x128/123332/FFFFFF?text=NV',
+                location: 'Cairo, Egypt',
+                tagline: 'Premier Tour Operator | Historical & Cultural Journeys',
+                rate: 'View Tours',
+                jobSuccess: '98%',
+                status: 'Top Rated',
+                totalJobs: 1250,
+                totalHours: 8500,
+                availability: 'Accepting New Bookings',
+                about: `Nile Voyages is a premier tour operator specializing in crafting unforgettable journeys through the heart of Egypt. With over 15 years of experience, we pride ourselves on delivering exceptional service, expert guidance, and authentic cultural experiences. Our team of certified Egyptologists and professional staff are dedicated to making your trip seamless and memorable.`,
+                skills: ['Historical Tours', 'Cultural Immersion', 'Luxury Travel', 'Certified Egyptologists', 'Group Tours', 'Private Tours', 'Airport Transfers', 'Multi-day Packages'],
+                portfolio: [
+                    { title: 'Luxury Nile Cruise', img: 'https://images.unsplash.com/photo-1596222786223-9a0a0386aa0b?q=80&w=870&auto=format&fit=crop' },
+                    { title: 'Karnak Temple Exploration', img: 'https://images.unsplash.com/photo-1572908658839-882d433f85e3?q=80&w=870&auto=format&fit=crop' }
+                ],
+                workHistory: [
+                    { title: '5-Day Nile Cruise from Luxor to Aswan', rating: 5.0, date: 'Jul 15, 2025', feedback: 'Absolutely breathtaking experience. The boat was luxurious and the guides were incredibly knowledgeable. Highly recommend Nile Voyages!' },
+                    { title: 'Private Tour of the Giza Pyramids', rating: 5.0, date: 'Jul 12, 2025', feedback: 'Our guide was fantastic. We learned so much more than we would have on our own. Everything was perfectly organized.' }
+                ]
+            },
+            'hassan-youssef': {
+                name: 'Hassan Youssef',
+                type: 'guide',
+                image: 'https://randomuser.me/api/portraits/men/32.jpg',
+                location: 'Giza, Egypt',
+                tagline: 'Giza Pyramids Specialist | Egyptologist',
+                rate: '$50.00/hr',
+                jobSuccess: '99%',
+                status: 'Top Rated',
+                totalJobs: 310,
+                totalHours: 2500,
+                availability: 'Open to Offers',
+                about: 'With a degree in Egyptology and a passion for storytelling, I bring the ancient history of the Giza Plateau to life. My tours are designed to be both educational and entertaining, offering deep insights into one of the world\'s most incredible wonders.',
+                skills: ['Egyptology', 'Giza Pyramids', 'Ancient History', 'Private Tours', 'Photography'],
+                portfolio: [ { title: 'Sunrise at the Sphinx', img: 'https://images.unsplash.com/photo-1559124135-3734b413554e?q=80&w=870&auto=format&fit=crop' } ],
+                workHistory: [ { title: 'Giza Plateau Full-Day Tour', rating: 5.0, date: 'Jul 22, 2025', feedback: 'Hassan was an incredible guide. His knowledge is immense, and he made our visit to the pyramids unforgettable.' } ]
+            },
+            'cairo-adventures': {
+                name: 'Cairo Adventures',
+                type: 'company',
+                image: 'https://placehold.co/128x128/c53030/FFFFFF?text=CA',
+                location: 'Cairo, Egypt',
+                tagline: 'Express & Half-Day Tours in Cairo & Giza',
+                rate: 'View Tours',
+                jobSuccess: '96%',
+                status: 'Top Rated',
+                totalJobs: 800,
+                totalHours: 4500,
+                availability: 'Accepting New Bookings',
+                about: 'Cairo Adventures specializes in short, high-impact tours for travelers on a tight schedule. We ensure you see the absolute must-see sights without the wait, perfect for layovers or weekend trips.',
+                skills: ['Half-Day Tours', 'Express Tours', 'Giza', 'Cairo', 'Airport Layovers'],
+                portfolio: [ { title: 'Sphinx Express Tour', img: 'https://images.unsplash.com/photo-1559124135-3734b413554e?q=80&w=870&auto=format&fit=crop' } ],
+                workHistory: [ { title: 'Half-Day Giza Express', rating: 4.8, date: 'Jul 21, 2025', feedback: 'Perfect for our layover! We saw the pyramids and were back at the airport with time to spare. Very efficient.' } ]
+            },
+            'luxor-legacy-tours': {
+                name: 'Luxor Legacy Tours',
+                type: 'company',
+                image: 'https://placehold.co/128x128/d4af37/FFFFFF?text=LL',
+                location: 'Luxor, Egypt',
+                tagline: 'Specialists in the Temples of Luxor & Karnak',
+                rate: 'View Tours',
+                jobSuccess: '97%',
+                status: 'Top Rated',
+                totalJobs: 950,
+                totalHours: 6000,
+                availability: 'Accepting New Bookings',
+                about: 'We are a team of Luxor-based historians and guides dedicated to showcasing the magnificent temples of the East and West Banks. We offer in-depth tours that explore the history, art, and mythology of these incredible ancient sites.',
+                skills: ['Luxor Temple', 'Karnak Temple', 'Valley of the Kings', 'Cultural Tours', 'Historical Tours'],
+                portfolio: [ { title: 'Avenue of Sphinxes', img: 'https://images.unsplash.com/photo-1621909328212-9c17dd264560?q=80&w=870&auto=format&fit=crop' } ],
+                workHistory: [ { title: 'East Bank Temples Tour', rating: 5.0, date: 'Jul 20, 2025', feedback: 'Our guide was a university professor and her knowledge was astounding. A fantastic tour.' } ]
+            },
+            'desert-wanderers': {
+                name: 'Desert Wanderers',
+                type: 'company',
+                image: 'https://placehold.co/128x128/8c5a32/FFFFFF?text=DW',
+                location: 'Siwa, Egypt',
+                tagline: 'Authentic Desert Safari Adventures',
+                rate: 'View Tours',
+                jobSuccess: '99%',
+                status: 'Top Rated',
+                totalJobs: 400,
+                totalHours: 3000,
+                availability: 'Accepting New Bookings',
+                about: 'Experience the magic of the Great Sand Sea with our team of expert Bedouin drivers and guides. We offer thrilling 4x4 adventures, sandboarding, and unforgettable nights under the stars.',
+                skills: ['4x4 Safari', 'Desert Camping', 'Sandboarding', 'Siwa Oasis', 'Adventure Travel'],
+                portfolio: [ { title: 'Great Sand Sea Safari', img: 'https://images.unsplash.com/photo-1614087813534-a2123c6c1b35?q=80&w=870&auto=format&fit=crop' } ],
+                workHistory: [ { title: 'Overnight Desert Safari', rating: 5.0, date: 'Jul 18, 2025', feedback: 'The highlight of our trip to Egypt! The team was professional, and the desert landscapes were surreal. Unforgettable.' } ]
+            },
+            'mediterra-tours': {
+                name: 'Mediterra Tours',
+                type: 'company',
+                image: 'https://placehold.co/128x128/3b82f6/FFFFFF?text=MT',
+                location: 'Alexandria, Egypt',
+                tagline: 'Greco-Roman History & Mediterranean Charm',
+                rate: 'View Tours',
+                jobSuccess: '96%',
+                status: 'Top Rated',
+                totalJobs: 600,
+                totalHours: 4200,
+                availability: 'Accepting New Bookings',
+                about: 'Explore the unique blend of cultures in Alexandria with us. We specialize in day trips that cover the city\'s rich Greco-Roman history, from the catacombs to the great modern library.',
+                skills: ['Alexandria', 'Greco-Roman History', 'Day Trips from Cairo', 'Library of Alexandria'],
+                portfolio: [ { title: 'Bibliotheca Alexandrina', img: 'https://images.unsplash.com/photo-1623961913398-6972a8813133?q=80&w=870&auto=format&fit=crop' } ],
+                workHistory: [ { title: 'Alexandria Day Tour', rating: 4.7, date: 'Jul 17, 2025', feedback: 'A long day but worth it. Our guide was excellent and showed us the best of Alexandria.' } ]
+            },
+            'captain-omar': {
+                name: 'Captain Omar',
+                type: 'guide',
+                image: 'https://randomuser.me/api/portraits/men/40.jpg',
+                location: 'Aswan, Egypt',
+                tagline: 'Traditional Felucca Captain on the Nile',
+                rate: '$25.00/hr',
+                jobSuccess: '100%',
+                status: 'Top Rated',
+                totalJobs: 550,
+                totalHours: 2100,
+                availability: 'Open to Offers',
+                about: 'I am a Nubian captain born and raised on the banks of the Nile in Aswan. Sailing is in my blood. Join me on my traditional felucca for a relaxing and authentic journey on the world\'s most famous river. I will share stories of my home and show you the best views of the islands and desert.',
+                skills: ['Felucca Sailing', 'Nubian Culture', 'Aswan', 'Sunset Tours', 'Relaxation'],
+                portfolio: [ { title: 'Sailing at Sunset', img: 'https://images.unsplash.com/photo-1588891824343-0592051807c4?q=80&w=870&auto=format&fit=crop' } ],
+                workHistory: [ { title: 'Sunset Felucca Trip', rating: 5.0, date: 'Jul 22, 2025', feedback: 'Captain Omar is a true gentleman of the Nile. His boat is beautiful, and the experience was peaceful and magical. The best part of our time in Aswan.' } ]
+            },
+            'ahmed-hassan': {
+                name: 'Ahmed Hassan',
+                type: 'guide',
+                image: 'https://randomuser.me/api/portraits/men/32.jpg',
+                location: 'Cairo, Egypt',
+                tagline: 'Expert Egyptologist | Old Cairo Specialist | Cultural Walking Tours',
+                rate: '$45.00/hr',
+                jobSuccess: '100%',
+                status: 'Top Rated Plus',
+                totalJobs: 215,
+                totalHours: 1850,
+                availability: 'As Needed - Open to Offers',
+                about: `I’m a passionate and certified Egyptologist with over 8 years of experience guiding travelers through the rich tapestry of Egyptian history. I specialize in immersive walking tours of Old Cairo, bringing to life the stories behind the ancient mosques, churches, and bustling bazaars. My approach is personal and flexible, ensuring you get to experience the authentic culture and history of my city at your own pace.`,
+                skills: ['Egyptology', 'Cultural Tours', 'Walking Tours', 'Islamic History', 'Coptic History', 'Photography Tours', 'Fluent English', 'Local Cuisine'],
+                 portfolio: [
+                    { title: 'Khan el-Khalili Bazaar', img: 'https://images.unsplash.com/photo-1569573994334-63116a48003f?q=80&w=870&auto=format&fit=crop' },
+                    { title: 'Al-Azhar Mosque', img: 'https://images.unsplash.com/photo-1618912239252-a99402213a3a?q=80&w=870&auto=format&fit=crop' }
+                ],
+                workHistory: [
+                    { title: 'Private Walking Tour of Old Cairo', rating: 5.0, date: 'Jul 20, 2025', feedback: 'Ahmed was the best guide we could have asked for. His knowledge and passion are incredible. We saw parts of Cairo we never would have found on our own.' },
+                    { title: 'Giza Pyramids & Sphinx Half-Day Tour', rating: 5.0, date: 'Jul 18, 2025', feedback: 'An amazing and insightful tour. Ahmed is a true professional and a wonderful storyteller. Highly recommended!' }
+                ]
+            },
+            'fatima-ahmed': {
+                name: 'Fatima Ahmed',
+                type: 'guide',
+                image: 'https://randomuser.me/api/portraits/women/44.jpg',
+                location: 'Giza, Egypt',
+                tagline: 'Giza Plateau Expert | Family-Friendly Tours',
+                rate: '$40.00/hr',
+                jobSuccess: '99%',
+                status: 'Top Rated',
+                totalJobs: 180,
+                totalHours: 1500,
+                availability: 'Accepting New Bookings',
+                about: `As a mother and a guide, I specialize in creating engaging and fun tours for families visiting the Giza Plateau. I know how to keep children entertained while making history accessible and exciting for all ages. Let me show you the wonders of the pyramids through a storyteller's eyes.`,
+                skills: ['Family Tours', 'Giza Pyramids', 'Ancient History', 'Storytelling', 'Child-Friendly Activities'],
+                 portfolio: [ { title: 'Camel Ride at Sunset', img: 'https://images.unsplash.com/photo-1549266395-a22da4e4333a?q=80&w=870&auto=format&fit=crop' } ],
+                workHistory: [ { title: 'Family Tour of Giza', rating: 5.0, date: 'Jul 21, 2025', feedback: 'Fatima was amazing with our kids! She made the pyramids come alive for them. The best family tour we have ever had.' } ]
+            },
+            'egypt-tours-co': {
+                name: 'Egypt Tours Co.',
+                type: 'company',
+                image: 'https://placehold.co/128x128/c53030/FFFFFF?text=ET',
+                location: 'Giza, Egypt',
+                tagline: 'Affordable & Comprehensive Egyptian Tours',
+                rate: 'View Tours',
+                jobSuccess: '95%',
+                status: 'Rising Talent',
+                totalJobs: 500,
+                totalHours: 3200,
+                availability: 'Accepting New Bookings',
+                about: 'We specialize in providing high-quality, affordable tours across Egypt. Our most popular package is the Full-Day Giza tour which includes a memorable camel ride.',
+                skills: ['Budget Tours', 'Camel Rides', 'Giza Tours', 'Group Bookings'],
+                portfolio: [ { title: 'Camel Ride at the Pyramids', img: 'https://images.unsplash.com/photo-1618912239252-a99402213a3a?q=80&w=870&auto=format&fit=crop' } ],
+                workHistory: [ { title: 'Giza Tour with Camel Ride', rating: 4.5, date: 'Jul 19, 2025', feedback: 'Great value for the money. The camel ride was the highlight!' } ]
+            }
+        };
+
+        function renderProfile(providerId) {
+            const data = providerData[providerId];
+            if (!data) {
+                document.getElementById('profile-container').innerHTML = `<p class="text-center text-red-500">Profile not found.</p>`;
+                return;
+            }
+
+            const profileHtml = `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left Column -->
+                    <div class="lg:col-span-2 bg-white rounded-lg border border-gray-200">
+                        <div class="p-8 border-b border-gray-200 flex items-center gap-6">
+                            <img src="${data.image}" alt="${data.name}" class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg">
+                            <div>
+                                <h1 class="text-3xl font-bold text-primary">${data.name}</h1>
+                                <p class="text-gray-600 mt-1">${data.tagline}</p>
+                                <div class="flex items-center gap-4 mt-2 text-sm text-gray-500">
+                                    <span><i class="fas fa-map-marker-alt mr-2"></i>${data.location}</span>
+                                    <span class="text-green-600 font-semibold"><i class="fas fa-check-circle mr-2"></i>Verified</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <p class="text-gray-700 whitespace-pre-line">${data.about}</p>
+                        </div>
+                        <div class="p-8 border-t border-gray-200">
+                            <h2 class="text-xl font-bold text-primary mb-4">Work History</h2>
+                            ${data.workHistory.map(job => `
+                                <div class="mb-6">
+                                    <div class="flex justify-between items-center">
+                                        <h3 class="font-semibold text-primary">${job.title}</h3>
+                                        <div class="text-secondary">${'<i class="fas fa-star"></i>'.repeat(Math.floor(job.rating))}${(job.rating % 1 !== 0) ? '<i class="fas fa-star-half-alt"></i>' : ''}</div>
+                                    </div>
+                                    <p class="text-sm text-gray-500">${job.date}</p>
+                                    <p class="text-gray-700 mt-2 italic">"${job.feedback}"</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                         <div class="p-8 border-t border-gray-200">
+                            <h2 class="text-xl font-bold text-primary mb-4">Portfolio</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                ${data.portfolio.map(item => `
+                                    <div>
+                                        <img src="${item.img}" class="rounded-lg w-full h-48 object-cover">
+                                        <p class="text-center mt-2 font-semibold text-gray-700">${item.title}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="p-8 border-t border-gray-200">
+                            <h2 class="text-xl font-bold text-primary mb-4">Skills</h2>
+                            <div class="flex flex-wrap gap-2">
+                                ${data.skills.map(skill => `<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm">${skill}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-lg border border-gray-200 p-6 sticky top-28">
+                            <div class="flex items-center gap-4">
+                                <div class="text-4xl font-bold text-primary">${data.jobSuccess}</div>
+                                <div class="font-semibold text-primary">Job Success</div>
+                            </div>
+                            <div class="mt-2 text-sm text-secondary font-bold">${data.status}</div>
+                            <div class="mt-6 text-center">
+                                <div class="text-3xl font-bold text-primary">${data.rate}</div>
+                            </div>
+                            <button class="w-full mt-4 bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary-dark transition-colors">Contact ${data.type === 'guide' ? 'Me' : 'Us'}</button>
+                            <div class="mt-6 border-t border-gray-200 pt-6 space-y-4 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="font-semibold text-gray-700">Total Jobs</span>
+                                    <span>${data.totalJobs}</span>
+                                </div>
+                                 <div class="flex justify-between">
+                                    <span class="font-semibold text-gray-700">Total Hours</span>
+                                    <span>${data.totalHours.toLocaleString()}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="font-semibold text-gray-700">Availability</span>
+                                    <span>${data.availability}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('profile-container').innerHTML = profileHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const providerId = urlParams.get('provider');
+            if (providerId) {
+                renderProfile(providerId);
+            } else {
+                 document.getElementById('profile-container').innerHTML = `<p class="text-center text-gray-600">No profile specified. Please select a provider from the explore page.</p>`;
+            }
+        });
+    </script>
+
+</body>
+</html>

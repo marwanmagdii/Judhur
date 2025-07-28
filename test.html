@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judhur - Premium & Authentic Egyptian Journeys</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS (Animate on Scroll) Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1a2c2b; 
+            --secondary: #d4af37; 
+            --light: #fdfcf9;
+            --dark: #2d3748;
+            --font-sans: 'Inter', sans-serif;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        .bg-primary { background-color: var(--primary); }
+        .text-primary { color: var(--primary); }
+        .bg-secondary { background-color: var(--secondary); }
+        .text-secondary { color: var(--secondary); }
+        .border-secondary { border-color: var(--secondary); }
+        .hover\:bg-primary-dark:hover { background-color: #12201f; }
+        .hover\:bg-secondary-dark:hover { background-color: #b9985a; }
+
+        .hero-bg {
+            background-image: linear-gradient(to right, rgba(26, 44, 43, 0.85) 30%, rgba(26, 44, 43, 0.2) 100%), url('images/rul2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .textured-bg {
+            background-color: #f8f5f0;
+            background-image: url('https://www.transparenttextures.com/patterns/subtle-zebra-3d.png');
+        }
+        
+        .elegant-shadow {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.04);
+        }
+        .elegant-shadow-hover:hover {
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08), 0 8px 12px rgba(0, 0, 0, 0.06);
+            transform: translateY(-5px);
+        }
+
+        .header-scrolled {
+            background-color: var(--light);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        .header-scrolled #main-nav .link-underline.active {
+            color: #123332;
+        }
+
+        .link-underline {
+            position: relative;
+            text-decoration: none;
+        }
+        .link-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--secondary);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .link-underline:hover::after, .link-underline.active::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .base-button {
+           display: inline-block;
+           font-weight: 600;
+           padding: 0.5rem 1rem;
+           border-radius: 0.5rem;
+           font-size: 0.875rem;
+           line-height: 1.25rem;
+           text-decoration: none;
+           transition: all 0.3s ease;
+           position: relative;
+           overflow: hidden;
+           cursor: pointer;
+           border: 1px solid var(--secondary);
+       }
+
+       .base-button span {
+           display: inline-block;
+           color: transparent;
+           -webkit-background-clip: text;
+           background-clip: text;
+       }
+       
+       .base-button:hover {
+           transform: translateY(-2px);
+           box-shadow: 0 4px 10px rgba(201, 168, 106, 0.2);
+       }
+
+       @keyframes flow-lr { /* Flow Left to Right */
+           to {
+               background-position: -200% center;
+           }
+       }
+
+       .anim-flow-10 {
+           background-color: var(--primary);
+           border: 1px solid var(--secondary);
+       }
+       
+       .anim-flow-10 span {
+           background-image: linear-gradient(90deg, #ffffff, var(--secondary), #ffffff);
+           background-size: 200% auto;
+           animation: flow-lr 4s linear infinite;
+       }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+    </style>
+</head>
+<body class="text-dark">
+
+    <!-- Header -->
+    <header id="main-header" class="fixed w-full top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" id="logo-link" class="text-3xl font-bold text-white flex items-center gap-3">
+                <i class="fas fa-sun text-secondary"></i>
+                <span>Judhur</span>
+            </a>
+            <nav id="main-nav" class="hidden md:flex items-center space-x-8 text-sm font-medium text-white">
+                <a href="#" class="link-underline active font-bold text-secondary">Home</a>
+                <a href="explore.html" class="link-underline">Explore</a>
+                <a href="bidding.html" class="base-button anim-flow-10"><span>Bidding</span></a>
+                <a href="for-guides.html" class="link-underline">For Guides</a>
+                <a href="about-us.html" class="link-underline">About Us</a>
+            </nav>
+            <a href="for-guides.html#registration-form" class="hidden md:inline-block bg-primary text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-primary-dark transition-all duration-300 elegant-shadow">
+                Become a Guide
+            </a>
+            <button id="menu-btn" class="md:hidden text-white text-2xl">
+                <i id="menu-icon" class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-light/95 backdrop-blur-md">
+            <nav class="px-6 pb-4 flex flex-col space-y-4 pt-4">
+                <a href="#" class="text-primary font-bold py-2">Home</a>
+                <a href="explore.html" class="text-gray-600 hover:text-primary py-2">Explore</a>
+                <a href="for-guides.html" class="text-gray-600 hover:text-primary py-2">For Guides</a>
+                <a href="about-us.html" class="text-gray-600 hover:text-primary py-2">About Us</a>
+                <a href="bidding.html" class="base-button anim-flow-10 text-center py-3"><span>Start Bidding</span></a>
+                <a href="for-guides.html#registration-form" class="mt-2 inline-block bg-primary text-white font-semibold px-6 py-3 rounded-lg hover:bg-primary-dark transition-all shadow-lg w-full text-center">
+                    Become a Guide
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- EDITED: Hero Section -->
+        <section class="hero-bg text-white">
+            <div class="container mx-auto px-6 min-h-screen flex items-center justify-center lg:justify-start">
+                <div class="max-w-xl text-center lg:text-left pt-24 pb-20" data-aos="fade-up">
+                    <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+                        Unlock the Soul<br>of Egypt.
+                    </h1>
+                    <p class="mt-6 text-lg text-gray-200">
+                        Browse our ready-to-book signature tours, or tell us your dream trip and let our local experts build it for you. Your journey starts here.
+                    </p>
+                    <a href="#how-it-works" class="text-white/70 hover:text-white group transition-colors duration-300 inline-flex items-center gap-2">
+                        How It Works <i class="fas fa-chevron-down text-xs transition-transform duration-300 group-hover:translate-y-0.5"></i>
+                    </a>
+                    <div class="mt-10 flex flex-col items-center lg:items-start gap-5">
+                        <div class="flex flex-col sm:flex-row items-center gap-4">
+                            <a href="explore.html" class="group w-full sm:w-auto bg-secondary text-primary font-bold px-8 py-3.5 rounded-lg hover:bg-secondary-dark transition-all duration-300 elegant-shadow flex items-center justify-center gap-2 text-base transform hover:-translate-y-1">
+                                <span>Explore Signature Tours</span>
+                                <i class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
+                            </a>
+                            <a href="bidding.html" class="group w-full sm:w-auto bg-primary border-2 border-secondary text-secondary font-semibold px-8 py-3.5 rounded-lg hover:bg-secondary hover:text-primary transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2 text-base">
+                                <span>Create a Custom Trip</span>
+                                <i class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="py-24 textured-bg">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-primary">Two Paths to Discovery</h2>
+                    <p class="mt-4 text-lg text-gray-500 max-w-3xl mx-auto">Whether you want to create a custom trip from scratch or book a pre-designed experience, your journey starts here.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Path 1: Bidding Card -->
+                    <div class="bg-white/50 p-6 md:p-8 rounded-2xl elegant-shadow border border-gray-200/50" data-aos="fade-right" data-aos-delay="100">
+                        <div class="text-center mb-8">
+                            <h3 class="text-3xl font-bold text-primary">For a Custom Journey</h3>
+                            <p class="mt-2 text-md text-gray-600">Design your dream trip with our best local guides.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                            <a href="bidding.html" class="relative group block p-4 md:p-6 rounded-xl bg-white elegant-shadow-hover transition-all duration-300">
+                                <div class="bg-secondary/10 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4 border-4 border-white transition-transform duration-300 group-hover:scale-110">
+                                    <svg class="w-10 h-10 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 16.382V5.618a1 1 0 00-.553-.894L15 2m-6 5l6 3m-6-3l6-3m0 0l-6 3m6-3v10"></path></svg>
+                                </div>
+                                <h4 class="text-xl font-bold text-primary mb-2">1. Post</h4>
+                                <p class="text-sm text-gray-500">Post your trip request and get bids from expert guides.</p>
+                                <span class="absolute top-4 right-4 text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </a>
+                            <div class="p-4 md:p-6 rounded-xl">
+                                <div class="bg-primary/5 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4 border-4 border-white">
+                                    <svg class="w-10 h-10 text-primary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                </div>
+                                <h4 class="text-xl font-bold text-primary mb-2">2. Interview</h4>
+                                <p class="text-sm text-gray-500">Chat with guides and review their custom proposals.</p>
+                            </div>
+                            <div class="p-4 md:p-6 rounded-xl">
+                                <div class="bg-primary/5 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4 border-4 border-white">
+                                    <svg class="w-10 h-10 text-primary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <h4 class="text-xl font-bold text-primary mb-2">3. Hire</h4>
+                                <p class="text-sm text-gray-500">Securely hire your chosen guide and finalize the plan.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Path 2: Exploring Card -->
+                    <div class="bg-white/50 p-6 md:p-8 rounded-2xl elegant-shadow border border-gray-200/50" data-aos="fade-left" data-aos-delay="200">
+                        <div class="text-center mb-8">
+                            <h3 class="text-3xl font-bold text-primary">For Instant Adventures</h3>
+                            <p class="mt-2 text-md text-gray-600">Choose from our curated signature experiences.</p>
+                        </div>
+                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                            <a href="explore.html" class="relative group block p-4 md:p-6 rounded-xl bg-white elegant-shadow-hover transition-all duration-300">
+                               <div class="bg-secondary/10 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4 border-4 border-white transition-transform duration-300 group-hover:scale-110">
+                                    <svg class="w-10 h-10 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                </div>
+                                <h4 class="text-xl font-bold text-primary mb-2">1. Explore</h4>
+                                <p class="text-sm text-gray-500">See offers from different guides for our signature tours.</p>
+                                 <span class="absolute top-4 right-4 text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </a>
+                            <div class="p-4 md:p-6 rounded-xl">
+                                <div class="bg-primary/5 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4 border-4 border-white">
+                                    <svg class="w-10 h-10 text-primary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <h4 class="text-xl font-bold text-primary mb-2">2. Reserve</h4>
+                                <p class="text-sm text-gray-500">Compare prices & providers, then book your chosen guide.</p>
+                            </div>
+                            <div class="p-4 md:p-6 rounded-xl">
+                                <div class="bg-primary/5 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-4 border-4 border-white">
+                                     <svg class="w-10 h-10 text-primary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                </div>
+                                <h4 class="text-xl font-bold text-primary mb-2">3. Enjoy</h4>
+                                <p class="text-sm text-gray-500">Arrive ready for your adventure with an expert guide.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Tours Section -->
+        <section class="py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-primary">Signature Experiences</h2>
+                    <p class="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">A glimpse into the extraordinary journeys curated by our local experts.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Tour Card 1 -->
+                    <div class="bg-light rounded-xl overflow-hidden elegant-shadow elegant-shadow-hover transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                        <div class="relative">
+                            <img src="images/pyramid.webp" class="w-full h-64 object-cover" alt="Giza Pyramids">
+                            <div class="absolute bottom-0 left-0 bg-gradient-to-t from-black/60 to-transparent w-full h-1/2"></div>
+                            <span class="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">GIZA</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-primary">Secrets of the Pyramids</h3>
+                            <p class="text-gray-500 mt-2 h-20">An intimate exploration of the Giza Plateau, including special access areas, with a world-class Egyptologist.</p>
+                            <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
+                                <span class="text-xl font-bold text-primary">$150 <span class="text-sm font-normal text-gray-500">/ person</span></span>
+                                <a href="explore.html" class="text-secondary font-bold hover:underline">Details <i class="fas fa-arrow-right ml-1 text-xs"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tour Card 2 -->
+                    <div class="bg-light rounded-xl overflow-hidden elegant-shadow elegant-shadow-hover transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                        <div class="relative">
+                            <img src="images/nile3.jfif" class="w-full h-64 object-cover" alt="Felucca on the Nile">
+                            <div class="absolute bottom-0 left-0 bg-gradient-to-t from-black/60 to-transparent w-full h-1/2"></div>
+                            <span class="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">ASWAN</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-primary">Nile Sunset Felucca</h3>
+                            <p class="text-gray-500 mt-2 h-20">Sail the timeless Nile on a traditional felucca. Visit a Nubian village and enjoy dinner as the sun sets.</p>
+                             <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
+                                <span class="text-xl font-bold text-primary">$85 <span class="text-sm font-normal text-gray-500">/ person</span></span>
+                                <a href="explore.html" class="text-secondary font-bold hover:underline">Details <i class="fas fa-arrow-right ml-1 text-xs"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tour Card 3 -->
+                     <div class="bg-light rounded-xl overflow-hidden elegant-shadow elegant-shadow-hover transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+                         <div class="relative">
+                            <img src="images/cairo2.jfif" class="w-full h-64 object-cover" alt="Khan el-Khalili Bazaar">
+                            <div class="absolute bottom-0 left-0 bg-gradient-to-t from-black/60 to-transparent w-full h-1/2"></div>
+                            <span class="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">CAIRO</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-primary">Khan el-Khalili Bazaar</h3>
+                            <p class="text-gray-500 mt-2 h-20">A guided journey through the art, crafts, and culinary delights of Cairo's most famous market.</p>
+                             <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
+                                <span class="text-xl font-bold text-primary">$60 <span class="text-sm font-normal text-gray-500">/ person</span></span>
+                                <a href="explore.html" class="text-secondary font-bold hover:underline">Details <i class="fas fa-arrow-right ml-1 text-xs"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-24 textured-bg">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-primary">Voices of Our Travelers</h2>
+                     <p class="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">Real stories from journeys made unforgettable.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-xl elegant-shadow" data-aos="fade-up" data-aos-delay="100">
+                        <i class="fas fa-quote-left text-secondary text-3xl mb-4"></i>
+                        <p class="text-gray-500 italic mb-6">"Our guide, arranged through Judhur, was a true historian and storyteller. He brought the temples of Luxor to life in a way no book ever could. A five-star experience from start to finish."</p>
+                        <div class="flex items-center">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-12 h-12 rounded-full mr-4 border-2 border-secondary p-0.5" alt="Samantha Jane">
+                            <div>
+                                <p class="font-bold text-primary">Samantha Jane</p>
+                                <p class="text-sm text-gray-400">London, UK</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white p-8 rounded-xl elegant-shadow" data-aos="fade-up" data-aos-delay="200">
+                        <i class="fas fa-quote-left text-secondary text-3xl mb-4"></i>
+                        <p class="text-gray-500 italic mb-6">"The bidding system was transparent and easy. We posted our custom diving trip for the Red Sea and had three excellent offers from certified dive masters within hours. Highly recommended."</p>
+                        <div class="flex items-center">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-12 h-12 rounded-full mr-4 border-2 border-secondary p-0.5" alt="Michael B.">
+                            <div>
+                                <p class="font-bold text-primary">Michael B.</p>
+                                <p class="text-sm text-gray-400">Sydney, Australia</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-white p-8 rounded-xl elegant-shadow" data-aos="fade-up" data-aos-delay="300">
+                        <i class="fas fa-quote-left text-secondary text-3xl mb-4"></i>
+                        <p class="text-gray-500 italic mb-6">"As a solo female traveler, safety and authenticity were my priorities. Judhur connected me with a wonderful female guide who made me feel welcome and showed me the real Cairo."</p>
+                        <div class="flex items-center">
+                            <img src="https://randomuser.me/api/portraits/women/67.jpg" class="w-12 h-12 rounded-full mr-4 border-2 border-secondary p-0.5" alt="Aisha Khan">
+                            <div>
+                                <p class="font-bold text-primary">Aisha Khan</p>
+                                 <p class="text-sm text-gray-400">Toronto, Canada</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="bg-primary">
+            <div class="container mx-auto px-6 py-20 text-center" data-aos="fade-up">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white">Your Story of Egypt Awaits</h2>
+                <p class="text-lg text-gray-300 mt-4 mb-8 max-w-2xl mx-auto">Whether you seek adventure, history, or connection, your journey begins here. Let us craft an experience as unique as you are.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="explore.html" class="bg-secondary text-primary font-bold py-3 px-8 rounded-lg text-lg hover:bg-secondary-dark transition-colors elegant-shadow">
+                        Explore Our Tours
+                    </a>
+                     <a href="bidding.html" class="bg-white/20 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-white/30 transition-colors">
+                        Request a Custom Trip
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize AOS
+            AOS.init({
+                duration: 700,
+                once: true,
+                offset: 50,
+            });
+
+            // Mobile menu toggle
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuIcon.classList.toggle('fa-bars');
+                menuIcon.classList.toggle('fa-times');
+            });
+
+            // Header style on scroll
+            const header = document.getElementById('main-header');
+            const logoLink = document.getElementById('logo-link');
+            const mainNav = document.getElementById('main-nav');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('header-scrolled');
+                    logoLink.classList.remove('text-white');
+                    logoLink.classList.add('text-primary');
+                    mainNav.classList.remove('text-white');
+                    mainNav.classList.add('text-primary');
+                    menuIcon.classList.remove('text-white');
+                    menuIcon.classList.add('text-primary');
+                } else {
+                    header.classList.remove('header-scrolled');
+                    logoLink.classList.remove('text-primary');
+                    logoLink.classList.add('text-white');
+                    mainNav.classList.remove('text-primary');
+                    mainNav.classList.add('text-white');
+                    menuIcon.classList.remove('text-primary');
+                    menuIcon.classList.add('text-white');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

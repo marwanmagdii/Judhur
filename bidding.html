@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidding - Judhur</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+    <style>
+        :root {
+            --primary: #123332;
+            --secondary: #d4af37; 
+            --light: #f8f5f0;
+            --dark: #2d3748;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+        }
+
+        .bg-primary { background-color: var(--primary); }
+        .text-primary { color: var(--primary); }
+        .bg-secondary { background-color: var(--secondary); }
+        .text-secondary { color: var(--secondary); }
+        .border-primary { border-color: var(--primary); }
+        .border-secondary { border-color: var(--secondary); }
+        .hover\:bg-primary-dark:hover { background-color: #0a2221; }
+        .hover\:bg-secondary-dark:hover { background-color: #c29a1e; }
+        
+        /* Custom shadow for a subtle lift effect */
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .card-shadow-hover:hover {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        
+        /* Styles for the modals */
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .hero-bg-bidding {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('images/pyramid.webp');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* --- STYLES FOR ANIMATED BUTTON --- */
+        .base-button {
+           display: inline-block;
+           font-weight: 600;
+           padding: 0.5rem 1rem; /* Increased padding for better visibility */
+           border-radius: 0.5rem;
+           font-size: 0.875rem;
+           line-height: 1.25rem;
+           text-decoration: none;
+           transition: all 0.3s ease;
+           position: relative;
+           overflow: hidden;
+           cursor: pointer;
+           border: 1px solid var(--secondary);
+        }
+
+        .base-button span {
+           display: inline-block;
+           color: transparent;
+           -webkit-background-clip: text;
+           background-clip: text;
+        }
+        
+        .base-button:hover {
+           transform: translateY(-2px);
+           box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        @keyframes flow-lr { /* Flow Left to Right */
+           to {
+               background-position: -200% center;
+           }
+        }
+
+        .anim-flow-10 {
+           background-color: var(--primary);
+           border: 1px solid var(--secondary);
+        }
+        
+        .anim-flow-10 span {
+           background-image: linear-gradient(90deg, #ffffff, var(--secondary), #ffffff);
+           background-size: 200% auto;
+           animation: flow-lr 4s linear infinite;
+        }
+        
+        /* --- NEW STYLES FOR HEADER --- */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Initial state: text is white */
+        #main-header:not(.header-scrolled) .text-primary,
+        #main-header:not(.header-scrolled) a.link-underline,
+        #main-header:not(.header-scrolled) #menu-btn {
+            color: white;
+        }
+        
+        /* Keep the secondary color for icons etc. */
+        #main-header:not(.header-scrolled) .text-secondary {
+            color: var(--secondary); 
+        }
+
+        /* Scrolled state: background appears */
+        .header-scrolled {
+            background-color: rgba(248, 245, 240, 0.95); /* Using var(--light) with transparency */
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header-scrolled .text-primary, 
+        .header-scrolled a.link-underline {
+            color: var(--primary);
+        }
+
+        .link-underline {
+            position: relative;
+            text-decoration: none;
+        }
+        .link-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--secondary);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .link-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .elegant-shadow {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Custom scrollbar for dropdowns */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+    </style>
+</head>
+<body class="text-dark">
+
+    <!-- Header -->
+    <header id="main-header" class="fixed w-full top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-bold text-primary flex items-center gap-3">
+      <img src="images/logo.png" alt="Judhur Logo" class="w-12 h-12 rounded-full object-contain" />
+                <span>Judhur</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="index.html" class="link-underline">Home</a>
+                <a href="explore.html" class="link-underline">Explore</a>
+                <a href="bidding.html" class="base-button anim-flow-10"><span>Bidding</span></a>
+                <a href="for-guides.html" class="link-underline">For Guides</a>
+                <a href="about-us.html" class="link-underline">About Us</a>
+            </nav>
+            <button id="post-project-btn-header" class="hidden md:inline-block bg-primary text-white font-semibold px-5 py-2 rounded-lg hover:bg-primary-dark transition-colors elegant-shadow">
+                Post a Trip
+            </button>
+            <button id="menu-btn" class="md:hidden text-primary text-2xl">
+                <i id="menu-icon" class="fas fa-bars"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-light/95 backdrop-blur-md">
+            <nav class="px-6 pb-4 flex flex-col space-y-4 pt-4">
+                <a href="index.html" class="text-gray-600 hover:text-primary py-2">Home</a>
+                <a href="explore.html" class="text-gray-600 hover:text-primary py-2">Explore</a>
+                <a href="for-guides.html" class="text-gray-600 hover:text-primary py-2">For Guides</a>
+                <a href="about-us.html" class="text-gray-600 hover:text-primary py-2">About Us</a>
+                <a href="bidding.html" class="base-button anim-flow-10 text-center py-3"><span>Bidding</span></a>
+                <button id="post-project-btn-mobile" class="mt-2 inline-block bg-primary text-white font-semibold px-6 py-3 rounded-lg hover:bg-primary-dark transition-all shadow-lg w-full text-center">
+                    Post a Trip
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-bg-bidding text-white pt-32 pb-16 sm:pt-40 sm:pb-20"> <!-- Increased top padding to clear fixed header -->
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">Find Your Perfect Guide</h1>
+                <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto">Have a specific tour in mind? Post your request and let qualified local guides bid for your project.</p>
+                <button id="post-project-btn-hero" class="mt-8 bg-white text-primary border-2 border-primary font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors text-lg shadow-lg">
+                    <i class="fas fa-plus-circle mr-2"></i>Post Your Custom Tour Request
+                </button>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Left Column: Filters (Desktop) -->
+                <aside id="filters-sidebar-desktop" class="lg:col-span-1 hidden lg:block">
+                    <div class="bg-white p-6 rounded-lg card-shadow lg:sticky top-28">
+                         <!-- Filter content will be injected here -->
+                    </div>
+                </aside>
+                
+                <!-- Right Column: Project Grid -->
+                <div class="lg:col-span-3">
+                     <div class="mb-4 flex gap-2">
+                         <input type="text" id="search-input" placeholder="Search for trips by keyword..." class="w-full p-3 border border-gray-300 rounded-md focus:ring-secondary focus:border-secondary">
+                         <button id="keyword-search-btn" class="bg-primary text-white font-semibold px-6 py-2 rounded-md hover:bg-primary-dark transition-colors">Search</button>
+                     </div>
+                     <!-- Advanced Search Toggle (Mobile/Tablet) -->
+                    <div class="lg:hidden mb-4">
+                        <button id="advanced-search-toggle" class="w-full bg-white p-3 rounded-lg card-shadow flex justify-between items-center font-semibold text-primary">
+                            <span><i class="fas fa-filter mr-2"></i>Advanced Search</span>
+                            <i id="advanced-search-icon" class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Mobile Filters container -->
+                    <aside id="filters-sidebar-mobile" class="lg:hidden hidden mb-4">
+                         <div class="bg-white p-6 rounded-lg card-shadow">
+                             <!-- Filter content will be injected here -->
+                         </div>
+                    </aside>
+
+
+                    <div id="project-grid" class="space-y-6">
+                        <!-- Project cards will be injected here -->
+                    </div>
+                    <p id="no-results" class="hidden text-center text-gray-600 mt-8">No trips found matching your criteria.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Project Details & Bidding Modal -->
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay bg-black bg-opacity-50 opacity-0 pointer-events-none">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col modal-container transform scale-95 opacity-0">
+            <div class="p-6 flex justify-between items-center border-b">
+                <h2 id="modal-project-title" class="text-2xl font-bold text-primary"></h2>
+                <button class="close-modal-btn text-gray-500 hover:text-primary text-2xl">&times;</button>
+            </div>
+            <div class="flex-grow p-6 md:p-8 overflow-y-auto custom-scrollbar grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Left Column: Project Details -->
+                <div class="md:col-span-2 space-y-6">
+                    <div>
+                        <h3 class="font-bold text-primary mb-2">Tour Description</h3>
+                        <p id="modal-project-description" class="text-gray-700 whitespace-pre-line"></p>
+                    </div>
+                    <div class="border-t pt-6">
+                        <h3 class="font-bold text-primary mb-2">Group Composition</h3>
+                        <div id="modal-group-composition" class="flex items-center gap-6 text-gray-700">
+                           <!-- Injected by JS -->
+                        </div>
+                    </div>
+                     <div class="border-t pt-6">
+                         <h3 class="font-bold text-primary mb-2">Guide Qualifications</h3>
+                         <div id="modal-required-skills" class="flex flex-wrap gap-2">
+                             <!-- Skills will be injected here -->
+                         </div>
+                     </div>
+                      <div class="border-t pt-6 pb-6 border-b md:pb-0 md:border-b-0">
+                         <h3 class="font-bold text-primary mb-2">Languages Required</h3>
+                         <div id="modal-required-languages" class="flex flex-wrap gap-2">
+                              <!-- Languages will be injected here -->
+                         </div>
+                     </div>
+                    <div class="border-t pt-6 hidden md:block">
+                        <h3 class="font-bold text-primary mb-4">Current Bids (<span id="modal-bid-count"></span>)</h3>
+                        <div id="modal-bids-list" class="space-y-4">
+                             <!-- Bids will be injected here for desktop -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Column: Info & Bidding Form -->
+                <div class="md:col-span-1 space-y-6">
+                    <div class="bg-light p-4 rounded-lg space-y-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="font-semibold text-gray-600"><i class="fas fa-clock mr-2"></i>Posted</span>
+                            <span id="modal-project-posted-time" class="font-bold text-primary"></span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="font-semibold text-gray-600"><i class="fas fa-map-marker-alt mr-2"></i>Location</span>
+                            <span id="modal-project-location" class="font-bold text-primary"></span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="font-semibold text-gray-600"><i class="fas fa-calendar-alt mr-2"></i>Dates</span>
+                            <span id="modal-project-dates" class="font-bold text-primary"></span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="font-semibold text-gray-600"><i class="fas fa-dollar-sign mr-2"></i>Budget</span>
+                            <span id="modal-project-budget" class="font-bold text-primary"></span>
+                        </div>
+                    </div>
+                    <div class="border-t pt-6">
+                         <h3 class="font-bold text-primary mb-2">About the Client</h3>
+                         <div id="modal-client-details" class="space-y-2 text-sm text-gray-700">
+                               <!-- Client details will be injected here -->
+                         </div>
+                    </div>
+                    <div class="border-t pt-6">
+                        <h3 class="font-bold text-primary mb-2">Place Your Bid</h3>
+                        <form id="bid-form">
+                            <div class="mb-3">
+                                <label for="bid-amount" class="block text-sm font-semibold text-gray-700 mb-1">Your Bid ($)</label>
+                                <input type="number" id="bid-amount" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., 250" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="bid-proposal" class="block text-sm font-semibold text-gray-700 mb-1">Proposal</label>
+                                <textarea id="bid-proposal" rows="4" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Briefly describe why you're the best guide for this tour..." required></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-primary text-white font-bold py-2.5 rounded-lg hover:bg-primary-dark transition-colors">Submit Bid</button>
+                        </form>
+                        <div id="bid-success-message" class="hidden mt-4 p-3 bg-green-100 text-green-800 rounded-md text-center text-sm">
+                            Your bid has been submitted successfully!
+                        </div>
+                    </div>
+                </div>
+                 <!-- Bids section for mobile -->
+                <div class="md:col-span-3 border-t pt-6 md:hidden">
+                    <h3 class="font-bold text-primary mb-4">Current Bids (<span id="modal-bid-count-mobile"></span>)</h3>
+                    <div id="modal-bids-list-mobile" class="space-y-4">
+                        <!-- Bids will be injected here for mobile -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post a Project Modal -->
+    <div id="post-project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay bg-black bg-opacity-50 opacity-0 pointer-events-none">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col modal-container transform scale-95 opacity-0">
+            <div class="p-6 flex justify-between items-center border-b">
+                <h2 class="text-2xl font-bold text-primary">Post Your Custom Tour Request</h2>
+                <button class="close-modal-btn text-gray-500 hover:text-primary text-2xl">&times;</button>
+            </div>
+            <div class="flex-grow p-6 md:p-8 overflow-y-auto custom-scrollbar">
+                <form id="post-project-form" class="space-y-4">
+                    <div>
+                        <label for="project-title" class="block text-sm font-semibold text-gray-700 mb-1">Tour Title</label>
+                        <input type="text" id="project-title" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., 2-Day Cultural Tour of Luxor" required>
+                    </div>
+                    <div>
+                        <label for="project-city" class="block text-sm font-semibold text-gray-700 mb-1">City</label>
+                         <select id="project-city" class="w-full p-2 border border-gray-300 rounded-md bg-white" required>
+                            <!-- City options will be populated by JS -->
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="project-adults" class="block text-sm font-semibold text-gray-700 mb-1">Number of Adults</label>
+                            <input type="number" id="project-adults" class="w-full p-2 border border-gray-300 rounded-md" min="1" value="1" required>
+                        </div>
+                        <div>
+                            <label for="project-children" class="block text-sm font-semibold text-gray-700 mb-1">Number of Children</label>
+                            <input type="number" id="project-children" class="w-full p-2 border border-gray-300 rounded-md" min="0" value="0" required>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="project-start-date" class="block text-sm font-semibold text-gray-700 mb-1">Start Date</label>
+                            <input type="date" id="project-start-date" class="w-full p-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div>
+                            <label for="project-budget" class="block text-sm font-semibold text-gray-700 mb-1">Your Budget ($)</label>
+                            <input type="number" id="project-budget" class="w-full p-2 border border-gray-300 rounded-md" placeholder="e.g., 300" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="project-description" class="block text-sm font-semibold text-gray-700 mb-1">Describe Your Ideal Tour</label>
+                        <textarea id="project-description" rows="5" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Tell us what you'd like to see and do. The more details, the better!" required></textarea>
+                    </div>
+                    
+                    <!-- MODIFIED: Guide Qualifications changed to a dropdown -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Guide Qualifications</label>
+                        <div class="relative" id="project-qualifications-multiselect-container">
+                            <button id="project-qualifications-btn" type="button" class="w-full bg-white p-2 border border-gray-300 rounded-md text-left flex justify-between items-center">
+                                <span id="project-qualifications-text" class="text-sm text-gray-500">Select qualifications...</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="project-qualifications-dropdown" class="hidden absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                                <div class="p-2">
+                                    <input type="text" id="project-qualifications-search" placeholder="Search qualifications..." class="w-full p-2 border border-gray-300 rounded-md text-sm">
+                                </div>
+                                <div id="project-qualifications-options" class="p-2 text-sm max-h-40 overflow-y-auto custom-scrollbar">
+                                    <!-- Qualification options will be injected here by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Languages Required Dropdown -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Languages Required</label>
+                        <div class="relative" id="project-language-multiselect-container">
+                            <button id="project-language-btn" type="button" class="w-full bg-white p-2 border border-gray-300 rounded-md text-left flex justify-between items-center">
+                                <span id="project-language-text" class="text-sm text-gray-500">Select languages...</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="project-language-dropdown" class="hidden absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                                <div class="p-2">
+                                    <input type="text" id="project-language-search" placeholder="Search languages..." class="w-full p-2 border border-gray-300 rounded-md text-sm">
+                                </div>
+                                <div id="project-language-options" class="p-2 text-sm max-h-40 overflow-y-auto custom-scrollbar">
+                                    <!-- Language options will be injected here by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t pt-4">
+                        <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary-dark transition-colors">Post My Request</button>
+                    </div>
+                </form>
+                 <div id="post-success-message" class="hidden mt-4 p-4 bg-green-100 text-green-800 rounded-md text-center">
+                     Your project has been posted successfully! You will be notified when guides place their bids.
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const projectsData = [
+            {
+                id: 'proj1',
+                touristName: 'John D.',
+                postDate: '2025-07-25T04:24:00+03:00', // ~30 minutes ago
+                adults: 2,
+                children: 0,
+                clientInfo: {
+                    isVerified: true,
+                    location: 'New York, USA',
+                    memberSince: 'Jul 24, 2025',
+                    verifications: ['Payment method verified', 'Phone number verified']
+                },
+                title: 'Private 2-Day Tour of Luxor\'s East & West Banks',
+                location: 'Luxor',
+                dates: 'Aug 15-16, 2025',
+                dateValue: '2025-08-15',
+                tourType: 'Historical',
+                budget: [200, 300],
+                projectLength: 'day',
+                languages: ['English', 'Arabic'],
+                description: 'My wife and I are looking for a knowledgeable Egyptologist to guide us through the main sites of Luxor. Day 1 on the East Bank (Karnak, Luxor Temple) and Day 2 on the West Bank (Valley of the Kings, Hatshepsut Temple). We are interested in history and photography. Must be a licensed guide.',
+                requiredSkills: ['Licensed Egyptologist', 'Historical Expertise', 'Photography Skills'],
+                bids: [
+                    { guideName: 'Luxor Legacy Tours', guideId: 'luxor-legacy-tours', guideImage: 'https://placehold.co/40x40/d4af37/FFFFFF?text=LL', amount: 280, proposal: 'We are local Luxor experts and can provide a certified Egyptologist for an in-depth, private 2-day tour covering all requested sites.' },
+                    { guideName: 'Ahmed Hassan', guideId: 'ahmed-hassan', guideImage: 'https://randomuser.me/api/portraits/men/32.jpg', amount: 250, proposal: 'I can arrange this tour with a trusted colleague in Luxor. My focus is on storytelling and bringing history to life for you.' }
+                ]
+            },
+            {
+                id: 'proj2',
+                touristName: 'Maria S.',
+                postDate: '2025-07-23T10:00:00+03:00', // ~2 days ago
+                adults: 2,
+                children: 2,
+                clientInfo: {
+                    isVerified: false,
+                    location: 'Madrid, Spain',
+                    memberSince: 'Jul 22, 2025',
+                    verifications: ['Payment method verified', 'Email verified', 'Profile completed']
+                },
+                title: 'Family-Friendly Week Trip in Giza',
+                location: 'Giza',
+                dates: 'Sep 5-12, 2025',
+                dateValue: '2025-09-05',
+                tourType: 'Cultural',
+                budget: [800, 1200],
+                projectLength: 'week',
+                languages: ['English', 'Spanish'],
+                description: 'We are a family of 4 with two young children (ages 7 and 9). We need a guide for a week to show us the best of Giza. A camel ride is a must! The tour should be engaging and fun for the children.',
+                requiredSkills: ['Child-Friendly Guide', 'Engaging Storyteller', 'Giza Expert'],
+                bids: [
+                    { guideName: 'Fatima Ahmed', guideId: 'fatima-ahmed', guideImage: 'https://randomuser.me/api/portraits/women/44.jpg', amount: 1100, proposal: 'I specialize in family-friendly tours and know how to make history exciting for children. We will have a wonderful time exploring the pyramids together!' },
+                    { guideName: 'Hassan Youssef', guideId: 'hassan-youssef', guideImage: 'https://randomuser.me/api/portraits/men/32.jpg', amount: 1150, proposal: 'As a certified Egyptologist, I can provide an educational yet fun tour for your family, including a safe and enjoyable camel ride.' }
+                ]
+            },
+            {
+                id: 'proj3',
+                touristName: 'Kenji T.',
+                postDate: '2025-07-20T18:30:00+03:00', // ~5 days ago
+                adults: 1,
+                children: 0,
+                clientInfo: {
+                    isVerified: false,
+                    location: 'Tokyo, Japan',
+                    memberSince: 'Jul 20, 2025',
+                    verifications: ['Payment method verified', 'Phone number verified']
+                },
+                title: 'Aswan Felucca Sailing & Nubian Village Experience',
+                location: 'Aswan',
+                dates: 'Oct 20, 2025',
+                dateValue: '2025-10-20',
+                tourType: 'Adventure',
+                budget: [50, 80],
+                projectLength: 'day',
+                languages: ['English', 'Arabic', 'Nubian'],
+                description: 'I\'m a solo traveler looking for an authentic experience in Aswan. I would like to spend an afternoon sailing on a traditional felucca, visiting a Nubian village, and enjoying the sunset on the Nile. Looking for a local captain who can share stories about the culture.',
+                requiredSkills: ['Experienced Felucca Captain', 'Nubian Cultural Knowledge', 'Solo Traveler Friendly'],
+                bids: [
+                    { guideName: 'Captain Omar', guideId: 'captain-omar', guideImage: 'https://randomuser.me/api/portraits/men/40.jpg', amount: 60, proposal: 'This is exactly what I do! Join me on my felucca for a relaxing sail and a visit to my home village. I will share my Nubian culture with you.' }
+                ]
+            }
+        ];
+        
+        // MODIFIED: Simplified city list and added available qualifications
+        const availableLanguages = ['English', 'Arabic', 'Spanish', 'French', 'German', 'Italian', 'Russian', 'Chinese', 'Japanese', 'Nubian', 'Coptic'];
+        const availableCities = ['Cairo', 'Alexandria', 'Giza', 'Luxor', 'Aswan', 'Sharm El Sheikh', 'Hurghada', 'Dahab', 'Siwa Oasis', 'Marsa Alam', 'El Gouna', 'Port Said', 'Suez', 'Ismailia', 'Tanta', 'Mansoura', 'Faiyum', 'Minya', 'Asyut', 'Sohag', 'Qena'];
+        const availableQualifications = ['Licensed Egyptologist', 'Historical Expertise', 'Photography Skills', 'Child-Friendly Guide', 'Engaging Storyteller', 'Giza Expert', 'Experienced Felucca Captain', 'Nubian Cultural Knowledge', 'Solo Traveler Friendly', 'Adventure Tour Leader'];
+
+        // --- DOM ELEMENTS ---
+        const projectGrid = document.getElementById('project-grid');
+        const projectModal = document.getElementById('project-modal');
+        const postProjectModal = document.getElementById('post-project-modal');
+        const searchInput = document.getElementById('search-input');
+        const keywordSearchBtn = document.getElementById('keyword-search-btn');
+        const noResults = document.getElementById('no-results');
+        const advancedSearchToggle = document.getElementById('advanced-search-toggle');
+        const filtersSidebarDesktop = document.getElementById('filters-sidebar-desktop');
+        const filtersSidebarMobile = document.getElementById('filters-sidebar-mobile');
+        const advancedSearchIcon = document.getElementById('advanced-search-icon');
+        const projectCitySelect = document.getElementById('project-city');
+
+        let currentProjectId = null;
+
+        // --- HELPER FUNCTIONS ---
+        function timeAgo(dateString) {
+            const now = new Date('2025-07-25T04:54:00+03:00'); // Using a fixed "current time" for consistent demo data
+            const past = new Date(dateString);
+            const seconds = Math.floor((now - past) / 1000);
+            
+            if (seconds < 60) return `Posted just now`;
+            
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `Posted ${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `Posted ${hours} hour${hours > 1 ? 's' : ''} ago`;
+
+            const days = Math.floor(hours / 24);
+            if (days < 30) return `Posted ${days} day${days > 1 ? 's' : ''} ago`;
+
+            const months = Math.floor(days / 30);
+            if (months < 12) return `Posted ${months} month${months > 1 ? 's' : ''} ago`;
+            
+            const years = Math.floor(days / 365);
+            return `Posted ${years} year${years > 1 ? 's' : ''} ago`;
+        }
+
+        // --- RENDER FUNCTIONS ---
+        function renderProjects(projects) {
+            projectGrid.innerHTML = '';
+            if (projects.length === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+            projects.forEach(project => {
+                let peopleText = `${project.adults} Adult${project.adults > 1 ? 's' : ''}`;
+                if (project.children > 0) {
+                    peopleText += `, ${project.children} Child${project.children > 1 ? 'ren' : ''}`;
+                }
+
+                const projectCard = `
+                    <div class="bg-white rounded-lg card-shadow card-shadow-hover transition-shadow duration-300 p-6 flex flex-col">
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start">
+                                <p class="text-xs text-gray-500 mb-2">${timeAgo(project.postDate)}</p>
+                                <span class="text-lg font-bold text-primary">$${project.budget[0]} - $${project.budget[1]}</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-primary -mt-2">${project.title}</h3>
+                            <div class="flex items-center gap-4 text-sm text-gray-600 my-4 flex-wrap">
+                                <span><i class="fas fa-map-marker-alt mr-1 text-gray-400"></i>${project.location}</span>
+                                <span><i class="fas fa-calendar-alt mr-1 text-gray-400"></i>${project.dates}</span>
+                                <span><i class="fas fa-users mr-1 text-gray-400"></i>${peopleText}</span>
+                                <span><i class="fas fa-language mr-1 text-gray-400"></i>${project.languages.join(', ')}</span>
+                            </div>
+                            <p class="text-gray-700 text-sm mb-4">${project.description.substring(0, 150)}...</p>
+                            <div class="mt-auto">
+                                <h4 class="text-xs font-bold text-gray-500 mb-2">Required Qualifications</h4>
+                                <div class="flex flex-wrap gap-1">
+                                    ${project.requiredSkills.slice(0, 3).map(skill => `<span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-md text-xs font-medium">${skill}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-between items-center pt-4 border-t">
+                             <span class="text-sm text-gray-600 font-semibold"><i class="fas fa-gavel mr-1 text-gray-400"></i>${project.bids.length} Bids</span>
+                            <button class="view-details-btn bg-primary text-white font-semibold px-5 py-2 rounded-lg text-sm hover:bg-primary-dark transition-colors" data-project-id="${project.id}">
+                                View & Bid
+                            </button>
+                        </div>
+                    </div>
+                `;
+                projectGrid.innerHTML += projectCard;
+            });
+        }
+        
+        // --- MODAL FUNCTIONS ---
+        function openModal(modal) {
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            setTimeout(() => {
+                modal.querySelector('.modal-container').classList.remove('scale-95', 'opacity-0');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modal) {
+            modal.querySelector('.modal-container').classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('pointer-events-none', 'opacity-0');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        function openProjectModal(projectId) {
+            currentProjectId = projectId;
+            const project = projectsData.find(p => p.id === projectId);
+            if (!project) return;
+
+            document.getElementById('modal-project-title').textContent = project.title;
+            document.getElementById('modal-project-description').textContent = project.description;
+            
+            const groupCompositionEl = document.getElementById('modal-group-composition');
+            let groupHtml = `<span class="flex items-center"><i class="fas fa-user mr-2 text-primary"></i>${project.adults} Adult${project.adults > 1 ? 's' : ''}</span>`;
+            if (project.children > 0) {
+                groupHtml += `<span class="flex items-center"><i class="fas fa-child mr-2 text-primary"></i>${project.children} Child${project.children > 1 ? 'ren' : ''}</span>`;
+            }
+            groupCompositionEl.innerHTML = groupHtml;
+            
+            document.getElementById('modal-project-posted-time').textContent = timeAgo(project.postDate).replace('Posted ', '');
+
+            document.getElementById('modal-project-location').textContent = project.location;
+            document.getElementById('modal-project-dates').textContent = project.dates;
+            document.getElementById('modal-project-budget').textContent = `$${project.budget[0]} - $${project.budget[1]}`;
+            
+            document.getElementById('modal-bid-count').textContent = project.bids.length;
+            document.getElementById('modal-bid-count-mobile').textContent = project.bids.length;
+
+            const skillsList = document.getElementById('modal-required-skills');
+            skillsList.innerHTML = project.requiredSkills.map(skill => `<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">${skill}</span>`).join('');
+
+            const languagesList = document.getElementById('modal-required-languages');
+            languagesList.innerHTML = project.languages.map(lang => `<span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">${lang}</span>`).join('');
+
+            const clientDetails = document.getElementById('modal-client-details');
+            const verificationTick = project.clientInfo.isVerified 
+                ? '<i class="fas fa-check-circle text-blue-500 ml-2 text-sm" title="Verified Client"></i>' 
+                : '';
+
+            clientDetails.innerHTML = `
+                <p class="flex items-center font-bold text-lg text-primary">${project.touristName}${verificationTick}</p>
+                <p><i class="fas fa-map-pin mr-2 text-gray-400"></i>From ${project.clientInfo.location}</p>
+                <p><i class="fas fa-user-plus mr-2 text-gray-400"></i>Member since ${project.clientInfo.memberSince}</p>
+                <div class="border-t mt-3 pt-3">
+                    <h4 class="font-semibold text-primary mb-2">Account Verifications</h4>
+                    ${project.clientInfo.verifications.map(v => `<p class="text-green-600"><i class="fas fa-check-circle mr-2"></i>${v}</p>`).join('')}
+                </div>
+            `;
+
+            const bidsListDesktop = document.getElementById('modal-bids-list');
+            const bidsListMobile = document.getElementById('modal-bids-list-mobile');
+            bidsListDesktop.innerHTML = '';
+            bidsListMobile.innerHTML = '';
+            
+            if (project.bids.length > 0) {
+                let bidsHtml = '';
+                project.bids.forEach(bid => {
+                    bidsHtml += `
+                        <div class="border-t pt-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <img src="${bid.guideImage}" alt="${bid.guideName}" class="w-10 h-10 rounded-full object-cover">
+                                    <div>
+                                        <a href="profile.html?provider=${bid.guideId}" class="font-bold text-primary hover:underline">${bid.guideName}</a>
+                                        <p class="text-xs text-green-600 font-semibold">Top Rated</p>
+                                    </div>
+                                </div>
+                                <span class="text-lg font-bold text-primary">$${bid.amount}</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2 pl-13">${bid.proposal}</p>
+                        </div>
+                    `;
+                });
+                bidsListDesktop.innerHTML = bidsHtml;
+                bidsListMobile.innerHTML = bidsHtml;
+            } else {
+                const noBidsHtml = '<p class="text-sm text-gray-500">Be the first to place a bid!</p>';
+                bidsListDesktop.innerHTML = noBidsHtml;
+                bidsListMobile.innerHTML = noBidsHtml;
+            }
+            
+            document.getElementById('bid-form').reset();
+            document.getElementById('bid-success-message').classList.add('hidden');
+
+            openModal(projectModal);
+        }
+
+        // --- FILTER FUNCTION ---
+        function getFilterValues() {
+            const form = window.innerWidth < 1024 
+                ? document.querySelector('#filters-sidebar-mobile #mobile-filters-form') 
+                : document.querySelector('#filters-sidebar-desktop #filters-form');
+            
+            const minBudget = parseFloat(form.querySelector('input[name="minBudget"]').value);
+            const maxBudget = parseFloat(form.querySelector('input[name="maxBudget"]').value);
+            const selectedCities = Array.from(form.querySelectorAll('input[name="city"]:checked')).map(el => el.value);
+            const selectedLanguages = Array.from(form.querySelectorAll('input[name="language"]:checked')).map(el => el.value);
+            const selectedLengths = Array.from(form.querySelectorAll('input[name="length"]:checked')).map(el => el.value);
+            const selectedProposals = Array.from(form.querySelectorAll('input[name="proposals"]:checked')).map(el => el.value);
+
+            return { minBudget, maxBudget, selectedCities, selectedLanguages, selectedLengths, selectedProposals };
+        }
+
+
+        function filterProjects() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filters = getFilterValues();
+
+            let filteredProjects = projectsData.filter(project => {
+                const titleMatch = project.title.toLowerCase().includes(searchTerm);
+                const descriptionMatch = project.description.toLowerCase().includes(searchTerm);
+                const cityMatch = filters.selectedCities.length === 0 || filters.selectedCities.includes(project.location);
+                const languageMatch = filters.selectedLanguages.length === 0 || project.languages.some(lang => filters.selectedLanguages.includes(lang));
+                const lengthMatch = filters.selectedLengths.length === 0 || filters.selectedLengths.includes(project.projectLength);
+
+                let budgetMatch = true;
+                if (!isNaN(filters.minBudget) && !isNaN(filters.maxBudget)) {
+                    budgetMatch = project.budget[0] >= filters.minBudget && project.budget[1] <= filters.maxBudget;
+                } else if (!isNaN(filters.minBudget)) {
+                    budgetMatch = project.budget[0] >= filters.minBudget;
+                } else if (!isNaN(filters.maxBudget)) {
+                    budgetMatch = project.budget[1] <= filters.maxBudget;
+                }
+
+                const proposalMatch = filters.selectedProposals.length === 0 || filters.selectedProposals.some(range => {
+                    const [min, max] = range.split('-').map(Number);
+                    return project.bids.length >= min && project.bids.length <= max;
+                });
+
+                return (titleMatch || descriptionMatch) && cityMatch && lengthMatch && proposalMatch && budgetMatch && languageMatch;
+            });
+            
+            renderProjects(filteredProjects);
+        }
+
+        function buildFilterHtml(idPrefix = '') {
+            return `
+                <h3 class="text-xl font-bold text-primary mb-4">Filters</h3>
+                <form id="${idPrefix}filters-form" class="space-y-6">
+                    <div>
+                        <h4 class="font-semibold mb-2">Budget</h4>
+                        <div class="flex items-center gap-2">
+                            <input type="number" name="minBudget" placeholder="min" class="w-full p-2 border border-gray-300 rounded-md text-sm">
+                            <span>-</span>
+                            <input type="number" name="maxBudget" placeholder="max" class="w-full p-2 border border-gray-300 rounded-md text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">Number of proposals</h4>
+                        <div class="space-y-2 text-sm">
+                            <label class="flex items-center"><input type="checkbox" name="proposals" value="0-4" class="mr-2 text-primary focus:ring-secondary"> Less than 5</label>
+                            <label class="flex items-center"><input type="checkbox" name="proposals" value="5-10" class="mr-2 text-primary focus:ring-secondary"> 5 to 10</label>
+                            <label class="flex items-center"><input type="checkbox" name="proposals" value="10-15" class="mr-2 text-primary focus:ring-secondary"> 10 to 15</label>
+                            <label class="flex items-center"><input type="checkbox" name="proposals" value="15-999" class="mr-2 text-primary focus:ring-secondary"> More than 15</label>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">Trip length</h4>
+                        <div class="space-y-2 text-sm">
+                            <label class="flex items-center"><input type="checkbox" name="length" value="day" class="mr-2 text-primary focus:ring-secondary"> Day Trip</label>
+                            <label class="flex items-center"><input type="checkbox" name="length" value="week" class="mr-2 text-primary focus:ring-secondary"> Week Trip</label>
+                            <label class="flex items-center"><input type="checkbox" name="length" value="month_plus" class="mr-2 text-primary focus:ring-secondary"> More than 1 month</label>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">Location</h4>
+                        <div class="relative" id="${idPrefix}city-filter-container">
+                            <button id="${idPrefix}city-filter-btn" type="button" class="w-full bg-white p-2 border border-gray-300 rounded-md text-left flex justify-between items-center">
+                                <span id="${idPrefix}city-filter-text" class="text-sm text-gray-500">Select cities...</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="${idPrefix}city-filter-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                                <div class="p-2"><input type="text" id="${idPrefix}city-search" placeholder="Search cities..." class="w-full p-2 border border-gray-300 rounded-md text-sm"></div>
+                                <div id="${idPrefix}city-options" class="p-2 text-sm max-h-40 overflow-y-auto custom-scrollbar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2">Languages</h4>
+                        <div class="relative" id="${idPrefix}language-filter-container">
+                            <button id="${idPrefix}language-filter-btn" type="button" class="w-full bg-white p-2 border border-gray-300 rounded-md text-left flex justify-between items-center">
+                                <span id="${idPrefix}language-filter-text" class="text-sm text-gray-500">Select languages...</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="${idPrefix}language-filter-dropdown" class="hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                                <div class="p-2"><input type="text" id="${idPrefix}language-search" placeholder="Search languages..." class="w-full p-2 border border-gray-300 rounded-md text-sm"></div>
+                                <div id="${idPrefix}language-options" class="p-2 text-sm max-h-40 overflow-y-auto custom-scrollbar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button type="button" class="reset-filters-btn w-full bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">Reset</button>
+                        <button type="button" class="apply-filters-btn w-full bg-primary text-white font-semibold px-4 py-2 rounded-md hover:bg-primary-dark transition-colors">Apply</button>
+                    </div>
+                </form>
+            `;
+        }
+        
+        // MODIFIED: Simplified city population logic
+        function populateProjectFormDropdowns() {
+            // City Dropdown
+            projectCitySelect.innerHTML = '<option value="" disabled selected>Select a city</option>';
+            availableCities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                projectCitySelect.appendChild(option);
+            });
+        }
+        
+        // --- NEW: Multi-Select Dropdown Logic for Project Form ---
+        function setupProjectLanguageMultiselect() {
+            const btn = document.getElementById('project-language-btn');
+            const dropdown = document.getElementById('project-language-dropdown');
+            const textEl = document.getElementById('project-language-text');
+            const optionsContainer = document.getElementById('project-language-options');
+            const searchInput = document.getElementById('project-language-search');
+            const form = document.getElementById('post-project-form');
+
+            function renderOptions(searchTerm = '') {
+                const filteredLangs = availableLanguages.filter(lang => lang.toLowerCase().includes(searchTerm.toLowerCase()));
+                optionsContainer.innerHTML = filteredLangs.map(lang => `
+                    <label class="flex items-center p-1 hover:bg-gray-100 rounded-md">
+                        <input type="checkbox" name="project-language" value="${lang}" class="mr-2 text-primary focus:ring-secondary">
+                        ${lang}
+                    </label>
+                `).join('');
+            }
+
+            function updateText() {
+                const selected = Array.from(form.querySelectorAll('input[name="project-language"]:checked')).map(el => el.value);
+                if (selected.length === 0) {
+                    textEl.textContent = 'Select languages...';
+                    textEl.classList.add('text-gray-500');
+                } else {
+                    textEl.textContent = selected.join(', ');
+                    textEl.classList.remove('text-gray-500');
+                }
+            }
+            
+            btn.addEventListener('click', (e) => { e.stopPropagation(); dropdown.classList.toggle('hidden'); });
+            searchInput.addEventListener('input', () => renderOptions(searchInput.value));
+            optionsContainer.addEventListener('change', updateText);
+            renderOptions(); // Initial render
+            
+            // Close dropdown when clicking outside
+            window.addEventListener('click', (e) => {
+                if (!document.getElementById('project-language-multiselect-container').contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        }
+        
+        // --- NEW: Multi-Select Dropdown Logic for Qualifications ---
+        function setupProjectQualificationsMultiselect() {
+            const btn = document.getElementById('project-qualifications-btn');
+            const dropdown = document.getElementById('project-qualifications-dropdown');
+            const textEl = document.getElementById('project-qualifications-text');
+            const optionsContainer = document.getElementById('project-qualifications-options');
+            const searchInput = document.getElementById('project-qualifications-search');
+            const form = document.getElementById('post-project-form');
+
+            function renderOptions(searchTerm = '') {
+                const filteredQuals = availableQualifications.filter(qual => qual.toLowerCase().includes(searchTerm.toLowerCase()));
+                optionsContainer.innerHTML = filteredQuals.map(qual => `
+                    <label class="flex items-center p-1 hover:bg-gray-100 rounded-md">
+                        <input type="checkbox" name="project-qualification" value="${qual}" class="mr-2 text-primary focus:ring-secondary">
+                        ${qual}
+                    </label>
+                `).join('');
+            }
+
+            function updateText() {
+                const selected = Array.from(form.querySelectorAll('input[name="project-qualification"]:checked')).map(el => el.value);
+                if (selected.length === 0) {
+                    textEl.textContent = 'Select qualifications...';
+                    textEl.classList.add('text-gray-500');
+                } else {
+                    textEl.textContent = selected.join(', ');
+                    textEl.classList.remove('text-gray-500');
+                }
+            }
+
+            btn.addEventListener('click', (e) => { e.stopPropagation(); dropdown.classList.toggle('hidden'); });
+            searchInput.addEventListener('input', () => renderOptions(searchInput.value));
+            optionsContainer.addEventListener('change', updateText);
+            renderOptions(); // Initial render
+
+            window.addEventListener('click', (e) => {
+                if (!document.getElementById('project-qualifications-multiselect-container').contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        }
+
+
+        // --- EVENT LISTENERS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterHTML = buildFilterHtml();
+            filtersSidebarDesktop.firstElementChild.innerHTML = filterHTML;
+            filtersSidebarMobile.firstElementChild.innerHTML = buildFilterHtml('mobile-');
+
+            renderProjects(projectsData);
+            populateProjectFormDropdowns();
+            setupProjectLanguageMultiselect();
+            setupProjectQualificationsMultiselect(); // Setup the new dropdown
+            
+            function setupFilterListeners(prefix = '') {
+                const langFilterBtn = document.getElementById(`${prefix}language-filter-btn`);
+                const langFilterDropdown = document.getElementById(`${prefix}language-filter-dropdown`);
+                const langFilterText = document.getElementById(`${prefix}language-filter-text`);
+                const langOptionsContainer = document.getElementById(`${prefix}language-options`);
+                const langSearchInput = document.getElementById(`${prefix}language-search`);
+                const currentForm = document.getElementById(`${prefix}filters-form`);
+
+                function renderLanguageOptions(searchTerm = '') {
+                    const filteredLangs = availableLanguages.filter(lang => lang.toLowerCase().includes(searchTerm.toLowerCase()));
+                    langOptionsContainer.innerHTML = filteredLangs.map(lang => `
+                        <label class="flex items-center p-1 hover:bg-gray-100 rounded-md">
+                            <input type="checkbox" name="language" value="${lang}" class="mr-2 text-primary focus:ring-secondary">
+                            ${lang}
+                        </label>
+                    `).join('');
+                }
+
+                function updateLanguageFilterText() {
+                    const selected = Array.from(currentForm.querySelectorAll('input[name="language"]:checked')).map(el => el.value);
+                    if (selected.length === 0) {
+                        langFilterText.textContent = 'Select languages...';
+                        langFilterText.classList.add('text-gray-500');
+                    } else if (selected.length <= 2) {
+                        langFilterText.textContent = selected.join(', ');
+                        langFilterText.classList.remove('text-gray-500');
+                    } else {
+                        langFilterText.textContent = `${selected.length} languages selected`;
+                        langFilterText.classList.remove('text-gray-500');
+                    }
+                }
+
+                renderLanguageOptions();
+                langFilterBtn.addEventListener('click', (e) => { e.stopPropagation(); langFilterDropdown.classList.toggle('hidden'); });
+                langSearchInput.addEventListener('input', () => renderLanguageOptions(langSearchInput.value));
+                langOptionsContainer.addEventListener('change', updateLanguageFilterText);
+                
+                const cityFilterBtn = document.getElementById(`${prefix}city-filter-btn`);
+                const cityFilterDropdown = document.getElementById(`${prefix}city-filter-dropdown`);
+                const cityFilterText = document.getElementById(`${prefix}city-filter-text`);
+                const cityOptionsContainer = document.getElementById(`${prefix}city-options`);
+                const citySearchInput = document.getElementById(`${prefix}city-search`);
+
+                function renderCityOptions(searchTerm = '') {
+                    const filteredCities = availableCities.filter(city => city.toLowerCase().includes(searchTerm.toLowerCase()));
+                    cityOptionsContainer.innerHTML = filteredCities.map(city => `
+                        <label class="flex items-center p-1 hover:bg-gray-100 rounded-md">
+                            <input type="checkbox" name="city" value="${city}" class="mr-2 text-primary focus:ring-secondary">
+                            ${city}
+                        </label>
+                    `).join('');
+                }
+
+                function updateCityFilterText() {
+                    const selected = Array.from(currentForm.querySelectorAll('input[name="city"]:checked')).map(el => el.value);
+                    if (selected.length === 0) {
+                        cityFilterText.textContent = 'Select cities...';
+                        cityFilterText.classList.add('text-gray-500');
+                    } else if (selected.length <= 2) {
+                        cityFilterText.textContent = selected.join(', ');
+                        cityFilterText.classList.remove('text-gray-500');
+                    } else {
+                        cityFilterText.textContent = `${selected.length} cities selected`;
+                        cityFilterText.classList.remove('text-gray-500');
+                    }
+                }
+
+                renderCityOptions();
+                cityFilterBtn.addEventListener('click', (e) => { e.stopPropagation(); cityFilterDropdown.classList.toggle('hidden'); });
+                citySearchInput.addEventListener('input', () => renderCityOptions(citySearchInput.value));
+                cityOptionsContainer.addEventListener('change', updateCityFilterText);
+                
+                currentForm.querySelector('.apply-filters-btn').addEventListener('click', () => {
+                    filterProjects();
+                    if(prefix === 'mobile-') {
+                        filtersSidebarMobile.classList.add('hidden');
+                        advancedSearchIcon.classList.remove('rotate-180');
+                    }
+                });
+
+                currentForm.querySelector('.reset-filters-btn').addEventListener('click', () => {
+                    currentForm.reset();
+                    updateCityFilterText();
+                    updateLanguageFilterText();
+                    filterProjects();
+                });
+            }
+            
+            setupFilterListeners();
+            setupFilterListeners('mobile-');
+
+            window.addEventListener('click', (e) => {
+                if (!document.getElementById('language-filter-container')?.contains(e.target)) {
+                    document.getElementById('language-filter-dropdown')?.classList.add('hidden');
+                }
+                 if (!document.getElementById('mobile-language-filter-container')?.contains(e.target)) {
+                    document.getElementById('mobile-language-filter-dropdown')?.classList.add('hidden');
+                }
+                if (!document.getElementById('city-filter-container')?.contains(e.target)) {
+                    document.getElementById('city-filter-dropdown')?.classList.add('hidden');
+                }
+                 if (!document.getElementById('mobile-city-filter-container')?.contains(e.target)) {
+                    document.getElementById('mobile-city-filter-dropdown')?.classList.add('hidden');
+                }
+            });
+
+
+            keywordSearchBtn.addEventListener('click', filterProjects);
+            searchInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    filterProjects();
+                }
+            });
+
+            advancedSearchToggle.addEventListener('click', () => {
+                filtersSidebarMobile.classList.toggle('hidden');
+                advancedSearchIcon.classList.toggle('rotate-180');
+            });
+
+            projectGrid.addEventListener('click', (e) => {
+                if (e.target.closest('.view-details-btn')) {
+                    const projectId = e.target.closest('.view-details-btn').dataset.projectId;
+                    openProjectModal(projectId);
+                }
+            });
+
+            document.getElementById('post-project-btn-header').addEventListener('click', () => openModal(postProjectModal));
+            document.getElementById('post-project-btn-mobile').addEventListener('click', () => openModal(postProjectModal));
+            document.getElementById('post-project-btn-hero').addEventListener('click', () => openModal(postProjectModal));
+
+            document.querySelectorAll('.close-modal-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    closeModal(btn.closest('.modal-overlay'));
+                });
+            });
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        closeModal(overlay);
+                    }
+                });
+            });
+
+            document.getElementById('bid-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                console.log('Bid Submitted for project:', currentProjectId);
+                console.log('Amount:', document.getElementById('bid-amount').value);
+                console.log('Proposal:', document.getElementById('bid-proposal').value);
+                
+                document.getElementById('bid-success-message').classList.remove('hidden');
+                setTimeout(() => {
+                    closeModal(projectModal);
+                }, 2000);
+            });
+            
+            document.getElementById('post-project-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Get values from the form, including the new fields
+                const title = document.getElementById('project-title').value;
+                const city = document.getElementById('project-city').value;
+                const selectedQualifications = Array.from(document.querySelectorAll('input[name="project-qualification"]:checked')).map(el => el.value);
+                const selectedLanguages = Array.from(document.querySelectorAll('input[name="project-language"]:checked')).map(el => el.value);
+
+                console.log('--- New Project Posted ---');
+                console.log('Title:', title);
+                console.log('City:', city);
+                console.log('Qualifications:', selectedQualifications);
+                console.log('Languages:', selectedLanguages);
+                
+                document.getElementById('post-project-form').classList.add('hidden');
+                document.getElementById('post-success-message').classList.remove('hidden');
+
+                setTimeout(() => {
+                    closeModal(postProjectModal);
+                    // Reset form state for next time
+                    document.getElementById('post-project-form').reset();
+                    document.getElementById('project-language-text').textContent = 'Select languages...';
+                    document.getElementById('project-language-text').classList.add('text-gray-500');
+                    document.getElementById('project-qualifications-text').textContent = 'Select qualifications...';
+                    document.getElementById('project-qualifications-text').classList.add('text-gray-500');
+                    document.getElementById('post-project-form').classList.remove('hidden');
+                    document.getElementById('post-success-message').classList.add('hidden');
+                }, 3000);
+            });
+            
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const header = document.getElementById('main-header');
+
+            if(menuBtn) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    menuIcon.classList.toggle('fa-bars');
+                    menuIcon.classList.toggle('fa-times');
+                });
+            }
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
